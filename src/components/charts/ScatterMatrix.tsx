@@ -2,16 +2,25 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { useDashboard } from "@/context/DashboardContext";
+import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function ScatterMatrix() {
   const { filteredData, mode } = useDashboard();
+  const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
+  const hasData = filteredData.length > 0;
+
   useEffect(() => {
-    if (!ref.current || !filteredData.length) return;
+    if (!ref.current || !hasData) return;
 
     const svg = d3.select(ref.current);
     svg.selectAll("*").remove();
+
+    const isDark = theme === "dark";
+    const panelFill = isDark ? "rgba(15, 23, 42, 0.55)" : "#fafafa";
+    const borderColor = isDark ? "rgba(148, 163, 184, 0.18)" : "#e5e7eb";
+    const labelColor = isDark ? "#e2e8f0" : "#334155";
 
     const vars: { key: keyof (typeof filteredData)[0]; label: string }[] = [
       { key: "unit_price", label: "Unit Price" },
@@ -47,8 +56,8 @@ export function ScatterMatrix() {
           .append("rect")
           .attr("width", size)
           .attr("height", size)
-          .attr("fill", "#fafafa")
-          .attr("stroke", "#e5e7eb");
+            .attr("fill", panelFill)
+            .attr("stroke", borderColor);
 
         if (i === j) {
           cell
@@ -59,6 +68,7 @@ export function ScatterMatrix() {
             .attr("dominant-baseline", "middle")
             .style("font-size", mode === "elderly" ? "14px" : "12px")
             .style("font-weight", "600")
+            .attr("fill", labelColor)
             .text(vars[i].label);
         } else {
           const xVar = vars[j].key;
@@ -87,21 +97,38 @@ export function ScatterMatrix() {
     const legend = svg.append("g").attr("transform", `translate(${total - 130}, 20)`);
     ["Pre-MCO", "MCO", "CMCO", "RMCO"].forEach((p, i) => {
       legend.append("circle").attr("cx", 0).attr("cy", i * 20).attr("r", 6).attr("fill", phaseColor(p));
-      legend.append("text").attr("x", 12).attr("y", i * 20 + 4).style("font-size", "12px").text(p);
+      legend.append("text").attr("x", 12).attr("y", i * 20 + 4).style("font-size", "12px").attr("fill", labelColor).text(p);
     });
-  }, [filteredData, mode]);
+  }, [filteredData, hasData, mode, theme]);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border p-4">
-      <h3 className={`font-bold mb-2 ${mode === "elderly" ? "text-xl" : "text-lg"}`}>
-        Scatter Plot Matrix (Advanced Visualization)
-      </h3>
-      <p className="text-xs text-slate-500 mb-3">
+    <div className="dashboard-card rounded-[28px] p-5">
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <h3 className={`font-semibold tracking-tight text-slate-950 dark:text-white ${mode === "elderly" ? "text-2xl" : "text-xl"}`}>
+            Scatter Plot Matrix (Advanced Visualization)
+          </h3>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Explore relationships across price, spend, delivery, and revenue.</p>
+        </div>
+        <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-200">
+          Correlation
+        </span>
+      </div>
+      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
         Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈-0.75).
       </p>
-      <div className="overflow-x-auto">
-        <svg ref={ref}></svg>
-      </div>
+      {hasData ? (
+        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white/60 p-2 dark:border-slate-800 dark:bg-slate-950/40">
+          <svg ref={ref}></svg>
+        </div>
+      ) : (
+        <div className="grid min-h-[280px] place-items-center rounded-2xl border border-dashed border-slate-300 bg-white/50 px-6 text-center dark:border-slate-700 dark:bg-slate-950/40">
+          <div>
+            <p className="text-base font-semibold text-slate-900 dark:text-white">No scatter points to plot</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Adjust the filters to restore the correlation matrix.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

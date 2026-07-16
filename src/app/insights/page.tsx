@@ -32,18 +32,21 @@ export default function Insights() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className={`font-bold ${mode === "elderly" ? "text-3xl" : "text-2xl"}`}>
+      <section className="dashboard-surface rounded-[32px] px-6 py-7 md:px-8">
+        <div className="inline-flex items-center gap-2 rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-sky-700 dark:text-sky-200">
+          Insights
+        </div>
+        <h2 className={`mt-4 font-semibold tracking-tight text-slate-950 dark:text-white ${mode === "elderly" ? "text-4xl" : "text-3xl"}`}>
           Actionable Business Insights
         </h2>
-        <p className="text-sm text-slate-500 mt-1">
+        <p className="mt-2 max-w-3xl text-sm text-slate-600 dark:text-slate-300">
           Key discoveries generated from multivariate analysis of the dataset.
         </p>
-      </div>
-      <div className={`grid ${mode === "elderly" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"} gap-6`}>
+      </section>
+      <div className={`grid gap-6 ${mode === "elderly" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"}`}>
         {insights.map((i) => (
-          <div key={i.title} className={`rounded-xl border-2 p-6 shadow-sm ${i.color}`}>
-            <h3 className={`font-bold mb-3 ${titleSize}`}>{i.title}</h3>
+          <div key={i.title} className={`dashboard-card rounded-[28px] p-6 ${i.color}`}>
+            <h3 className={`mb-3 font-semibold tracking-tight ${titleSize}`}>{i.title}</h3>
             <p className={cardTextSize}>{i.body}</p>
           </div>
         ))}

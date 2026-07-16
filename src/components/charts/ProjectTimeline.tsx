@@ -2,15 +2,22 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { useDashboard } from "@/context/DashboardContext";
+import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function ProjectTimeline() {
   const { mode } = useDashboard();
+  const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
     const svg = d3.select(ref.current);
     svg.selectAll("*").remove();
+
+    const isDark = theme === "dark";
+    const textColor = isDark ? "#e2e8f0" : "#1e293b";
+    const mutedColor = isDark ? "#94a3b8" : "#64748b";
+    const lineColor = isDark ? "#475569" : "#94a3b8";
 
     const margin = { top: 40, right: 40, bottom: 60, left: 40 };
     const width = 1000 - margin.left - margin.right;
@@ -41,7 +48,7 @@ export function ProjectTimeline() {
       .attr("x2", width)
       .attr("y1", height / 2)
       .attr("y2", height / 2)
-      .attr("stroke", "#94a3b8")
+      .attr("stroke", lineColor)
       .attr("stroke-width", 3)
       .attr("stroke-dasharray", "4,4");
 
@@ -72,7 +79,7 @@ export function ProjectTimeline() {
         .attr("text-anchor", "middle")
         .style("font-size", mode === "elderly" ? "16px" : "12px")
         .style("font-weight", "600")
-        .style("fill", "#1e293b")
+        .style("fill", textColor)
         .text(m.label);
 
       if (m.phase) {
@@ -81,21 +88,29 @@ export function ProjectTimeline() {
           .attr("y", above ? cy - 34 : cy + 76)
           .attr("text-anchor", "middle")
           .style("font-size", mode === "elderly" ? "14px" : "10px")
-          .style("fill", "#64748b")
+          .style("fill", mutedColor)
           .text(`(${m.phase})`);
       }
     });
-  }, [mode]);
+  }, [mode, theme]);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border p-4">
-      <h3 className={`font-bold mb-2 ${mode === "elderly" ? "text-xl" : "text-lg"}`}>
-        Project Progress Timeline
-      </h3>
-      <p className="text-xs text-slate-500 mb-3">
+    <div className="dashboard-card rounded-[28px] p-5">
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <h3 className={`font-semibold tracking-tight text-slate-950 dark:text-white ${mode === "elderly" ? "text-2xl" : "text-xl"}`}>
+            Project Progress Timeline
+          </h3>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">A compact narrative of the project and phase milestones.</p>
+        </div>
+        <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 dark:text-violet-200">
+          Milestones
+        </span>
+      </div>
+      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
         Aligned with real Malaysian COVID-19 phase boundaries.
       </p>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white/60 p-2 dark:border-slate-800 dark:bg-slate-950/40">
         <svg ref={ref}></svg>
       </div>
     </div>
