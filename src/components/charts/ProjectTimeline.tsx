@@ -41,6 +41,14 @@ export function ProjectTimeline() {
     const parse = d3.timeParse("%Y-%m-%d");
     const dates = milestones.map((m) => parse(m.date) as Date);
     const x = d3.scaleTime().domain([d3.min(dates)!, d3.max(dates)!]).range([0, width]);
+    const contextScale = d3.scaleTime().domain([parse("2020-01-01")!, parse("2021-12-31")!]).range([0, width]);
+
+    const covidPhases = [
+      { label: "Pre-MCO", start: "2020-01-01", end: "2020-03-17", color: "#d1fae5" },
+      { label: "MCO", start: "2020-03-18", end: "2020-05-03", color: "#fee2e2" },
+      { label: "CMCO", start: "2020-05-04", end: "2020-06-09", color: "#fef3c7" },
+      { label: "RMCO", start: "2020-06-10", end: "2021-12-31", color: "#dbeafe" },
+    ];
 
     // Main line
     g.append("line")
@@ -91,6 +99,48 @@ export function ProjectTimeline() {
           .style("fill", mutedColor)
           .text(`(${m.phase})`);
       }
+    });
+
+    const contextAxisY = height + 52;
+    g.append("line")
+      .attr("x1", 0)
+      .attr("x2", width)
+      .attr("y1", contextAxisY)
+      .attr("y2", contextAxisY)
+      .attr("stroke", lineColor)
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "4,4");
+
+    g.append("text")
+      .attr("x", 0)
+      .attr("y", contextAxisY - 12)
+      .style("font-size", mode === "elderly" ? "14px" : "12px")
+      .style("font-weight", "700")
+      .style("fill", textColor)
+      .text("Dataset context: Malaysian COVID-19 phase boundaries");
+
+    covidPhases.forEach((phase) => {
+      const startX = contextScale(parse(phase.start)!);
+      const endX = contextScale(parse(phase.end)!);
+      const widthX = Math.max(endX - startX, 2);
+
+      g.append("rect")
+        .attr("x", startX)
+        .attr("y", contextAxisY + 6)
+        .attr("width", widthX)
+        .attr("height", 18)
+        .attr("rx", 5)
+        .attr("fill", phase.color)
+        .attr("stroke", "rgba(148, 163, 184, 0.35)");
+
+      g.append("text")
+        .attr("x", startX + widthX / 2)
+        .attr("y", contextAxisY + 19)
+        .attr("text-anchor", "middle")
+        .style("font-size", mode === "elderly" ? "12px" : "10px")
+        .style("font-weight", "600")
+        .style("fill", textColor)
+        .text(phase.label);
     });
   }, [mode, theme]);
 

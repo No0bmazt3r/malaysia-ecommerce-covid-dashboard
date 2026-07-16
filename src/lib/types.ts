@@ -8,7 +8,7 @@ export interface Order {
   shipping_cost_rm: number; inventory_level_pct: number; stockout_flag: number;
   return_flag: number; customer_rating: number;
 }
-export type UCMode = "analyst" | "elderly" | "kiosk";
+export type UCMode = "analyst" | "elderly" | "early-childhood";
 export interface Filters {
   dateRange: [string, string]; covidPhase: string[]; state: string[];
   category: string[]; segment: string[]; searchQuery: string;

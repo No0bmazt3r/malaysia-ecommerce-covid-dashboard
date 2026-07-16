@@ -72,6 +72,60 @@ export function HeatMap() {
       .attr("fill", axisColor)
       .style("font-size", mode === "elderly" ? "16px" : "12px");
 
+    const legendWidth = 160;
+    const legendHeight = 12;
+    const legendGroup = g
+      .append("g")
+      .attr("transform", `translate(${Math.max(width - legendWidth - 10, 0)}, ${Math.max(height + 34, 0)})`);
+
+    const defs = svg.append("defs");
+    const gradientId = `heatmap-gradient-${isDark ? "dark" : "light"}`;
+    const gradient = defs.append("linearGradient").attr("id", gradientId).attr("x1", "0%").attr("x2", "100%").attr("y1", "0%").attr("y2", "0%");
+    gradient.append("stop").attr("offset", "0%").attr("stop-color", d3.interpolateYlOrRd(0));
+    gradient.append("stop").attr("offset", "50%").attr("stop-color", d3.interpolateYlOrRd(0.5));
+    gradient.append("stop").attr("offset", "100%").attr("stop-color", d3.interpolateYlOrRd(1));
+
+    legendGroup
+      .append("text")
+      .attr("x", 0)
+      .attr("y", -8)
+      .attr("fill", axisColor)
+      .style("font-size", mode === "elderly" ? "14px" : "11px")
+      .style("font-weight", "600")
+      .text("Revenue intensity");
+
+    legendGroup
+      .append("rect")
+      .attr("width", legendWidth)
+      .attr("height", legendHeight)
+      .attr("rx", 999)
+      .attr("fill", `url(#${gradientId})`)
+      .attr("stroke", gridColor);
+
+    legendGroup
+      .append("text")
+      .attr("x", 0)
+      .attr("y", 28)
+      .attr("fill", axisColor)
+      .style("font-size", mode === "elderly" ? "13px" : "10px")
+      .text("Low");
+
+    legendGroup
+      .append("text")
+      .attr("x", legendWidth / 2 - 18)
+      .attr("y", 28)
+      .attr("fill", axisColor)
+      .style("font-size", mode === "elderly" ? "13px" : "10px")
+      .text("Mid");
+
+    legendGroup
+      .append("text")
+      .attr("x", legendWidth - 24)
+      .attr("y", 28)
+      .attr("fill", axisColor)
+      .style("font-size", mode === "elderly" ? "13px" : "10px")
+      .text("High");
+
     const tooltip = d3
       .select("body")
       .append("div")
@@ -111,7 +165,7 @@ export function HeatMap() {
       })
       .on("mouseout", () => tooltip.style("opacity", 0))
       .on("click", (event, d) => {
-        // Cross-filtering: click a cell to filter to that state + phase
+        // Drill-down: State + Phase
         setFilters({
           ...filters,
           state: [d.state],

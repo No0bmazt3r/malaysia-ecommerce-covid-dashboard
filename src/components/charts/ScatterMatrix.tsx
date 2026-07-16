@@ -23,14 +23,14 @@ export function ScatterMatrix() {
     const labelColor = isDark ? "#e2e8f0" : "#334155";
 
     const vars: { key: keyof (typeof filteredData)[0]; label: string }[] = [
-      { key: "unit_price", label: "Unit Price" },
       { key: "ad_spend_myr", label: "Ad Spend" },
       { key: "delivery_time_days", label: "Delivery Days" },
       { key: "sales_revenue", label: "Revenue" },
+      { key: "customer_rating", label: "Rating" },
     ];
 
-    const size = 180;
-    const padding = 30;
+    const size = mode === "early-childhood" ? 200 : 180;
+    const padding = mode === "early-childhood" ? 40 : 30;
     const n = vars.length;
     const total = size * n + padding * 2;
 
@@ -66,8 +66,8 @@ export function ScatterMatrix() {
             .attr("y", size / 2)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .style("font-size", mode === "elderly" ? "14px" : "12px")
-            .style("font-weight", "600")
+            .style("font-size", mode === "early-childhood" ? "16px" : mode === "elderly" ? "14px" : "12px")
+            .style("font-weight", mode === "early-childhood" ? "700" : "600")
             .attr("fill", labelColor)
             .text(vars[i].label);
         } else {
@@ -86,7 +86,7 @@ export function ScatterMatrix() {
             .append("circle")
             .attr("cx", (d) => xScale(+d[xVar]))
             .attr("cy", (d) => yScale(+d[yVar]))
-            .attr("r", mode === "elderly" ? 3 : 2)
+            .attr("r", mode === "early-childhood" ? 4 : mode === "elderly" ? 3 : 2)
             .attr("fill", (d) => phaseColor(d.covid_phase))
             .attr("opacity", 0.6);
         }
@@ -94,7 +94,7 @@ export function ScatterMatrix() {
     }
 
     // Legend
-    const legend = svg.append("g").attr("transform", `translate(${total - 130}, 20)`);
+    const legend = svg.append("g").attr("transform", `translate(${total - 140}, 20)`);
     ["Pre-MCO", "MCO", "CMCO", "RMCO"].forEach((p, i) => {
       legend.append("circle").attr("cx", 0).attr("cy", i * 20).attr("r", 6).attr("fill", phaseColor(p));
       legend.append("text").attr("x", 12).attr("y", i * 20 + 4).style("font-size", "12px").attr("fill", labelColor).text(p);
@@ -105,10 +105,10 @@ export function ScatterMatrix() {
     <div className="dashboard-card rounded-[28px] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
-          <h3 className={`font-semibold tracking-tight text-slate-950 dark:text-white ${mode === "elderly" ? "text-2xl" : "text-xl"}`}>
+          <h3 className={`font-semibold tracking-tight text-slate-950 dark:text-white ${mode === "early-childhood" ? "text-2xl" : mode === "elderly" ? "text-2xl" : "text-xl"}`}>
             Scatter Plot Matrix (Advanced Visualization)
           </h3>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Explore relationships across price, spend, delivery, and revenue.</p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Explore relationships across ad spend, delivery, revenue, and rating.</p>
         </div>
         <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-200">
           Correlation

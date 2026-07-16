@@ -84,6 +84,9 @@ export default function Overview() {
             <p className="text-sm text-slate-500 dark:text-slate-400">No active filters. Start from the left panel or search bar.</p>
           )}
         </div>
+        <div className="mt-4 rounded-2xl border border-sky-200 bg-sky-50/80 px-4 py-3 text-sm text-sky-900 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-100">
+          <span className="font-semibold">Drill-down:</span> click a heat map cell to focus the view to a single state and COVID phase.
+        </div>
       </section>
 
       <KPICards />
