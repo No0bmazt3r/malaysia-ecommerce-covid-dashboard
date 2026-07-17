@@ -35,11 +35,10 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/80 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-white dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200"
-      aria-label="Toggle light and dark mode"
+      className="grid h-9 w-9 place-items-center rounded-lg border border-[var(--border)] bg-[var(--surface-strong)] text-sm transition hover:border-[var(--border-strong)] hover:shadow-sm active:scale-95"
+      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
-      <span>{theme === "dark" ? "☀️" : "🌙"}</span>
-      <span>{theme === "dark" ? "Light" : "Dark"}</span>
+      {theme === "dark" ? "☀️" : "🌙"}
     </button>
   );
 }

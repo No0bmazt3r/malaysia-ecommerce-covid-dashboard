@@ -3,30 +3,39 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/overview", label: "Overview" },
-  { href: "/regional", label: "Regional" },
-  { href: "/product", label: "Product" },
-  { href: "/timeline", label: "Timeline" },
-  { href: "/insights", label: "Insights" },
+  { href: "/overview", label: "Overview", icon: "◎" },
+  { href: "/regional", label: "Regional", icon: "◈" },
+  { href: "/product", label: "Product", icon: "◆" },
+  { href: "/timeline", label: "Timeline", icon: "◇" },
+  { href: "/insights", label: "Insights", icon: "◉" },
 ];
 
 export function Nav() {
   const pathname = usePathname();
   return (
-    <nav className="flex gap-1 rounded-full border border-white/60 bg-white/70 p-1.5 shadow-sm backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-900/70">
-      {links.map((l) => (
-        <Link
-          key={l.href}
-          href={l.href}
-          className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-            pathname === l.href
-              ? "bg-slate-950 text-white shadow-sm dark:bg-white dark:text-slate-950"
-              : "text-slate-600 hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
-          }`}
-        >
-          {l.label}
-        </Link>
-      ))}
+    <nav className="flex gap-0.5 rounded-xl bg-[var(--surface-muted)] p-1" role="tablist">
+      {links.map((l) => {
+        const active = pathname === l.href;
+        return (
+          <Link
+            key={l.href}
+            href={l.href}
+            role="tab"
+            aria-selected={active}
+            className={`relative flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 ${
+              active
+                ? "bg-[var(--surface-strong)] text-slate-950 shadow-sm dark:text-white"
+                : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+            }`}
+          >
+            <span className="text-[10px] opacity-60">{l.icon}</span>
+            {l.label}
+            {active && (
+              <span className="absolute -bottom-1 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-[var(--accent)]" />
+            )}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

@@ -10,7 +10,7 @@ export async function loadDataset(): Promise<Order[]> {
     Papa.parse<Order>(text, {
       header: true, skipEmptyLines: true, dynamicTyping: true,
       complete: (results) => { cachedData = results.data; resolve(results.data); },
-      error: (err) => reject(err),
+      error: (err: Error) => reject(err),
     });
   });
 }

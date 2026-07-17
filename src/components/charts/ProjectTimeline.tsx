@@ -17,15 +17,15 @@ export function ProjectTimeline() {
     const isDark = theme === "dark";
     const textColor = isDark ? "#e2e8f0" : "#1e293b";
     const mutedColor = isDark ? "#94a3b8" : "#64748b";
-    const lineColor = isDark ? "#475569" : "#94a3b8";
+    const lineColor = isDark ? "#334155" : "#cbd5e1";
 
-    const margin = { top: 40, right: 40, bottom: 60, left: 40 };
-    const width = 1000 - margin.left - margin.right;
-    const height = 250 - margin.top - margin.bottom;
+    const margin = { top: 40, right: 40, bottom: 70, left: 40 };
+    const width = 960 - margin.left - margin.right;
+    const height = 240 - margin.top - margin.bottom;
+
+    svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
 
     const g = svg
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -41,80 +41,81 @@ export function ProjectTimeline() {
     const parse = d3.timeParse("%Y-%m-%d");
     const dates = milestones.map((m) => parse(m.date) as Date);
     const x = d3.scaleTime().domain([d3.min(dates)!, d3.max(dates)!]).range([0, width]);
-    const contextScale = d3.scaleTime().domain([parse("2020-01-01")!, parse("2021-12-31")!]).range([0, width]);
+    const contextScale = d3
+      .scaleTime()
+      .domain([parse("2020-01-01")!, parse("2021-12-31")!])
+      .range([0, width]);
 
     const covidPhases = [
-      { label: "Pre-MCO", start: "2020-01-01", end: "2020-03-17", color: "#d1fae5" },
-      { label: "MCO", start: "2020-03-18", end: "2020-05-03", color: "#fee2e2" },
-      { label: "CMCO", start: "2020-05-04", end: "2020-06-09", color: "#fef3c7" },
-      { label: "RMCO", start: "2020-06-10", end: "2021-12-31", color: "#dbeafe" },
+      { label: "Pre-MCO", start: "2020-01-01", end: "2020-03-17", color: isDark ? "rgba(16,185,129,0.15)" : "#d1fae5" },
+      { label: "MCO", start: "2020-03-18", end: "2020-05-03", color: isDark ? "rgba(239,68,68,0.15)" : "#fee2e2" },
+      { label: "CMCO", start: "2020-05-04", end: "2020-06-09", color: isDark ? "rgba(245,158,11,0.15)" : "#fef3c7" },
+      { label: "RMCO", start: "2020-06-10", end: "2021-12-31", color: isDark ? "rgba(59,130,246,0.15)" : "#dbeafe" },
     ];
 
-    // Main line
+    // Main timeline line
     g.append("line")
       .attr("x1", 0)
       .attr("x2", width)
       .attr("y1", height / 2)
       .attr("y2", height / 2)
       .attr("stroke", lineColor)
-      .attr("stroke-width", 3)
-      .attr("stroke-dasharray", "4,4");
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "6,6");
 
+    // Milestone markers
     milestones.forEach((m, i) => {
       const cx = x(parse(m.date)!);
       const cy = height / 2;
       const above = i % 2 === 0;
 
-      g.append("circle")
-        .attr("cx", cx)
-        .attr("cy", cy)
-        .attr("r", mode === "elderly" ? 12 : 8)
-        .attr("fill", m.color)
-        .attr("stroke", "white")
-        .attr("stroke-width", 3);
-
+      // Connector line
       g.append("line")
         .attr("x1", cx)
         .attr("x2", cx)
         .attr("y1", cy)
-        .attr("y2", above ? cy - 40 : cy + 40)
+        .attr("y2", above ? cy - 36 : cy + 36)
         .attr("stroke", m.color)
-        .attr("stroke-width", 2);
+        .attr("stroke-width", 1.5)
+        .attr("stroke-dasharray", "2,3");
 
+      // Circle
+      g.append("circle")
+        .attr("cx", cx)
+        .attr("cy", cy)
+        .attr("r", mode === "elderly" ? 10 : 7)
+        .attr("fill", m.color)
+        .attr("stroke", isDark ? "#0f172a" : "#ffffff")
+        .attr("stroke-width", 3);
+
+      // Label
       g.append("text")
         .attr("x", cx)
-        .attr("y", above ? cy - 50 : cy + 60)
+        .attr("y", above ? cy - 44 : cy + 52)
         .attr("text-anchor", "middle")
-        .style("font-size", mode === "elderly" ? "16px" : "12px")
-        .style("font-weight", "600")
+        .style("font-size", mode === "elderly" ? "14px" : "11px")
+        .style("font-weight", "700")
         .style("fill", textColor)
         .text(m.label);
 
+      // Phase sublabel
       if (m.phase) {
         g.append("text")
           .attr("x", cx)
-          .attr("y", above ? cy - 34 : cy + 76)
+          .attr("y", above ? cy - 30 : cy + 66)
           .attr("text-anchor", "middle")
-          .style("font-size", mode === "elderly" ? "14px" : "10px")
+          .style("font-size", mode === "elderly" ? "12px" : "9px")
           .style("fill", mutedColor)
           .text(`(${m.phase})`);
       }
     });
 
-    const contextAxisY = height + 52;
-    g.append("line")
-      .attr("x1", 0)
-      .attr("x2", width)
-      .attr("y1", contextAxisY)
-      .attr("y2", contextAxisY)
-      .attr("stroke", lineColor)
-      .attr("stroke-width", 2)
-      .attr("stroke-dasharray", "4,4");
-
+    // Context bar: COVID phases
+    const contextAxisY = height + 46;
     g.append("text")
       .attr("x", 0)
-      .attr("y", contextAxisY - 12)
-      .style("font-size", mode === "elderly" ? "14px" : "12px")
+      .attr("y", contextAxisY - 10)
+      .style("font-size", mode === "elderly" ? "12px" : "10px")
       .style("font-weight", "700")
       .style("fill", textColor)
       .text("Dataset context: Malaysian COVID-19 phase boundaries");
@@ -122,22 +123,22 @@ export function ProjectTimeline() {
     covidPhases.forEach((phase) => {
       const startX = contextScale(parse(phase.start)!);
       const endX = contextScale(parse(phase.end)!);
-      const widthX = Math.max(endX - startX, 2);
+      const widthX = Math.max(endX - startX, 4);
 
       g.append("rect")
         .attr("x", startX)
-        .attr("y", contextAxisY + 6)
+        .attr("y", contextAxisY + 2)
         .attr("width", widthX)
-        .attr("height", 18)
-        .attr("rx", 5)
+        .attr("height", 16)
+        .attr("rx", 4)
         .attr("fill", phase.color)
-        .attr("stroke", "rgba(148, 163, 184, 0.35)");
+        .attr("stroke", isDark ? "rgba(148,163,184,0.15)" : "rgba(148,163,184,0.3)");
 
       g.append("text")
         .attr("x", startX + widthX / 2)
-        .attr("y", contextAxisY + 19)
+        .attr("y", contextAxisY + 14)
         .attr("text-anchor", "middle")
-        .style("font-size", mode === "elderly" ? "12px" : "10px")
+        .style("font-size", mode === "elderly" ? "11px" : "9px")
         .style("font-weight", "600")
         .style("fill", textColor)
         .text(phase.label);
@@ -145,23 +146,27 @@ export function ProjectTimeline() {
   }, [mode, theme]);
 
   return (
-    <div className="dashboard-card rounded-[28px] p-5">
+    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
-          <h3 className={`font-semibold tracking-tight text-slate-950 dark:text-white ${mode === "elderly" ? "text-2xl" : "text-xl"}`}>
+          <h3
+            className={`font-bold tracking-tight text-slate-950 dark:text-white ${
+              mode === "elderly" ? "text-xl" : "text-lg"
+            }`}
+            style={{ fontFamily: "var(--font-display)" }}
+          >
             Project Progress Timeline
           </h3>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">A compact narrative of the project and phase milestones.</p>
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+            Milestones aligned with real Malaysian COVID-19 phase boundaries.
+          </p>
         </div>
-        <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 dark:text-violet-200">
+        <span className="rounded-md bg-violet-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-violet-600 dark:text-violet-300">
           Milestones
         </span>
       </div>
-      <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">
-        Aligned with real Malaysian COVID-19 phase boundaries.
-      </p>
-      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white/60 p-2 dark:border-slate-800 dark:bg-slate-950/40">
-        <svg ref={ref}></svg>
+      <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-3">
+        <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
       </div>
     </div>
   );

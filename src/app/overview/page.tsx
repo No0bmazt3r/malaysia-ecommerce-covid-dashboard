@@ -10,88 +10,191 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
     <button
       type="button"
       onClick={onRemove}
-      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-700 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-200 dark:hover:border-sky-500/40 dark:hover:text-sky-200"
+      className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-1 text-xs font-medium text-[var(--foreground)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] active:scale-95"
     >
       <span>{label}</span>
-      <span className="text-xs opacity-70">×</span>
+      <span className="text-[10px] opacity-50">✕</span>
     </button>
+  );
+}
+
+function SkeletonCard() {
+  return (
+    <div className="dashboard-card rounded-[var(--card-radius)] p-5">
+      <div className="skeleton mb-4 h-3 w-24" />
+      <div className="skeleton mb-2 h-8 w-32" />
+      <div className="skeleton h-3 w-20" />
+    </div>
   );
 }
 
 export default function Overview() {
   const { loading, filteredData, filters, setFilters, mode } = useDashboard();
-  const activeFilters = filters.covidPhase.length + filters.state.length + filters.category.length + filters.segment.length + (filters.searchQuery ? 1 : 0);
+  const activeFilters =
+    filters.covidPhase.length +
+    filters.state.length +
+    filters.category.length +
+    filters.segment.length +
+    (filters.searchQuery ? 1 : 0);
 
-  const clearAll = () => setFilters({ dateRange: [filters.dateRange[0], filters.dateRange[1]], covidPhase: [], state: [], category: [], segment: [], searchQuery: "" });
-  const removePhase = (phase: string) => setFilters({ ...filters, covidPhase: filters.covidPhase.filter((value) => value !== phase) });
-  const removeState = (state: string) => setFilters({ ...filters, state: filters.state.filter((value) => value !== state) });
-  const removeCategory = (category: string) => setFilters({ ...filters, category: filters.category.filter((value) => value !== category) });
-  const removeSegment = (segment: string) => setFilters({ ...filters, segment: filters.segment.filter((value) => value !== segment) });
+  const clearAll = () =>
+    setFilters({
+      dateRange: [filters.dateRange[0], filters.dateRange[1]],
+      covidPhase: [],
+      state: [],
+      category: [],
+      segment: [],
+      searchQuery: "",
+    });
+  const removePhase = (phase: string) =>
+    setFilters({ ...filters, covidPhase: filters.covidPhase.filter((v) => v !== phase) });
+  const removeState = (state: string) =>
+    setFilters({ ...filters, state: filters.state.filter((v) => v !== state) });
+  const removeCategory = (category: string) =>
+    setFilters({ ...filters, category: filters.category.filter((v) => v !== category) });
+  const removeSegment = (segment: string) =>
+    setFilters({ ...filters, segment: filters.segment.filter((v) => v !== segment) });
   const removeSearch = () => setFilters({ ...filters, searchQuery: "" });
 
-  if (loading) return <div className="p-8 text-center text-slate-500">Loading dataset...</div>;
-  return (
-    <div className="space-y-8">
-      <section className="dashboard-surface rounded-[32px] px-6 py-7 md:px-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-sky-700 dark:text-sky-200">
-              Overview
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        {/* Skeleton hero */}
+        <div className="dashboard-surface rounded-[var(--section-radius)] p-8">
+          <div className="skeleton mb-4 h-4 w-28 rounded-full" />
+          <div className="skeleton mb-3 h-10 w-3/4" />
+          <div className="skeleton h-4 w-1/2" />
+        </div>
+        {/* Skeleton KPIs */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
+        {/* Skeleton charts */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+          <div className="dashboard-card rounded-[var(--section-radius)] p-5 lg:col-span-1">
+            <div className="skeleton mb-3 h-5 w-16" />
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="skeleton mb-2 h-8 w-full" />
+            ))}
+          </div>
+          <div className="space-y-6 lg:col-span-3">
+            <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+              <div className="skeleton h-64 w-full" />
             </div>
-            <h2 className="text-3xl font-semibold tracking-tight text-slate-950 dark:text-white md:text-4xl">
-              A modern view of Malaysia e-commerce performance during COVID phases.
+            <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+              <div className="skeleton h-64 w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Hero section */}
+      <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl space-y-2">
+            <span className="inline-flex items-center rounded-md bg-[var(--accent-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--accent)]">
+              Overview
+            </span>
+            <h2
+              className="display-heading text-2xl text-slate-950 dark:text-white md:text-3xl"
+            >
+              Malaysia e-commerce during COVID phases
             </h2>
-            <p className="text-base leading-7 text-slate-600 dark:text-slate-300">
-              Track revenue, delivery friction, inventory risk, and regional patterns in one shared filter state.
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              Revenue trends, delivery friction, inventory risk, and regional patterns — cross-filtered in real time.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-            <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Rows in view</div>
-              <div className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">{filteredData.length.toLocaleString()}</div>
+
+          {/* Summary pills */}
+          <div className="flex flex-wrap gap-2">
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+                Rows
+              </div>
+              <div
+                className="mt-0.5 text-lg font-bold text-slate-950 dark:text-white"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                {filteredData.length.toLocaleString()}
+              </div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Active filters</div>
-              <div className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">{activeFilters}</div>
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+                Filters
+              </div>
+              <div
+                className="mt-0.5 text-lg font-bold text-slate-950 dark:text-white"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                {activeFilters}
+              </div>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/70">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Mode</div>
-              <div className="mt-2 text-2xl font-semibold capitalize text-slate-950 dark:text-white">{mode}</div>
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+                Mode
+              </div>
+              <div
+                className="mt-0.5 text-lg font-bold capitalize text-slate-950 dark:text-white"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                {mode}
+              </div>
             </div>
           </div>
         </div>
-        <div className="mt-6 rounded-3xl border border-slate-200 bg-white/60 p-4 dark:border-slate-800 dark:bg-slate-950/40">
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">Active filters</p>
-              <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Click any chip to remove it.</p>
-            </div>
-            {activeFilters > 0 && (
-              <button type="button" onClick={clearAll} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:bg-slate-800">
-                Clear all
-              </button>
+
+        {/* Active filter chips */}
+        {activeFilters > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-[var(--surface-muted)] px-4 py-3">
+            <span className="mr-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+              Active:
+            </span>
+            {filters.covidPhase.map((v) => (
+              <ActiveChip key={`p-${v}`} label={v} onRemove={() => removePhase(v)} />
+            ))}
+            {filters.state.map((v) => (
+              <ActiveChip key={`s-${v}`} label={v} onRemove={() => removeState(v)} />
+            ))}
+            {filters.category.map((v) => (
+              <ActiveChip key={`c-${v}`} label={v} onRemove={() => removeCategory(v)} />
+            ))}
+            {filters.segment.map((v) => (
+              <ActiveChip key={`seg-${v}`} label={v} onRemove={() => removeSegment(v)} />
+            ))}
+            {filters.searchQuery && (
+              <ActiveChip label={`"${filters.searchQuery}"`} onRemove={removeSearch} />
             )}
+            <button
+              type="button"
+              onClick={clearAll}
+              className="ml-auto text-[11px] font-semibold text-[var(--accent)] transition hover:underline"
+            >
+              Clear all
+            </button>
           </div>
-          {activeFilters > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {filters.covidPhase.map((value) => <ActiveChip key={`phase-${value}`} label={`Phase: ${value}`} onRemove={() => removePhase(value)} />)}
-              {filters.state.map((value) => <ActiveChip key={`state-${value}`} label={`State: ${value}`} onRemove={() => removeState(value)} />)}
-              {filters.category.map((value) => <ActiveChip key={`category-${value}`} label={`Category: ${value}`} onRemove={() => removeCategory(value)} />)}
-              {filters.segment.map((value) => <ActiveChip key={`segment-${value}`} label={`Segment: ${value}`} onRemove={() => removeSegment(value)} />)}
-              {filters.searchQuery ? <ActiveChip label={`Search: ${filters.searchQuery}`} onRemove={removeSearch} /> : null}
-            </div>
-          ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-400">No active filters. Start from the left panel or search bar.</p>
-          )}
-        </div>
-        <div className="mt-4 rounded-2xl border border-sky-200 bg-sky-50/80 px-4 py-3 text-sm text-sky-900 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-100">
-          <span className="font-semibold">Drill-down:</span> click a heat map cell to focus the view to a single state and COVID phase.
+        )}
+
+        {/* Drill-down hint */}
+        <div className="mt-3 flex items-center gap-2 rounded-lg bg-[var(--accent-muted)] px-3 py-2 text-xs text-[var(--accent)]">
+          <span className="font-bold">Tip:</span>
+          Click any heat map cell to drill down to a specific state and COVID phase.
         </div>
       </section>
 
+      {/* KPIs */}
       <KPICards />
+
+      {/* Filter sidebar + Charts */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-        <aside className="lg:col-span-1"><FilterPanel /></aside>
+        <aside className="lg:col-span-1">
+          <FilterPanel />
+        </aside>
         <div className="space-y-6 lg:col-span-3">
           <PhaseLineChart />
           <HeatMap />
