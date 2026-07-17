@@ -3,7 +3,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { computeKPIs } from "@/lib/filters";
 
 export function KPICards() {
-  const { filteredData, mode } = useDashboard();
+  const { filteredData } = useDashboard();
   const kpis = computeKPIs(filteredData);
 
   const cards = [
@@ -49,19 +49,12 @@ export function KPICards() {
     },
   ];
 
-  const valueSize =
-    mode === "elderly" ? "text-3xl" : mode === "early-childhood" ? "text-4xl" : "text-2xl";
-
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
       {cards.map((c, idx) => (
         <div
           key={c.label}
-          className={`dashboard-card relative overflow-hidden rounded-[var(--card-radius)] p-5 ${
-            mode === "early-childhood"
-              ? "border-2 border-amber-300 bg-amber-50 dark:bg-amber-100"
-              : ""
-          }`}
+          className="dashboard-card relative overflow-hidden rounded-[var(--card-radius)] p-5"
           style={{ animationDelay: `${idx * 60}ms` }}
         >
           {/* Top accent bar */}
@@ -69,55 +62,29 @@ export function KPICards() {
 
           {/* Icon + badge */}
           <div className="mb-4 flex items-center justify-between">
-            <div
-              className={`grid h-10 w-10 place-items-center rounded-xl text-xl ${
-                mode === "early-childhood"
-                  ? "bg-amber-200"
-                  : "bg-slate-100 dark:bg-slate-800"
-              }`}
-            >
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-slate-100 text-xl dark:bg-slate-800">
               {c.icon}
             </div>
-            <span
-              className={`inline-flex h-5 items-center rounded-md px-2 text-[10px] font-semibold uppercase tracking-[0.15em] ${
-                mode === "early-childhood"
-                  ? "bg-amber-200 text-amber-800"
-                  : "bg-[var(--surface-muted)] text-slate-500 dark:text-slate-400"
-              }`}
-            >
+            <span className="inline-flex h-5 items-center rounded-md bg-[var(--surface-muted)] px-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
               Live
             </span>
           </div>
 
           {/* Label */}
-          <div
-            className={`text-[11px] font-semibold uppercase tracking-[0.18em] ${
-              mode === "early-childhood"
-                ? "text-slate-700"
-                : "text-slate-500 dark:text-slate-400"
-            }`}
-          >
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
             {c.label}
           </div>
 
           {/* Value */}
           <div
-            className={`${valueSize} mt-1.5 font-bold tracking-tight ${
-              mode === "early-childhood" ? "text-slate-950" : "text-slate-950 dark:text-white"
-            }`}
+            className="mt-1.5 text-2xl font-bold tracking-tight text-slate-950 dark:text-white"
             style={{ fontFamily: "var(--font-display)" }}
           >
             {c.value}
           </div>
 
           {/* Note */}
-          <div
-            className={`mt-2 text-xs ${
-              mode === "early-childhood"
-                ? "text-slate-600"
-                : "text-slate-500 dark:text-slate-400"
-            }`}
-          >
+          <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             {c.note}
           </div>
         </div>

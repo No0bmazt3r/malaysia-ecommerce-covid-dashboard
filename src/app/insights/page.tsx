@@ -1,9 +1,4 @@
-"use client";
-import { useDashboard } from "@/context/DashboardContext";
-
 export default function Insights() {
-  const { mode } = useDashboard();
-
   const insights = [
     {
       title: "Regional Anomaly: Sabah + Electronics + CMCO",
@@ -39,9 +34,6 @@ export default function Insights() {
     },
   ];
 
-  const bodySize = mode === "elderly" ? "text-base leading-7" : "text-sm leading-6";
-  const titleSize = mode === "elderly" ? "text-xl" : "text-base";
-
   return (
     <div className="space-y-6">
       {/* Page header */}
@@ -50,9 +42,7 @@ export default function Insights() {
           Insights
         </span>
         <h2
-          className={`display-heading mt-3 text-slate-950 dark:text-white ${
-            mode === "elderly" ? "text-3xl" : "text-2xl"
-          }`}
+          className="display-heading mt-3 text-2xl text-slate-950 dark:text-white"
         >
           Actionable Business Insights
         </h2>
@@ -62,11 +52,7 @@ export default function Insights() {
       </section>
 
       {/* Insight cards */}
-      <div
-        className={`grid gap-4 ${
-          mode === "elderly" ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
-        }`}
-      >
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {insights.map((ins, idx) => (
           <div
             key={ins.title}
@@ -82,12 +68,12 @@ export default function Insights() {
               </span>
             </div>
             <h3
-              className={`font-bold tracking-tight text-slate-950 dark:text-white ${titleSize}`}
+              className="text-base font-bold tracking-tight text-slate-950 dark:text-white"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {ins.title}
             </h3>
-            <p className={`mt-2 text-slate-700 dark:text-slate-300 ${bodySize}`}>
+            <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-300">
               {ins.body}
             </p>
           </div>

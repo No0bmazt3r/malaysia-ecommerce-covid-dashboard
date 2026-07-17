@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function HeatMap() {
-  const { filteredData, setFilters, filters, mode } = useDashboard();
+  const { filteredData, setFilters, filters } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
@@ -65,7 +65,7 @@ export function HeatMap() {
         sel
           .selectAll("text")
           .attr("fill", axisColor)
-          .style("font-size", mode === "elderly" ? "14px" : "11px")
+          .style("font-size", "11px")
           .style("font-weight", "500");
       });
 
@@ -78,7 +78,7 @@ export function HeatMap() {
         sel
           .selectAll("text")
           .attr("fill", axisColor)
-          .style("font-size", mode === "elderly" ? "14px" : "11px");
+          .style("font-size", "11px");
       });
 
     // Legend
@@ -143,7 +143,7 @@ export function HeatMap() {
       .style("border-radius", "10px")
       .style("border", `1px solid ${isDark ? "rgba(148,163,184,0.15)" : "rgba(148,163,184,0.25)"}`)
       .style("box-shadow", "0 8px 32px rgba(15, 23, 42, 0.16)")
-      .style("font-size", mode === "elderly" ? "15px" : "12px")
+      .style("font-size", "12px")
       .style("font-family", "Inter, system-ui, sans-serif")
       .style("pointer-events", "none")
       .style("opacity", 0)
@@ -195,16 +195,14 @@ export function HeatMap() {
     return () => {
       tooltip.remove();
     };
-  }, [filteredData, filters, hasData, setFilters, mode, theme]);
+  }, [filteredData, filters, hasData, setFilters, theme]);
 
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
-            className={`font-bold tracking-tight text-slate-950 dark:text-white ${
-              mode === "elderly" ? "text-xl" : "text-lg"
-            }`}
+            className="text-lg font-bold tracking-tight text-slate-950 dark:text-white"
             style={{ fontFamily: "var(--font-display)" }}
           >
             Revenue Heat Map: State × COVID Phase

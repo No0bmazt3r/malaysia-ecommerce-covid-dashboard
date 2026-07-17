@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { DashboardProvider } from "@/context/DashboardContext";
-import { ModeSwitcher } from "@/components/ui/ModeSwitcher";
 import { Nav } from "@/components/ui/Nav";
-import { SearchBar } from "@/components/ui/SearchBar";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export const metadata: Metadata = {
@@ -33,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       E-Commerce × COVID
                     </h1>
                     <p className="text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400">
-                      TEB3133 / TFB3133 Project
+                      Group 8 • TEB3133 / TFB3133
                     </p>
                   </div>
                 </div>
@@ -42,12 +40,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </div>
               </div>
 
-              {/* Right: search + controls */}
+              {/* Right: controls */}
               <div className="flex items-center gap-2.5">
-                <div className="hidden md:block">
-                  <SearchBar />
-                </div>
-                <ModeSwitcher />
                 <ThemeToggle />
               </div>
             </div>
@@ -63,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <footer className="border-t border-[var(--border)] mt-12">
             <div className="mx-auto max-w-[1400px] px-5 py-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span>Malaysia E-Commerce COVID Dashboard</span>
+              <span>Group 8 • Malaysia E-Commerce COVID Dashboard</span>
               <span>TEB3133 / TFB3133 Data Visualization</span>
             </div>
           </footer>

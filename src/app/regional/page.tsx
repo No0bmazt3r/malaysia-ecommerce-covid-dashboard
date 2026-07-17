@@ -1,9 +1,6 @@
-"use client";
 import { HeatMap } from "@/components/charts/HeatMap";
-import { useDashboard } from "@/context/DashboardContext";
 
 export default function Regional() {
-  const { mode } = useDashboard();
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
@@ -11,9 +8,7 @@ export default function Regional() {
           Regional analysis
         </span>
         <h2
-          className={`display-heading mt-3 text-slate-950 dark:text-white ${
-            mode === "elderly" ? "text-3xl" : "text-2xl"
-          }`}
+          className="display-heading mt-3 text-2xl text-slate-950 dark:text-white"
         >
           Revenue by State &amp; COVID Phase
         </h2>

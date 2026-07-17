@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function PhaseLineChart() {
-  const { filteredData, mode } = useDashboard();
+  const { filteredData } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
@@ -47,7 +47,7 @@ export function PhaseLineChart() {
       .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
       .style("color", isDark ? "#e2e8f0" : "#0f172a")
       .style("box-shadow", "0 8px 32px rgba(15, 23, 42, 0.16)")
-      .style("font-size", mode === "elderly" ? "15px" : "12px")
+      .style("font-size", "12px")
       .style("font-family", "Inter, system-ui, sans-serif")
       .style("z-index", "9999");
 
@@ -99,7 +99,7 @@ export function PhaseLineChart() {
           .attr("fill", axisColor)
           .attr("transform", "rotate(-40)")
           .style("text-anchor", "end")
-          .style("font-size", mode === "elderly" ? "13px" : "10px");
+          .style("font-size", "10px");
       });
 
     // Y axis
@@ -108,7 +108,7 @@ export function PhaseLineChart() {
       .call((sel) => {
         sel.select(".domain").attr("stroke", gridColor);
         sel.selectAll(".tick line").attr("stroke", gridColor);
-        sel.selectAll("text").attr("fill", axisColor).style("font-size", mode === "elderly" ? "13px" : "10px");
+        sel.selectAll("text").attr("fill", axisColor).style("font-size", "10px");
       });
 
     // Area fill
@@ -159,13 +159,13 @@ export function PhaseLineChart() {
       .attr("class", "data-dot")
       .attr("cx", (d) => x(d.month) ?? 0)
       .attr("cy", (d) => y(d.revenue))
-      .attr("r", mode === "elderly" ? 5 : 3.5)
+      .attr("r", 3.5)
       .attr("fill", dotFill)
       .attr("stroke", isDark ? "#0f172a" : "#ffffff")
       .attr("stroke-width", 2)
       .style("cursor", "pointer")
       .on("mouseenter", function (event, d) {
-        d3.select(this).transition().duration(100).attr("r", mode === "elderly" ? 8 : 6);
+        d3.select(this).transition().duration(100).attr("r", 6);
         tooltip
           .style("opacity", 1)
           .html(
@@ -180,23 +180,21 @@ export function PhaseLineChart() {
           .style("top", `${event.pageY - 14}px`);
       })
       .on("mouseleave", function () {
-        d3.select(this).transition().duration(100).attr("r", mode === "elderly" ? 5 : 3.5);
+        d3.select(this).transition().duration(100).attr("r", 3.5);
         tooltip.style("opacity", 0);
       });
 
     return () => {
       tooltip.remove();
     };
-  }, [filteredData, hasData, mode, theme]);
+  }, [filteredData, hasData, theme]);
 
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
-            className={`font-bold tracking-tight text-slate-950 dark:text-white ${
-              mode === "elderly" ? "text-xl" : "text-lg"
-            }`}
+            className="text-lg font-bold tracking-tight text-slate-950 dark:text-white"
             style={{ fontFamily: "var(--font-display)" }}
           >
             Monthly Revenue Trend

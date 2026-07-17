@@ -8,6 +8,7 @@ const links = [
   { href: "/product", label: "Product", icon: "◆" },
   { href: "/timeline", label: "Timeline", icon: "◇" },
   { href: "/insights", label: "Insights", icon: "◉" },
+  { href: "/team", label: "Team", icon: "◫" },
 ];
 
 export function Nav() {

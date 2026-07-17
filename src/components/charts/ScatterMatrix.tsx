@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function ScatterMatrix() {
-  const { filteredData, mode } = useDashboard();
+  const { filteredData } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
@@ -30,8 +30,8 @@ export function ScatterMatrix() {
       { key: "customer_rating", label: "Rating" },
     ];
 
-    const size = mode === "early-childhood" ? 200 : 170;
-    const padding = mode === "early-childhood" ? 36 : 24;
+    const size = 170;
+    const padding = 24;
     const n = vars.length;
     const total = size * n + padding * 2;
 
@@ -47,11 +47,29 @@ export function ScatterMatrix() {
       .domain(["Pre-MCO", "MCO", "CMCO", "RMCO"])
       .range(["#10b981", "#ef4444", "#f59e0b", "#3b82f6"]);
 
+    // Tooltip
+    const tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "chart-tooltip")
+      .style("position", "absolute")
+      .style("pointer-events", "none")
+      .style("opacity", 0)
+      .style("padding", "8px 12px")
+      .style("border-radius", "10px")
+      .style("border", `1px solid ${isDark ? "rgba(148,163,184,0.15)" : "rgba(148,163,184,0.25)"}`)
+      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("box-shadow", "0 8px 32px rgba(15, 23, 42, 0.16)")
+      .style("font-size", "12px")
+      .style("font-family", "Inter, system-ui, sans-serif")
+      .style("z-index", "9999");
+
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
         const cell = svg
           .append("g")
-          .attr("transform", `translate(${j * size + padding},${i * size + padding})`);
+          .attr("transform", `translate(${j * size},${i * size})`);
 
         if (i === j) {
           // Diagonal: label
@@ -69,10 +87,7 @@ export function ScatterMatrix() {
             .attr("y", size / 2)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .style(
-              "font-size",
-              mode === "early-childhood" ? "15px" : mode === "elderly" ? "13px" : "11px"
-            )
+            .style("font-size", "11px")
             .style("font-weight", "700")
             .style("letter-spacing", "0.02em")
             .attr("fill", labelColor)
@@ -102,9 +117,37 @@ export function ScatterMatrix() {
             .append("circle")
             .attr("cx", (d) => xScale(+d[xVar]))
             .attr("cy", (d) => yScale(+d[yVar]))
-            .attr("r", mode === "early-childhood" ? 3.5 : mode === "elderly" ? 2.5 : 2)
+            .attr("r", 2)
             .attr("fill", (d) => phaseColor(d.covid_phase))
-            .attr("opacity", 0.55);
+            .attr("opacity", 0.55)
+            .style("cursor", "pointer")
+            .on("mouseenter", function (event, d) {
+              d3.select(this)
+                .transition()
+                .duration(100)
+                .attr("r", 5)
+                .attr("opacity", 1);
+              tooltip
+                .style("opacity", 1)
+                .html(
+                  `<div style="font-weight:700;margin-bottom:3px;">${d.covid_phase}</div>` +
+                  `<div>${vars[j].label}: <strong>${(+d[xVar]).toLocaleString("en-MY", { maximumFractionDigits: 2 })}</strong></div>` +
+                  `<div>${vars[i].label}: <strong>${(+d[yVar]).toLocaleString("en-MY", { maximumFractionDigits: 2 })}</strong></div>`
+                );
+            })
+            .on("mousemove", (event) => {
+              tooltip
+                .style("left", `${event.pageX + 14}px`)
+                .style("top", `${event.pageY - 14}px`);
+            })
+            .on("mouseleave", function () {
+              d3.select(this)
+                .transition()
+                .duration(100)
+                .attr("r", 2)
+                .attr("opacity", 0.55);
+              tooltip.style("opacity", 0);
+            });
         }
       }
     }
@@ -112,9 +155,9 @@ export function ScatterMatrix() {
     // Legend
     const legend = svg
       .append("g")
-      .attr("transform", `translate(${total - 130}, ${padding + 8})`);
+      .attr("transform", `translate(${n * size - 130}, 8)`);
 
-    const legendBg = legend
+    legend
       .append("rect")
       .attr("x", -10)
       .attr("y", -10)
@@ -140,16 +183,18 @@ export function ScatterMatrix() {
         .attr("fill", labelColor)
         .text(p);
     });
-  }, [filteredData, hasData, mode, theme]);
+
+    return () => {
+      tooltip.remove();
+    };
+  }, [filteredData, hasData, theme]);
 
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
-            className={`font-bold tracking-tight text-slate-950 dark:text-white ${
-              mode === "elderly" || mode === "early-childhood" ? "text-xl" : "text-lg"
-            }`}
+            className="text-lg font-bold tracking-tight text-slate-950 dark:text-white"
             style={{ fontFamily: "var(--font-display)" }}
           >
             Scatter Plot Matrix

@@ -29,7 +29,7 @@ function SkeletonCard() {
 }
 
 export default function Overview() {
-  const { loading, filteredData, filters, setFilters, mode } = useDashboard();
+  const { loading, filteredData, filters, setFilters } = useDashboard();
   const activeFilters =
     filters.covidPhase.length +
     filters.state.length +
@@ -133,17 +133,6 @@ export default function Overview() {
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {activeFilters}
-              </div>
-            </div>
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
-              <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
-                Mode
-              </div>
-              <div
-                className="mt-0.5 text-lg font-bold capitalize text-slate-950 dark:text-white"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                {mode}
               </div>
             </div>
           </div>
