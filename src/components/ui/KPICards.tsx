@@ -46,11 +46,62 @@ export function KPICards() {
       gradient: "from-violet-500 to-purple-500",
       barColor: "bg-violet-500",
       note: "Quality signal",
+      status: kpis.returnRate < 5 ? "good" : "bad",
+    },
+    {
+      label: "Avg Rating",
+      value: `${kpis.avgRating.toFixed(2)}`,
+      icon: "⭐",
+      gradient: "from-yellow-400 to-amber-500",
+      barColor: "bg-yellow-400",
+      note: "Out of 5.0",
+      status: kpis.avgRating >= 4 ? "good" : kpis.avgRating >= 3 ? "warn" : "bad",
     },
   ];
 
+  const { mode } = useDashboard();
+
+  if (mode === "kiosk") {
+    return (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col items-center justify-center rounded-[32px] bg-emerald-100 p-8 text-center border-4 border-emerald-300 shadow-xl">
+          <div className="text-4xl mb-4">💰</div>
+          <div className="text-3xl font-black text-emerald-900 mb-2">Revenue</div>
+          <div className="text-5xl font-black text-emerald-700">RM {kpis.totalRevenue.toLocaleString("en-MY", { maximumFractionDigits: 0 })}</div>
+        </div>
+        <div className="flex flex-col items-center justify-center rounded-[32px] bg-blue-100 p-8 text-center border-4 border-blue-300 shadow-xl">
+          <div className="text-4xl mb-4">📦</div>
+          <div className="text-3xl font-black text-blue-900 mb-2">Deliveries</div>
+          <div className="text-5xl font-black text-blue-700">{kpis.avgDelivery.toFixed(1)} Days</div>
+        </div>
+        <div className="flex flex-col items-center justify-center rounded-[32px] bg-amber-100 p-8 text-center border-4 border-amber-300 shadow-xl">
+          <div className="text-4xl mb-4">⭐</div>
+          <div className="text-3xl font-black text-amber-900 mb-2">Rating</div>
+          <div className="text-5xl font-black text-amber-700">{kpis.avgRating.toFixed(1)} / 5</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (mode === "elderly") {
+    return (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((c) => (
+          <div key={c.label} className="flex flex-col rounded-2xl bg-white border-4 border-black p-6 shadow-[8px_8px_0_0_#000] dark:bg-slate-900 dark:border-white dark:shadow-[8px_8px_0_0_#fff]">
+            <div className="flex items-center gap-4 mb-4">
+              <span className="text-4xl">{c.icon}</span>
+              <span className="text-2xl font-bold uppercase tracking-wider text-black dark:text-white">{c.label}</span>
+            </div>
+            <div className="text-4xl font-black text-black dark:text-white mb-2">{c.value}</div>
+            <div className="text-xl font-bold text-slate-600 dark:text-slate-400">{c.note}</div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
       {cards.map((c, idx) => (
         <div
           key={c.label}

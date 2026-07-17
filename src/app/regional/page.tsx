@@ -1,4 +1,7 @@
 import { HeatMap } from "@/components/charts/HeatMap";
+import { StateSalesBarChart } from "@/components/charts/StateSalesBarChart";
+import { CategoryStateStackedBar } from "@/components/charts/CategoryStateStackedBar";
+import { StateDeliveryLineChart } from "@/components/charts/StateDeliveryLineChart";
 
 export default function Regional() {
   return (
@@ -19,6 +22,11 @@ export default function Regional() {
           </span>
         </p>
       </section>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <StateSalesBarChart />
+        <StateDeliveryLineChart />
+      </div>
+      <CategoryStateStackedBar />
       <HeatMap />
     </div>
   );

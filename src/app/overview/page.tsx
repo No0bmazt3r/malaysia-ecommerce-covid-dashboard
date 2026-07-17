@@ -3,6 +3,8 @@ import { KPICards } from "@/components/ui/KPICards";
 import { FilterPanel } from "@/components/ui/FilterPanel";
 import { PhaseLineChart } from "@/components/charts/PhaseLineChart";
 import { HeatMap } from "@/components/charts/HeatMap";
+import { ProjectTimeline } from "@/components/charts/ProjectTimeline";
+import { MiniScatterMatrix } from "@/components/charts/MiniScatterMatrix";
 import { useDashboard } from "@/context/DashboardContext";
 
 function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }) {
@@ -29,7 +31,7 @@ function SkeletonCard() {
 }
 
 export default function Overview() {
-  const { loading, filteredData, filters, setFilters } = useDashboard();
+  const { loading, filteredData, filters, setFilters, mode } = useDashboard();
   const activeFilters =
     filters.covidPhase.length +
     filters.state.length +
@@ -180,13 +182,17 @@ export default function Overview() {
       <KPICards />
 
       {/* Filter sidebar + Charts */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-        <aside className="lg:col-span-1">
-          <FilterPanel />
-        </aside>
-        <div className="space-y-6 lg:col-span-3">
+      <div className={`grid grid-cols-1 gap-6 ${mode === "analyst" ? "lg:grid-cols-4" : ""}`}>
+        {mode !== "kiosk" && (
+          <aside className={mode === "analyst" ? "lg:col-span-1" : ""}>
+            <FilterPanel />
+          </aside>
+        )}
+        <div className={`space-y-6 ${mode === "analyst" ? "lg:col-span-3" : ""}`}>
           <PhaseLineChart />
           <HeatMap />
+          <MiniScatterMatrix />
+          <ProjectTimeline />
         </div>
       </div>
     </div>

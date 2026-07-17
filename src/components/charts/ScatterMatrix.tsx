@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function ScatterMatrix() {
-  const { filteredData } = useDashboard();
+  const { filteredData, loading } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
@@ -24,14 +24,16 @@ export function ScatterMatrix() {
     const diagBg = isDark ? "rgba(15, 23, 42, 0.6)" : "#f1f5f9";
 
     const vars: { key: keyof (typeof filteredData)[0]; label: string }[] = [
+      { key: "sales_revenue", label: "Revenue" },
       { key: "ad_spend_myr", label: "Ad Spend" },
       { key: "delivery_time_days", label: "Delivery" },
-      { key: "sales_revenue", label: "Revenue" },
       { key: "customer_rating", label: "Rating" },
+      { key: "unit_price", label: "Price" },
+      { key: "discount_pct", label: "Discount" },
     ];
 
-    const size = 170;
-    const padding = 24;
+    const size = 130;
+    const padding = 16;
     const n = vars.length;
     const total = size * n + padding * 2;
 
@@ -190,7 +192,7 @@ export function ScatterMatrix() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card overflow-hidden rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
@@ -210,7 +212,9 @@ export function ScatterMatrix() {
       <p className="mb-3 text-[11px] text-slate-500 dark:text-slate-400">
         Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈−0.75).
       </p>
-      {hasData ? (
+      {loading ? (
+        <div className="mx-auto h-[600px] w-full rounded-xl skeleton-shimmer" />
+      ) : hasData ? (
         <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-3">
           <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
         </div>

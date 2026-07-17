@@ -2,9 +2,11 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
+import { useDashboard } from "@/context/DashboardContext";
 
 export function ProjectTimeline() {
   const theme = useDashboardTheme();
+  const { filters, setFilters } = useDashboard();
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -205,6 +207,14 @@ export function ProjectTimeline() {
             .attr("r", 7)
             .attr("stroke-width", 3);
           tooltip.style("opacity", 0);
+        })
+        .on("click", (_event, d) => {
+          if (m.phase) {
+            setFilters({
+              ...filters,
+              covidPhase: [m.phase],
+            });
+          }
         });
 
       // Label

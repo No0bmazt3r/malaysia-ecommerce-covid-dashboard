@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
+
 const members = [
   { name: "Nurul Hawardah Binti Mohammad Yusoff", id: "22007264" },
   { name: "Wan Nur Ariana Sofea Binti Wan Zaki", id: "22011056" },
   { name: "Zuyyin Damia Binti Norazmi", id: "22007506" },
   { name: "Muhammad Ibrahim Al-Imran Bin Mohd Isa", id: "22006656" },
-  { name: "Sharvin A/L Kanesan", id: "22006930" },
+  { name: "Sharvin A/L Kanesan", id: "22006930", picture: "/Sharvin.svg" },
 ];
 
 function getInitials(name: string) {
@@ -20,7 +22,7 @@ function getInitials(name: string) {
 export default function TeamPage() {
   return (
     <section
-      className="dashboard-surface"
+      className="dashboard-surface w-full"
       style={{
         borderRadius: "var(--section-radius)",
         padding: "clamp(2rem, 5vw, 3.5rem)",
@@ -68,60 +70,82 @@ export default function TeamPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-          gap: "1.25rem",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: "1.5rem",
+          justifyContent: "center",
         }}
       >
         {members.map((member, i) => (
           <div
             key={member.id}
-            className="dashboard-card"
+            className="dashboard-card overflow-hidden"
             style={{
               borderRadius: "var(--card-radius)",
-              padding: "2rem 1.25rem",
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              gap: "1rem",
               animation: "fade-up 0.5s ease-out both",
               animationDelay: `${i * 80}ms`,
             }}
           >
-            {/* Avatar */}
-            <div
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: "50%",
-                background: "var(--accent-gradient)",
-                display: "grid",
-                placeItems: "center",
-                boxShadow: "0 4px 20px var(--accent-muted)",
-                flexShrink: 0,
-              }}
-            >
-              <span
+            {/* Avatar / Picture Header */}
+            {member.picture ? (
+              <div
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 700,
-                  fontSize: "1.15rem",
-                  color: "#fff",
-                  letterSpacing: "0.04em",
+                  width: "100%",
+                  height: 240,
+                  position: "relative",
+                  marginTop: "0.5rem",
+                  marginBottom: "-1rem",
                 }}
               >
-                {getInitials(member.name)}
-              </span>
-            </div>
+                <Image
+                  src={member.picture}
+                  alt={member.name}
+                  fill
+                  style={{ objectFit: "contain" }}
+                  priority={true}
+                />
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  height: 140,
+                  background: "var(--accent-gradient)",
+                  display: "grid",
+                  placeItems: "center",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 700,
+                    fontSize: "2.5rem",
+                    color: "#fff",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {getInitials(member.name)}
+                </span>
+              </div>
+            )}
 
             {/* Info */}
-            <div>
+            <div
+              style={{
+                padding: "1.5rem 1.25rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                gap: "0.5rem",
+              }}
+            >
               <p
                 className="display-heading"
                 style={{
-                  fontSize: "0.92rem",
+                  fontSize: "1rem",
                   lineHeight: 1.35,
-                  marginBottom: "0.35rem",
                 }}
               >
                 {member.name}
@@ -134,7 +158,7 @@ export default function TeamPage() {
                   letterSpacing: "0.06em",
                   color: "var(--accent)",
                   background: "var(--accent-muted)",
-                  padding: "0.2em 0.7em",
+                  padding: "0.3em 0.8em",
                   borderRadius: "999px",
                 }}
               >

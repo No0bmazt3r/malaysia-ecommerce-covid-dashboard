@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="header-gradient-bar" />
 
           <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)] backdrop-blur-xl">
-            <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-5 py-3">
+            <div className="mx-auto flex w-full items-center justify-between gap-4 px-5 md:px-8 py-3">
               {/* Left: brand + nav */}
               <div className="flex items-center gap-5">
                 <div className="flex items-center gap-2.5">
@@ -51,12 +51,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </header>
 
-          <main className="page-enter mx-auto max-w-[1400px] px-5 py-6 space-y-8">
+          <main className="page-enter mx-auto w-full px-5 md:px-8 py-6 space-y-8">
             {children}
           </main>
 
           <footer className="border-t border-[var(--border)] mt-12">
-            <div className="mx-auto max-w-[1400px] px-5 py-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <div className="mx-auto w-full px-5 md:px-8 py-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
               <span>Group 8 • Malaysia E-Commerce COVID Dashboard</span>
               <span>TEB3133 / TFB3133 Data Visualization</span>
             </div>

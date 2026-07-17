@@ -22,5 +22,6 @@ export function computeKPIs(data: Order[]) {
     avgDelivery: data.reduce((s, r) => s + r.delivery_time_days, 0) / totalOrders,
     stockoutRate: (data.filter((r) => r.stockout_flag === 1).length / totalOrders) * 100,
     returnRate: (data.filter((r) => r.return_flag === 1).length / totalOrders) * 100,
+    avgRating: data.reduce((s, r) => s + r.customer_rating, 0) / totalOrders,
   };
 }

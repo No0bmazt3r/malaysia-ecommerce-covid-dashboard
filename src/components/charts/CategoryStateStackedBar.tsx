@@ -1,0 +1,136 @@
+"use client";
+import { useEffect, useRef } from "react";
+import * as d3 from "d3";
+import { useDashboard } from "@/context/DashboardContext";
+import { useDashboardTheme } from "@/hooks/useDashboardTheme";
+
+export function CategoryStateStackedBar() {
+  const { filteredData } = useDashboard();
+  const theme = useDashboardTheme();
+  const ref = useRef<SVGSVGElement>(null);
+  const hasData = filteredData.length > 0;
+
+  useEffect(() => {
+    if (!ref.current || !hasData) return;
+
+    const svg = d3.select(ref.current);
+    svg.selectAll("*").remove();
+
+    const isDark = theme === "dark";
+    const axisColor = isDark ? "#94a3b8" : "#64748b";
+
+    const margin = { top: 20, right: 120, bottom: 40, left: 100 };
+    const width = 800 - margin.left - margin.right;
+    const height = 350 - margin.top - margin.bottom;
+
+    svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+    
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Group by state and category
+    const categories = Array.from(new Set(filteredData.map((d) => d.product_category))).sort();
+    const states = Array.from(new Set(filteredData.map((d) => d.state))).sort();
+
+    const rollups = d3.rollup(
+      filteredData,
+      (v) => v.length,
+      (d) => d.state,
+      (d) => d.product_category
+    );
+
+    const stackedData = states.map((state) => {
+      const obj: any = { state };
+      let total = 0;
+      categories.forEach((cat) => {
+        const val = rollups.get(state)?.get(cat) || 0;
+        obj[cat] = val;
+        total += val;
+      });
+      obj.total = total;
+      return obj;
+    });
+
+    stackedData.sort((a, b) => b.total - a.total);
+
+    const stack = d3.stack().keys(categories)(stackedData as any);
+
+    const x = d3.scaleLinear().domain([0, d3.max(stackedData, (d) => d.total) || 0]).range([0, width]);
+    const y = d3.scaleBand().domain(stackedData.map((d) => d.state)).range([0, height]).padding(0.2);
+    
+    const color = d3.scaleOrdinal(d3.schemeSet2).domain(categories);
+
+    g.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x).ticks(5))
+      .call((sel) => sel.selectAll("text").attr("fill", axisColor));
+      
+    g.append("g")
+      .call(d3.axisLeft(y))
+      .call((sel) => sel.selectAll("text").attr("fill", axisColor).style("font-size", "11px"));
+
+    const tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "chart-tooltip")
+      .style("position", "absolute")
+      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("padding", "8px 12px")
+      .style("border-radius", "8px")
+      .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
+      .style("font-size", "12px")
+      .style("pointer-events", "none")
+      .style("opacity", 0)
+      .style("z-index", "9999");
+
+    g.selectAll("g.layer")
+      .data(stack)
+      .enter()
+      .append("g")
+      .attr("class", "layer")
+      .attr("fill", (d) => color(d.key))
+      .selectAll("rect")
+      .data((d) => d.map((item) => ({ ...item, category: d.key })))
+      .enter()
+      .append("rect")
+      .attr("y", (d: any) => y(d.data.state)!)
+      .attr("x", (d) => x(d[0]))
+      .attr("width", (d) => x(d[1]) - x(d[0]))
+      .attr("height", y.bandwidth())
+      .on("mouseover", function (event, d: any) {
+        d3.select(this).attr("opacity", 0.8);
+        const val = d[1] - d[0];
+        tooltip
+          .style("opacity", 1)
+          .html(`<strong>${d.data.state}</strong><br/>${d.category}: ${val} orders`);
+      })
+      .on("mousemove", (event) => {
+        tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px");
+      })
+      .on("mouseout", function () {
+        d3.select(this).attr("opacity", 1);
+        tooltip.style("opacity", 0);
+      });
+
+    // Legend
+    const legend = svg.append("g").attr("transform", `translate(${width + margin.left + 20}, ${margin.top})`);
+    categories.forEach((cat, i) => {
+      legend.append("rect").attr("y", i * 20).attr("width", 12).attr("height", 12).attr("fill", color(cat));
+      legend.append("text").attr("x", 20).attr("y", i * 20 + 10).attr("font-size", "11px").attr("fill", axisColor).text(cat);
+    });
+
+    return () => { tooltip.remove(); };
+  }, [filteredData, hasData, theme]);
+
+  return (
+    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+      <h3 className="text-lg font-bold">Category Distribution by State</h3>
+      <p className="text-xs text-slate-500 mb-4">Breakdown of orders by product category for each state.</p>
+      {hasData ? (
+        <svg ref={ref} className="w-full" />
+      ) : (
+        <p className="text-sm text-slate-500">No data</p>
+      )}
+    </div>
+  );
+}
