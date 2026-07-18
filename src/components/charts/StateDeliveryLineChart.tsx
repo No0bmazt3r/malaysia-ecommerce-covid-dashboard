@@ -122,7 +122,7 @@ export function StateDeliveryLineChart() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Delivery Time Trends by State</h3>
       <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Average delivery time (days) across COVID phases for top states.</p>
       {hasData ? (

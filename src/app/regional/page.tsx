@@ -7,7 +7,7 @@ export default function Regional() {
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
-        <span className="inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(228, 179, 99, 0.12)', color: '#E4B363' }}>
+        <span className="inline-flex items-center rounded-[2px] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(228, 179, 99, 0.12)', color: '#E4B363' }}>
           Regional analysis
         </span>
         <h2

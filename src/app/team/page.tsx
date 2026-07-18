@@ -4,9 +4,9 @@ import Image from "next/image";
 
 const members = [
   { name: "Nurul Hawardah Binti Mohammad Yusoff", id: "22007264", picture: "/Wardah.svg" },
-  { name: "Wan Nur Ariana Sofea Binti Wan Zaki", id: "22011056" },
+  { name: "Wan Nur Ariana Sofea Binti Wan Zaki", id: "22011056", picture: "/Ariana.svg" },
   { name: "Zuyyin Damia Binti Norazmi", id: "22007506", picture: "/Zuyyin2.svg"},
-  { name: "Muhammad Ibrahim Al-Imran Bin Mohd Isa", id: "22006656" },
+  { name: "Muhammad Ibrahim Al-Imran Bin Mohd Isa", id: "22006656", picture: "/Baim.svg" },
   { name: "Sharvin A/L Kanesan", id: "22006930", picture: "/Sharvin.svg" },
 ];
 
@@ -34,9 +34,7 @@ export default function TeamPage() {
           className="display-heading"
           style={{
             fontSize: "clamp(2rem, 4vw, 2.75rem)",
-            background: "var(--accent-gradient)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            color: "var(--foreground)",
             marginBottom: "0.5rem",
           }}
         >
@@ -111,7 +109,7 @@ export default function TeamPage() {
                 style={{
                   width: "100%",
                   height: 140,
-                  background: "var(--accent-gradient)",
+                  background: "var(--primary)",
                   display: "grid",
                   placeItems: "center",
                 }}
@@ -153,13 +151,14 @@ export default function TeamPage() {
               <span
                 style={{
                   display: "inline-block",
+                  fontFamily: "var(--font-mono)",
                   fontSize: "0.75rem",
-                  fontWeight: 600,
+                  fontWeight: 500,
                   letterSpacing: "0.06em",
                   color: "var(--accent)",
                   background: "var(--accent-muted)",
                   padding: "0.3em 0.8em",
-                  borderRadius: "999px",
+                  borderRadius: "2px",
                 }}
               >
                 {member.id}

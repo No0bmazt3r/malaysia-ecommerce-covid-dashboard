@@ -127,7 +127,7 @@ export function CategoryStateStackedBar() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Category Distribution by State</h3>
       <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Breakdown of orders by product category for each state.</p>
       {hasData ? (

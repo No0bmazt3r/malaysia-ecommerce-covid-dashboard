@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Left: brand + nav */}
               <div className="flex items-center gap-5">
                 <div className="flex items-center gap-2.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg text-sm font-bold text-white shadow-sm" style={{ background: 'linear-gradient(135deg, #0B2A4A, #5D8FA3)' }}>
+                  <span className="grid h-8 w-8 place-items-center rounded-[2px] text-xs font-semibold text-white" style={{ background: '#0B2A4A', fontFamily: 'var(--font-mono)' }}>
                     MY
                   </span>
                   <div className="hidden sm:block">

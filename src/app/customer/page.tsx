@@ -6,7 +6,7 @@ export default function Customer() {
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
-        <span className="inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(93, 143, 163, 0.12)', color: '#5D8FA3' }}>
+        <span className="inline-flex items-center rounded-[2px] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(93, 143, 163, 0.12)', color: '#5D8FA3' }}>
           Customer Segmentation
         </span>
         <h2 className="display-heading mt-3 text-2xl" style={{ color: 'var(--foreground)' }}>

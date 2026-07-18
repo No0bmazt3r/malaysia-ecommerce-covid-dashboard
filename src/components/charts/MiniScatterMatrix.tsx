@@ -143,7 +143,7 @@ export function MiniScatterMatrix() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card relative rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig relative rounded-[var(--section-radius)] p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold">Correlation Overview (Sampled)</h3>
@@ -152,7 +152,7 @@ export function MiniScatterMatrix() {
           </p>
         </div>
         <Link href="/product">
-          <button className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent-muted)] px-3 py-1.5 text-sm font-semibold text-[var(--accent)] hover:opacity-80 transition-colors">
+          <button className="inline-flex items-center gap-1.5 rounded-[2px] bg-[var(--accent-muted)] px-3 py-1.5 text-sm font-semibold text-[var(--accent)] hover:opacity-80 transition-colors">
             View Full 6×6 Matrix <span>→</span>
           </button>
         </Link>

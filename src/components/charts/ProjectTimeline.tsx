@@ -220,25 +220,33 @@ export function ProjectTimeline() {
           }
         });
 
-      // Label
-      g.append("text")
-        .attr("x", cx)
+      // Label — clamp x so edge labels stay inside the drawable area
+      const label = g.append("text")
         .attr("y", above ? cy - 44 : cy + 52)
         .attr("text-anchor", "middle")
         .style("font-size", "11px")
         .style("font-weight", "700")
         .style("fill", textColor)
         .style("opacity", 0)
-        .text(m.label)
+        .text(m.label);
+
+      const halfLabel = (label.node()?.getComputedTextLength() ?? 0) / 2;
+      const labelX = Math.max(
+        halfLabel - margin.left + 4,
+        Math.min(width + margin.right - halfLabel - 4, cx)
+      );
+
+      label
+        .attr("x", labelX)
         .transition()
         .delay(500 + i * 100)
         .duration(300)
         .style("opacity", 1);
 
-      // Phase sublabel
+      // Phase sublabel — follows the (possibly clamped) label position
       if (m.phase) {
         g.append("text")
-          .attr("x", cx)
+          .attr("x", labelX)
           .attr("y", above ? cy - 30 : cy + 66)
           .attr("text-anchor", "middle")
           .style("font-size", "9px")
@@ -293,7 +301,7 @@ export function ProjectTimeline() {
   }, [theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
@@ -306,11 +314,8 @@ export function ProjectTimeline() {
             Milestones aligned with real Malaysian COVID-19 phase boundaries.
           </p>
         </div>
-        <span className="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(99, 183, 178, 0.12)', color: '#63B7B2' }}>
-          Milestones
-        </span>
       </div>
-      <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-3">
+      <div className="overflow-x-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] p-3">
         <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
       </div>
     </div>

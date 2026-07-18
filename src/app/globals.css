@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 /* ── Design tokens ────────────────────────────────── */
@@ -12,8 +12,9 @@
 */
 
 :root {
-  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Archivo', sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
   /* ── Surfaces ── */
   --background: #FAFBFC;
@@ -23,9 +24,9 @@
   --surface-muted: #F6F3EC;
   --border: rgba(198, 193, 188, 0.35);
   --border-strong: rgba(198, 193, 188, 0.55);
-  --shadow-sm: 0 1px 3px rgba(11, 42, 74, 0.04), 0 1px 2px rgba(11, 42, 74, 0.06);
-  --shadow: 0 4px 24px rgba(11, 42, 74, 0.06), 0 1px 4px rgba(11, 42, 74, 0.04);
-  --shadow-lg: 0 20px 60px rgba(11, 42, 74, 0.08), 0 4px 16px rgba(11, 42, 74, 0.04);
+  --shadow-sm: 0 1px 2px rgba(11, 42, 74, 0.05);
+  --shadow: 0 1px 3px rgba(11, 42, 74, 0.07);
+  --shadow-lg: 0 2px 8px rgba(11, 42, 74, 0.1);
 
   /* ── Brand colors ── */
   --primary: #0B2A4A;
@@ -46,8 +47,9 @@
   --cream: #F6F3EC;
 
   /* ── Radii ── */
-  --card-radius: 20px;
-  --section-radius: 24px;
+  /* Sharp corners: this reads as a printed statistical report, not a web template. */
+  --card-radius: 2px;
+  --section-radius: 2px;
 }
 
 @theme inline {
@@ -63,9 +65,9 @@
   --surface-muted: #162A3D;
   --border: rgba(198, 193, 188, 0.12);
   --border-strong: rgba(198, 193, 188, 0.22);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
-  --shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 1px 4px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.35);
 
   --primary: #0B2A4A;
   --primary-light: #5D8FA3;
@@ -123,30 +125,30 @@ body {
 
 .dashboard-card {
   background: var(--surface-strong);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .dashboard-card:hover {
-  box-shadow: var(--shadow-lg);
+  border-color: var(--secondary);
+  box-shadow: var(--shadow);
 }
 
 .dashboard-muted {
   background: var(--surface-muted);
 }
 
-/* ── Header gradient bar ────────────────────────── */
+/* ── Header identity bar ────────────────────────── */
+/* Static three-segment rule in the brand palette — like a report cover band. */
 .header-gradient-bar {
   height: 3px;
-  background: linear-gradient(90deg, #0B2A4A, #5D8FA3, #63B7B2, #0B2A4A);
-  background-size: 300% 100%;
-  animation: gradient-slide 6s ease-in-out infinite;
-}
-
-@keyframes gradient-slide {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  background: linear-gradient(
+    90deg,
+    #0B2A4A 0%, #0B2A4A 55%,
+    #5D8FA3 55%, #5D8FA3 82%,
+    #63B7B2 82%, #63B7B2 100%
+  );
 }
 
 /* ── Page enter animation ─────────────────────────── */
@@ -175,7 +177,7 @@ body {
   background: linear-gradient(90deg, var(--surface-muted) 25%, var(--border) 50%, var(--surface-muted) 75%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s ease-in-out infinite;
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 @keyframes skeleton-shimmer {
@@ -187,35 +189,73 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
-/* ── Ambient background shapes ────────────────────── */
+/* ── Graph-paper background ───────────────────────── */
+/* A faint plotting grid: the subject of this app is charts, so the page sits on graph paper. */
 .ambient-bg::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background:
-    radial-gradient(ellipse 60% 50% at 10% 10%, rgba(11, 42, 74, 0.05), transparent),
-    radial-gradient(ellipse 50% 40% at 90% 20%, rgba(93, 143, 163, 0.04), transparent),
-    radial-gradient(ellipse 40% 30% at 50% 80%, rgba(99, 183, 178, 0.03), transparent);
+  background-image:
+    linear-gradient(rgba(11, 42, 74, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 42, 74, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 :root[data-theme="dark"] .ambient-bg::before {
-  background:
-    radial-gradient(ellipse 60% 50% at 10% 10%, rgba(11, 42, 74, 0.08), transparent),
-    radial-gradient(ellipse 50% 40% at 90% 20%, rgba(93, 143, 163, 0.05), transparent),
-    radial-gradient(ellipse 40% 30% at 50% 80%, rgba(99, 183, 178, 0.04), transparent);
+  background-image:
+    linear-gradient(rgba(232, 236, 240, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 236, 240, 0.03) 1px, transparent 1px);
 }
 
 /* ── Typography display ───────────────────────────── */
 .display-heading {
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.01em;
   line-height: 1.15;
+}
+
+/* ── Report identity ──────────────────────────────── */
+/* Every small-caps label in the app is set in the mono data face,
+   so labels read as report annotations rather than web chrome. */
+.uppercase {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+/* Chart cards are numbered figures, like an academic report.
+   The counter resets per page and increments per chart card. */
+main {
+  counter-reset: fig;
+}
+
+.chart-fig {
+  position: relative;
+}
+
+.chart-fig::before {
+  counter-increment: fig;
+  content: "FIG. " counter(fig, decimal-leading-zero);
+  position: absolute;
+  top: 1.35rem;
+  right: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--secondary);
+}
+
+/* D3 tooltips (appended to body): force the data face and sharp corners
+   over their inline styles. */
+.chart-tooltip {
+  font-family: var(--font-mono) !important;
+  border-radius: 2px !important;
 }
 
 /* ── Insight card tints (override dashboard-card bg) ─ */

@@ -192,7 +192,7 @@ export function ScatterMatrix() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card overflow-hidden rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig overflow-hidden rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
@@ -205,21 +205,18 @@ export function ScatterMatrix() {
             Explore relationships across ad spend, delivery, revenue, and rating.
           </p>
         </div>
-        <span className="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(141, 181, 150, 0.12)', color: '#8DB596' }}>
-          Correlation
-        </span>
       </div>
       <p className="mb-3 text-[11px]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
         Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈−0.75).
       </p>
       {loading ? (
-        <div className="mx-auto h-[600px] w-full rounded-xl skeleton-shimmer" />
+        <div className="mx-auto h-[600px] w-full rounded-[2px] skeleton-shimmer" />
       ) : hasData ? (
-        <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-3">
+        <div className="overflow-x-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] p-3">
           <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
         </div>
       ) : (
-        <div className="grid min-h-[280px] place-items-center rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
+        <div className="grid min-h-[280px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
           <div>
             <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
               No scatter points to plot

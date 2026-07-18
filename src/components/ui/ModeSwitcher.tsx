@@ -11,12 +11,12 @@ const modes: { id: UCMode; label: string; icon: string }[] = [
 export function ModeSwitcher() {
   const { mode, setMode } = useDashboard();
   return (
-    <div className="flex gap-0.5 rounded-xl bg-[var(--surface-muted)] p-1">
+    <div className="flex gap-0.5 rounded-[2px] bg-[var(--surface-muted)] p-1">
       {modes.map((m) => (
         <button
           key={m.id}
           onClick={() => setMode(m.id)}
-          className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-all duration-200 ${
+          className={`inline-flex items-center gap-1.5 rounded-[2px] px-2.5 py-1.5 text-[13px] font-medium transition-all duration-200 ${
             mode === m.id
               ? m.id === "kiosk"
                 ? "shadow-sm"

@@ -36,10 +36,11 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="grid h-9 w-9 place-items-center rounded-lg border border-[var(--border)] bg-[var(--surface-strong)] text-sm transition hover:border-[var(--border-strong)] hover:shadow-sm active:scale-95"
+      className="h-9 rounded-[2px] border border-[var(--border-strong)] bg-[var(--surface-strong)] px-3 text-[10px] font-medium uppercase transition hover:border-[var(--secondary)] active:scale-95"
+      style={{ color: "var(--foreground)" }}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {theme === "dark" ? "☀️" : "🌙"}
+      {theme === "dark" ? "Light" : "Dark"}
     </button>
   );
 }

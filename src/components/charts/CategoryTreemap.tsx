@@ -102,11 +102,11 @@ export function CategoryTreemap() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Revenue by Category</h3>
       <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Treemap showing revenue share of product categories.</p>
       {loading ? (
-        <div className="h-[400px] w-full rounded-lg skeleton-shimmer" />
+        <div className="h-[400px] w-full rounded-[2px] skeleton-shimmer" />
       ) : hasData ? (
         <svg ref={ref} className="w-full" />
       ) : (

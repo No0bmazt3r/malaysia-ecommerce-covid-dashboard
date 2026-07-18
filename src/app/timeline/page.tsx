@@ -4,7 +4,7 @@ export default function Timeline() {
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
-        <span className="inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(99, 183, 178, 0.12)', color: '#63B7B2' }}>
+        <span className="inline-flex items-center rounded-[2px] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(99, 183, 178, 0.12)', color: '#63B7B2' }}>
           Timeline
         </span>
         <h2

@@ -134,11 +134,11 @@ export function CategoryMosaicPlot() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Category × Delivery Status</h3>
       <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Mosaic plot showing delivery delays across product categories.</p>
       {loading ? (
-        <div className="h-[400px] w-full rounded-lg skeleton-shimmer" />
+        <div className="h-[400px] w-full rounded-[2px] skeleton-shimmer" />
       ) : hasData ? (
         <svg ref={ref} className="w-full" />
       ) : (

@@ -31,13 +31,13 @@ function CheckboxGroup({
           </span>
         )}
       </label>
-      <div className="max-h-40 space-y-0.5 overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] p-2">
+      <div className="max-h-40 space-y-0.5 overflow-y-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] p-2">
         {options.map((option) => {
           const checked = selected.includes(option);
           return (
             <label
               key={option}
-              className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm transition ${
+              className={`flex cursor-pointer items-center gap-2.5 rounded-[2px] px-2.5 py-1.5 text-sm transition ${
                 checked
                   ? "bg-[var(--accent-muted)] font-medium"
                   : "hover:bg-[var(--surface-muted)]"
@@ -80,7 +80,7 @@ function DropdownFilter({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value === "all" ? [] : [e.target.value])}
-        className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-3 py-2.5 text-sm outline-none transition focus:ring-2"
+        className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-3 py-2.5 text-sm outline-none transition focus:ring-2"
         style={{ color: 'var(--foreground)', borderColor: undefined }}
       >
         <option value="all">All regions</option>
@@ -129,7 +129,7 @@ export function FilterPanel() {
         </div>
         <button
           onClick={reset}
-          className="rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 py-1 text-[11px] font-semibold transition hover:opacity-80 active:scale-95"
+          className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 py-1 text-[11px] font-semibold transition hover:opacity-80 active:scale-95"
           style={{ color: 'var(--foreground)' }}
         >
           Reset
@@ -137,12 +137,12 @@ export function FilterPanel() {
       </div>
 
       {/* Active count */}
-      <div className="flex items-center justify-between rounded-xl bg-[var(--surface-muted)] px-3 py-2">
+      <div className="flex items-center justify-between rounded-[2px] bg-[var(--surface-muted)] px-3 py-2">
         <span className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Active filters
         </span>
         <span
-          className="grid h-6 min-w-6 place-items-center rounded-md text-xs font-bold"
+          className="grid h-6 min-w-6 place-items-center rounded-[2px] text-xs font-bold"
           style={
             activeFilters > 0
               ? { background: 'var(--accent)', color: '#fff' }
@@ -168,7 +168,7 @@ export function FilterPanel() {
                 dateRange: [e.target.value, filters.dateRange[1]],
               })
             }
-            className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
+            className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
             style={{ color: 'var(--foreground)' }}
           />
         </div>
@@ -185,7 +185,7 @@ export function FilterPanel() {
                 dateRange: [filters.dateRange[0], e.target.value],
               })
             }
-            className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
+            className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
             style={{ color: 'var(--foreground)' }}
           />
         </div>

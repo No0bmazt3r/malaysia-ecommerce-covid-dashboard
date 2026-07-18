@@ -12,7 +12,7 @@ function ActiveChip({ label, onRemove }: { label: string; onRemove: () => void }
     <button
       type="button"
       onClick={onRemove}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-1 text-xs font-medium transition hover:opacity-80 active:scale-95"
+      className="inline-flex items-center gap-1.5 rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-1 text-xs font-medium transition hover:opacity-80 active:scale-95"
       style={{ color: 'var(--foreground)' }}
     >
       <span>{label}</span>
@@ -101,7 +101,7 @@ export default function Overview() {
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl space-y-2">
-            <span className="inline-flex items-center rounded-md bg-[var(--accent-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--accent)' }}>
+            <span className="inline-flex items-center rounded-[2px] bg-[var(--accent-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--accent)' }}>
               Overview
             </span>
             <h2
@@ -117,24 +117,24 @@ export default function Overview() {
 
           {/* Summary pills */}
           <div className="flex flex-wrap gap-2">
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
+            <div className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
               <div className="text-[10px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
                 Rows
               </div>
               <div
-                className="mt-0.5 text-lg font-bold"
-                style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
+                className="mt-0.5 text-lg font-semibold"
+                style={{ fontFamily: "var(--font-mono)", color: 'var(--foreground)' }}
               >
                 {filteredData.length.toLocaleString()}
               </div>
             </div>
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
+            <div className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-4 py-2.5">
               <div className="text-[10px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
                 Filters
               </div>
               <div
-                className="mt-0.5 text-lg font-bold"
-                style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
+                className="mt-0.5 text-lg font-semibold"
+                style={{ fontFamily: "var(--font-mono)", color: 'var(--foreground)' }}
               >
                 {activeFilters}
               </div>
@@ -144,7 +144,7 @@ export default function Overview() {
 
         {/* Active filter chips */}
         {activeFilters > 0 && (
-          <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-[var(--surface-muted)] px-4 py-3">
+          <div className="mt-4 flex flex-wrap items-center gap-2 rounded-[2px] bg-[var(--surface-muted)] px-4 py-3">
             <span className="mr-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               Active:
             </span>
@@ -175,7 +175,7 @@ export default function Overview() {
         )}
 
         {/* Drill-down hint */}
-        <div className="mt-3 flex items-center gap-2 rounded-lg bg-[var(--accent-muted)] px-3 py-2 text-xs" style={{ color: 'var(--accent)' }}>
+        <div className="mt-3 flex items-center gap-2 rounded-[2px] bg-[var(--accent-muted)] px-3 py-2 text-xs" style={{ color: 'var(--accent)' }}>
           <span className="font-bold">Tip:</span>
           Click any heat map cell to drill down to a specific state and COVID phase.
         </div>

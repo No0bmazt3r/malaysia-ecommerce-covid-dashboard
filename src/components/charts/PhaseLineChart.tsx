@@ -190,7 +190,7 @@ export function PhaseLineChart() {
   }, [filteredData, hasData, theme]);
 
   return (
-    <div className="dashboard-card rounded-[var(--section-radius)] p-5">
+    <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
@@ -203,16 +203,13 @@ export function PhaseLineChart() {
             Revenue aggregated by month with phase-aware filtering.
           </p>
         </div>
-        <span className="rounded-md bg-[var(--accent-muted)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-[var(--accent)]">
-          Revenue
-        </span>
       </div>
       {hasData ? (
-        <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-3">
+        <div className="overflow-x-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] p-3">
           <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
         </div>
       ) : (
-        <div className="grid min-h-[240px] place-items-center rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
+        <div className="grid min-h-[240px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
           <div>
             <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
               No chart data for the current filters
