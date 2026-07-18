@@ -6,15 +6,15 @@ export default function Customer() {
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
-        <span className="inline-flex items-center rounded-md bg-blue-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-blue-600 dark:text-blue-300">
+        <span className="inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(93, 143, 163, 0.12)', color: '#5D8FA3' }}>
           Customer Segmentation
         </span>
-        <h2 className="display-heading mt-3 text-2xl text-slate-950 dark:text-white">
+        <h2 className="display-heading mt-3 text-2xl" style={{ color: 'var(--foreground)' }}>
           Audience Analysis
         </h2>
-        <p className="mt-1.5 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
+        <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Understand how different customer segments performed.{" "}
-          <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+          <span className="font-semibold" style={{ color: '#8DB596' }}>
             Note the Loyal-VIP cluster spike during MCO.
           </span>
         </p>

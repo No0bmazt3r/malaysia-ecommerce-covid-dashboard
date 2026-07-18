@@ -19,10 +19,17 @@ export function ModeSwitcher() {
           className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-all duration-200 ${
             mode === m.id
               ? m.id === "kiosk"
-                ? "bg-amber-400 text-slate-950 shadow-sm"
-                : "bg-[var(--accent)] text-white shadow-sm"
-              : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                ? "shadow-sm"
+                : "text-white shadow-sm"
+              : ""
           }`}
+          style={
+            mode === m.id
+              ? m.id === "kiosk"
+                ? { background: "#E4B363", color: "#0B2A4A" }
+                : { background: "var(--accent)" }
+              : { color: "var(--foreground)", opacity: 0.55 }
+          }
           aria-label={`Switch to ${m.label} mode`}
         >
           <span className={m.id === "kiosk" ? "text-base" : "text-sm"}>{m.icon}</span>

@@ -23,14 +23,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Left: brand + nav */}
               <div className="flex items-center gap-5">
                 <div className="flex items-center gap-2.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 text-sm font-bold text-white shadow-sm">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg text-sm font-bold text-white shadow-sm" style={{ background: 'linear-gradient(135deg, #0B2A4A, #5D8FA3)' }}>
                     MY
                   </span>
                   <div className="hidden sm:block">
-                    <h1 className="display-heading text-base text-slate-950 dark:text-white">
+                    <h1 className="display-heading text-base" style={{ color: 'var(--foreground)' }}>
                       E-Commerce × COVID
                     </h1>
-                    <p className="text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400">
+                    <p className="text-[11px] font-medium tracking-wide" style={{ color: 'var(--secondary, #5D8FA3)' }}>
                       Group 8 • TEB3133 / TFB3133
                     </p>
                   </div>
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
 
           <footer className="border-t border-[var(--border)] mt-12">
-            <div className="mx-auto w-full px-5 md:px-8 py-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <div className="mx-auto w-full px-5 md:px-8 py-4 flex items-center justify-between text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               <span>Group 8 • Malaysia E-Commerce COVID Dashboard</span>
               <span>TEB3133 / TFB3133 Data Visualization</span>
             </div>

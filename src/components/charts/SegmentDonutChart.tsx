@@ -17,7 +17,7 @@ export function SegmentDonutChart() {
     svg.selectAll("*").remove();
 
     const isDark = theme === "dark";
-    const labelColor = isDark ? "#e2e8f0" : "#1e293b";
+    const labelColor = isDark ? "#E8ECF0" : "#0B2A4A";
 
     const width = 400;
     const height = 300;
@@ -31,7 +31,7 @@ export function SegmentDonutChart() {
 
     const color = d3.scaleOrdinal<string>()
       .domain(["New", "Returning", "Loyal/VIP"])
-      .range(["#38bdf8", "#818cf8", "#34d399"]);
+      .range(["#5D8FA3", "#63B7B2", "#8DB596"]);
 
     const pie = d3.pie<any>().value(d => d.value).sort(null);
     const arc = d3.arc<any>().innerRadius(radius * 0.6).outerRadius(radius);
@@ -40,8 +40,8 @@ export function SegmentDonutChart() {
     const tooltip = d3.select("body").append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "8px")
       .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
@@ -59,7 +59,7 @@ export function SegmentDonutChart() {
     arcs.append("path")
       .attr("d", arc)
       .attr("fill", d => color(d.data.key))
-      .attr("stroke", isDark ? "#0f172a" : "#ffffff")
+      .attr("stroke", isDark ? "#0F1E2E" : "#ffffff")
       .attr("stroke-width", 2)
       .style("cursor", "pointer")
       .on("mouseover", function(event, d) {
@@ -88,8 +88,8 @@ export function SegmentDonutChart() {
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Revenue by Segment</h3>
-      <p className="text-xs text-slate-500 mb-4">Distribution of sales across customer segments.</p>
-      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm text-slate-500">No data</p>}
+      <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Distribution of sales across customer segments.</p>
+      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>}
     </div>
   );
 }

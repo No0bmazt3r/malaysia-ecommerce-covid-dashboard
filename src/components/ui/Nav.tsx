@@ -26,14 +26,22 @@ export function Nav() {
             aria-selected={active}
             className={`relative flex items-center gap-2 rounded-lg px-3.5 py-2 text-[13px] font-semibold transition-all duration-200 ${
               active
-                ? "bg-white text-indigo-600 shadow-md ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-indigo-400 dark:ring-white/10"
-                : "text-slate-500 hover:bg-slate-200/50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-slate-200"
+                ? "bg-[var(--surface-strong)] shadow-md ring-1 ring-[var(--border)]"
+                : "hover:bg-[var(--border)]"
             }`}
+            style={
+              active
+                ? { color: "var(--accent)" }
+                : { color: "var(--foreground)", opacity: 0.6 }
+            }
           >
             <span className={`text-[11px] ${active ? "opacity-100" : "opacity-50"}`}>{l.icon}</span>
             {l.label}
             {active && (
-              <span className="absolute inset-x-3 -bottom-[1px] h-[2px] rounded-t-full bg-indigo-600 dark:bg-indigo-400" />
+              <span
+                className="absolute inset-x-3 -bottom-[1px] h-[2px] rounded-t-full"
+                style={{ background: "var(--accent)" }}
+              />
             )}
           </Link>
         );

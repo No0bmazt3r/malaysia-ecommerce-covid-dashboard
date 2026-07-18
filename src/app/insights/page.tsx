@@ -6,7 +6,8 @@ export default function Insights() {
       tint: "insight-card-rose",
       icon: "🔴",
       tag: "Anomaly",
-      tagColor: "bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-300",
+      tagBg: "rgba(217, 108, 108, 0.12)",
+      tagColor: "#D96C6C",
     },
     {
       title: "Hidden Cluster: Selangor/KL + Groceries + Loyal-VIP + MCO",
@@ -14,7 +15,8 @@ export default function Insights() {
       tint: "insight-card-emerald",
       icon: "🟢",
       tag: "Cluster",
-      tagColor: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300",
+      tagBg: "rgba(141, 181, 150, 0.12)",
+      tagColor: "#8DB596",
     },
     {
       title: "Debunked: Discounts Do NOT Drive Revenue",
@@ -22,7 +24,8 @@ export default function Insights() {
       tint: "insight-card-slate",
       icon: "⚪",
       tag: "Debunked",
-      tagColor: "bg-slate-100 text-slate-700 dark:bg-slate-500/10 dark:text-slate-300",
+      tagBg: "rgba(198, 193, 188, 0.15)",
+      tagColor: "var(--secondary, #5D8FA3)",
     },
     {
       title: "MCO Delivery Shock & Rating Drop",
@@ -30,7 +33,8 @@ export default function Insights() {
       tint: "insight-card-amber",
       icon: "🟠",
       tag: "Impact",
-      tagColor: "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300",
+      tagBg: "rgba(228, 179, 99, 0.12)",
+      tagColor: "#E4B363",
     },
   ];
 
@@ -38,15 +42,16 @@ export default function Insights() {
     <div className="space-y-6">
       {/* Page header */}
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
-        <span className="inline-flex items-center rounded-md bg-[var(--accent-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--accent)]">
+        <span className="inline-flex items-center rounded-md bg-[var(--accent-muted)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--accent)' }}>
           Insights
         </span>
         <h2
-          className="display-heading mt-3 text-2xl text-slate-950 dark:text-white"
+          className="display-heading mt-3 text-2xl"
+          style={{ color: 'var(--foreground)' }}
         >
           Actionable Business Insights
         </h2>
-        <p className="mt-1.5 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
+        <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Key discoveries from multivariate analysis of the dataset. Each finding is cross-referenced with the dashboard visualizations.
         </p>
       </section>
@@ -62,18 +67,19 @@ export default function Insights() {
             <div className="mb-3 flex items-center gap-2">
               <span className="text-lg">{ins.icon}</span>
               <span
-                className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.15em] ${ins.tagColor}`}
+                className="rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.15em]"
+                style={{ background: ins.tagBg, color: ins.tagColor }}
               >
                 {ins.tag}
               </span>
             </div>
             <h3
-              className="text-base font-bold tracking-tight text-slate-950 dark:text-white"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="text-base font-bold tracking-tight"
+              style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
             >
               {ins.title}
             </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-300">
+            <p className="mt-2 text-sm leading-6" style={{ color: 'var(--foreground)', opacity: 0.75 }}>
               {ins.body}
             </p>
           </div>

@@ -13,13 +13,13 @@ export default function Product() {
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
           <div>
-            <span className="inline-flex items-center rounded-md bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-300">
+            <span className="inline-flex items-center rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(141, 181, 150, 0.12)', color: '#8DB596' }}>
               Product analysis
             </span>
-            <h2 className="display-heading mt-3 text-2xl text-slate-950 dark:text-white">
+            <h2 className="display-heading mt-3 text-2xl" style={{ color: 'var(--foreground)' }}>
               Product &amp; Correlation Analysis
             </h2>
-            <p className="mt-1.5 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
+            <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               Deep dive into top performing SKUs, category revenues, and complex multivariate correlations.
             </p>
           </div>
@@ -27,7 +27,7 @@ export default function Product() {
           <div className="relative flex items-center rounded-lg bg-[var(--surface-muted)] p-1.5 shadow-inner self-start">
             {/* Sliding Pill Background */}
             <div
-              className={`absolute bottom-1.5 left-1.5 top-1.5 rounded-md bg-white shadow-sm transition-all duration-300 ease-out dark:bg-slate-800 ${
+              className={`absolute bottom-1.5 left-1.5 top-1.5 rounded-md bg-[var(--surface-strong)] shadow-sm transition-all duration-300 ease-out ${
                 activeTab === "performance"
                   ? "w-[108px] translate-x-0"
                   : "w-[146px] translate-x-[108px]"
@@ -36,22 +36,16 @@ export default function Product() {
             
             <button
               onClick={() => setActiveTab("performance")}
-              className={`relative z-10 w-[108px] rounded-md py-2 text-sm font-medium transition-colors ${
-                activeTab === "performance"
-                  ? "text-slate-900 dark:text-white"
-                  : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
-              }`}
+              className={`relative z-10 w-[108px] rounded-md py-2 text-sm font-medium transition-colors`}
+              style={{ color: activeTab === "performance" ? 'var(--foreground)' : 'var(--secondary, #5D8FA3)' }}
             >
               Performance
             </button>
             
             <button
               onClick={() => setActiveTab("correlation")}
-              className={`relative z-10 w-[146px] rounded-md py-2 text-sm font-medium transition-colors ${
-                activeTab === "correlation"
-                  ? "text-slate-900 dark:text-white"
-                  : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
-              }`}
+              className={`relative z-10 w-[146px] rounded-md py-2 text-sm font-medium transition-colors`}
+              style={{ color: activeTab === "correlation" ? 'var(--foreground)' : 'var(--secondary, #5D8FA3)' }}
             >
               Correlation Matrix
             </button>

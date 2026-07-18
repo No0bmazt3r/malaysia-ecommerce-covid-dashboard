@@ -19,9 +19,9 @@ export function PhaseLineChart() {
 
     const isDark = theme === "dark";
     const axisColor = isDark ? "#94a3b8" : "#64748b";
-    const gridColor = isDark ? "rgba(148, 163, 184, 0.12)" : "rgba(148, 163, 184, 0.18)";
-    const lineStroke = isDark ? "#38bdf8" : "#0ea5e9";
-    const dotFill = isDark ? "#38bdf8" : "#0ea5e9";
+    const gridColor = isDark ? "rgba(198, 193, 188, 0.12)" : "rgba(198, 193, 188, 0.22)";
+    const lineStroke = isDark ? "#6B9DB1" : "#5D8FA3";
+    const dotFill = isDark ? "#6B9DB1" : "#5D8FA3";
 
     const margin = { top: 20, right: 24, bottom: 56, left: 64 };
     const width = 800 - margin.left - margin.right;
@@ -43,9 +43,9 @@ export function PhaseLineChart() {
       .style("opacity", 0)
       .style("padding", "8px 12px")
       .style("border-radius", "10px")
-      .style("border", `1px solid ${isDark ? "rgba(148,163,184,0.15)" : "rgba(148,163,184,0.25)"}`)
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("border", `1px solid ${isDark ? "rgba(198, 193, 188, 0.15)" : "rgba(198, 193, 188, 0.3)"}`)
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("box-shadow", "0 8px 32px rgba(15, 23, 42, 0.16)")
       .style("font-size", "12px")
       .style("font-family", "Inter, system-ui, sans-serif")
@@ -161,7 +161,7 @@ export function PhaseLineChart() {
       .attr("cy", (d) => y(d.revenue))
       .attr("r", 3.5)
       .attr("fill", dotFill)
-      .attr("stroke", isDark ? "#0f172a" : "#ffffff")
+      .attr("stroke", isDark ? "#0F1E2E" : "#ffffff")
       .attr("stroke-width", 2)
       .style("cursor", "pointer")
       .on("mouseenter", function (event, d) {
@@ -194,12 +194,12 @@ export function PhaseLineChart() {
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
-            className="text-lg font-bold tracking-tight text-slate-950 dark:text-white"
-            style={{ fontFamily: "var(--font-display)" }}
+            className="text-lg font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
           >
             Monthly Revenue Trend
           </h3>
-          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-0.5 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             Revenue aggregated by month with phase-aware filtering.
           </p>
         </div>
@@ -214,10 +214,10 @@ export function PhaseLineChart() {
       ) : (
         <div className="grid min-h-[240px] place-items-center rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
           <div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
               No chart data for the current filters
             </p>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               Clear one or more filters to bring the revenue trend back.
             </p>
           </div>

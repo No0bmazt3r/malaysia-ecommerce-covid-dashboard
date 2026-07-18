@@ -58,8 +58,8 @@ export function CustomerAgeScatterPlot() {
     const tooltip = d3.select("body").append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "8px")
       .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
@@ -74,7 +74,7 @@ export function CustomerAgeScatterPlot() {
       .attr("cx", d => (x(d.age) || 0) + (Math.random() - 0.5) * jitter)
       .attr("cy", d => y(d.aov))
       .attr("r", 3)
-      .attr("fill", isDark ? "#818cf8" : "#6366f1")
+      .attr("fill", isDark ? "#6B9DB1" : "#5D8FA3")
       .attr("opacity", 0.6)
       .on("mouseover", function(event, d) {
         d3.select(this).attr("r", 6).attr("opacity", 1);
@@ -93,8 +93,8 @@ export function CustomerAgeScatterPlot() {
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Age vs Average Order Value</h3>
-      <p className="text-xs text-slate-500 mb-4">Customer-level AOV spread across age groups.</p>
-      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm text-slate-500">No data</p>}
+      <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Customer-level AOV spread across age groups.</p>
+      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>}
     </div>
   );
 }

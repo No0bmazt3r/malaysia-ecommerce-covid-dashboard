@@ -50,7 +50,7 @@ export function SegmentGroupedBarChart() {
 
     const color = d3.scaleOrdinal<string>()
       .domain(segments)
-      .range(["#38bdf8", "#818cf8", "#34d399"]);
+      .range(["#5D8FA3", "#63B7B2", "#8DB596"]);
 
     g.append("g")
       .attr("transform", `translate(0,${height})`)
@@ -64,8 +64,8 @@ export function SegmentGroupedBarChart() {
     const tooltip = d3.select("body").append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "8px")
       .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
@@ -105,8 +105,8 @@ export function SegmentGroupedBarChart() {
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Segment Revenue by Phase</h3>
-      <p className="text-xs text-slate-500 mb-4">Track which segments drive revenue through different COVID phases.</p>
-      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm text-slate-500">No data</p>}
+      <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Track which segments drive revenue through different COVID phases.</p>
+      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>}
     </div>
   );
 }

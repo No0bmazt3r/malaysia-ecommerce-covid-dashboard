@@ -57,7 +57,7 @@ export function CategoryStateStackedBar() {
     const x = d3.scaleLinear().domain([0, d3.max(stackedData, (d) => d.total) || 0]).range([0, width]);
     const y = d3.scaleBand().domain(stackedData.map((d) => d.state)).range([0, height]).padding(0.2);
     
-    const color = d3.scaleOrdinal(d3.schemeSet2).domain(categories);
+    const color = d3.scaleOrdinal(["#0B2A4A", "#5D8FA3", "#63B7B2", "#E4B363", "#D96C6C", "#8DB596", "#C6C1BC", "#A8D5D1"]).domain(categories);
 
     g.append("g")
       .attr("transform", `translate(0,${height})`)
@@ -73,8 +73,8 @@ export function CategoryStateStackedBar() {
       .append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "8px")
       .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
@@ -125,11 +125,11 @@ export function CategoryStateStackedBar() {
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Category Distribution by State</h3>
-      <p className="text-xs text-slate-500 mb-4">Breakdown of orders by product category for each state.</p>
+      <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Breakdown of orders by product category for each state.</p>
       {hasData ? (
         <svg ref={ref} className="w-full" />
       ) : (
-        <p className="text-sm text-slate-500">No data</p>
+        <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>
       )}
     </div>
   );

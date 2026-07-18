@@ -19,8 +19,8 @@ export function HeatMap() {
 
     const isDark = theme === "dark";
     const axisColor = isDark ? "#94a3b8" : "#64748b";
-    const gridColor = isDark ? "rgba(148, 163, 184, 0.12)" : "rgba(148, 163, 184, 0.18)";
-    const cellStroke = isDark ? "rgba(15, 23, 42, 0.5)" : "rgba(255, 255, 255, 0.8)";
+    const gridColor = isDark ? "rgba(198, 193, 188, 0.12)" : "rgba(198, 193, 188, 0.22)";
+    const cellStroke = isDark ? "rgba(15, 30, 46, 0.5)" : "rgba(255, 255, 255, 0.8)";
 
     const margin = { top: 10, right: 24, bottom: 80, left: 110 };
     const width = 800 - margin.left - margin.right;
@@ -137,11 +137,11 @@ export function HeatMap() {
       .append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255,255,255,0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "10px")
-      .style("border", `1px solid ${isDark ? "rgba(148,163,184,0.15)" : "rgba(148,163,184,0.25)"}`)
+      .style("border", `1px solid ${isDark ? "rgba(198, 193, 188, 0.15)" : "rgba(198, 193, 188, 0.3)"}`)
       .style("box-shadow", "0 8px 32px rgba(15, 23, 42, 0.16)")
       .style("font-size", "12px")
       .style("font-family", "Inter, system-ui, sans-serif")
@@ -166,7 +166,7 @@ export function HeatMap() {
       .style("cursor", "pointer")
       .style("transition", "opacity 0.15s")
       .on("mouseover", function (event, d) {
-        d3.select(this).attr("stroke", isDark ? "#38bdf8" : "#0ea5e9").attr("stroke-width", 2.5);
+        d3.select(this).attr("stroke", isDark ? "#74C5C0" : "#63B7B2").attr("stroke-width", 2.5);
         tooltip
           .style("opacity", 1)
           .html(
@@ -202,16 +202,16 @@ export function HeatMap() {
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
-            className="text-lg font-bold tracking-tight text-slate-950 dark:text-white"
-            style={{ fontFamily: "var(--font-display)" }}
+            className="text-lg font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
           >
             Revenue Heat Map: State × COVID Phase
           </h3>
-          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-0.5 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             Click any cell to cross-filter the dashboard.
           </p>
         </div>
-        <span className="rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-600 dark:text-amber-300">
+        <span className="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(228, 179, 99, 0.12)', color: '#E4B363' }}>
           Cross-filter
         </span>
       </div>
@@ -222,10 +222,10 @@ export function HeatMap() {
       ) : (
         <div className="grid min-h-[280px] place-items-center rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
           <div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
               No matching regional data
             </p>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               Broaden the date range or clear the state and phase filters.
             </p>
           </div>

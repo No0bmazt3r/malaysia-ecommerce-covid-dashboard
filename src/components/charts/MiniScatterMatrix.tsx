@@ -26,8 +26,8 @@ export function MiniScatterMatrix() {
 
     const isDark = theme === "dark";
     const axisColor = isDark ? "#94a3b8" : "#64748b";
-    const dotColor = isDark ? "rgba(129, 140, 248, 0.4)" : "rgba(99, 102, 241, 0.4)";
-    const diagBg = isDark ? "rgba(15, 23, 42, 0.6)" : "#f1f5f9";
+    const dotColor = isDark ? "rgba(107, 157, 177, 0.4)" : "rgba(93, 143, 163, 0.4)";
+    const diagBg = isDark ? "rgba(15, 30, 46, 0.6)" : "#F6F3EC";
 
     // Only render the 3 most critical variables for the mini version
     const vars: { key: keyof (typeof filteredData)[0]; label: string }[] = [
@@ -56,8 +56,8 @@ export function MiniScatterMatrix() {
       .append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "8px")
       .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
@@ -77,7 +77,7 @@ export function MiniScatterMatrix() {
           .attr("width", size)
           .attr("height", size)
           .attr("fill", "none")
-          .attr("stroke", isDark ? "#334155" : "#e2e8f0");
+          .attr("stroke", isDark ? "#1E2E3E" : "#E8ECF0");
 
         if (i === j) {
           cell
@@ -113,7 +113,7 @@ export function MiniScatterMatrix() {
             .on("mouseover", function (event, d: any) {
               d3.select(this)
                 .attr("r", 5)
-                .attr("fill", isDark ? "#f43f5e" : "#e11d48")
+                .attr("fill", isDark ? "#E48585" : "#D96C6C")
                 .style("opacity", 1);
 
               tooltip
@@ -143,12 +143,12 @@ export function MiniScatterMatrix() {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-lg font-bold">Correlation Overview (Sampled)</h3>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             Lightweight 3×3 matrix comparing Revenue, Ad Spend, and Rating.
           </p>
         </div>
         <Link href="/product">
-          <button className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
+          <button className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent-muted)] px-3 py-1.5 text-sm font-semibold text-[var(--accent)] hover:opacity-80 transition-colors">
             View Full 6×6 Matrix <span>→</span>
           </button>
         </Link>
@@ -158,7 +158,7 @@ export function MiniScatterMatrix() {
         {hasData ? (
           <svg ref={ref} className="mx-auto min-w-[500px] w-full max-w-[700px]" />
         ) : (
-          <p className="text-sm text-slate-500">No data</p>
+          <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>
         )}
       </div>
     </div>

@@ -23,10 +23,10 @@ function CheckboxGroup({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+      <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
         {label}
         {selected.length > 0 && (
-          <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--accent)] px-1 text-[10px] font-bold text-white">
+          <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white" style={{ background: 'var(--accent)' }}>
             {selected.length}
           </span>
         )}
@@ -39,15 +39,17 @@ function CheckboxGroup({
               key={option}
               className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm transition ${
                 checked
-                  ? "bg-[var(--accent-muted)] text-[var(--foreground)] font-medium"
-                  : "text-slate-600 hover:bg-[var(--surface-muted)] dark:text-slate-300"
+                  ? "bg-[var(--accent-muted)] font-medium"
+                  : "hover:bg-[var(--surface-muted)]"
               }`}
+              style={{ color: 'var(--foreground)' }}
             >
               <input
                 type="checkbox"
                 checked={checked}
                 onChange={() => toggle(option)}
-                className="h-3.5 w-3.5 rounded border-slate-300 text-[var(--accent)] focus:ring-[var(--accent)]"
+                className="h-3.5 w-3.5 rounded"
+                style={{ accentColor: 'var(--accent)' }}
               />
               <span className="truncate">{option}</span>
             </label>
@@ -72,13 +74,14 @@ function DropdownFilter({
   const value = selected[0] ?? "all";
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+      <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
         {label}
       </label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value === "all" ? [] : [e.target.value])}
-        className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-3 py-2.5 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)]"
+        className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-3 py-2.5 text-sm outline-none transition focus:ring-2"
+        style={{ color: 'var(--foreground)', borderColor: undefined }}
       >
         <option value="all">All regions</option>
         {options.map((option) => (
@@ -115,18 +118,19 @@ export function FilterPanel() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3
-            className="text-base font-bold text-slate-950 dark:text-white"
-            style={{ fontFamily: "var(--font-display)" }}
+            className="text-base font-bold"
+            style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
           >
             Filters
           </h3>
-          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-0.5 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             Refine the data and cross-filter the charts.
           </p>
         </div>
         <button
           onClick={reset}
-          className="rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 py-1 text-[11px] font-semibold text-slate-600 transition hover:bg-slate-100 active:scale-95 dark:text-slate-300 dark:hover:bg-slate-800"
+          className="rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 py-1 text-[11px] font-semibold transition hover:opacity-80 active:scale-95"
+          style={{ color: 'var(--foreground)' }}
         >
           Reset
         </button>
@@ -134,15 +138,16 @@ export function FilterPanel() {
 
       {/* Active count */}
       <div className="flex items-center justify-between rounded-xl bg-[var(--surface-muted)] px-3 py-2">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Active filters
         </span>
         <span
-          className={`grid h-6 min-w-6 place-items-center rounded-md text-xs font-bold ${
+          className="grid h-6 min-w-6 place-items-center rounded-md text-xs font-bold"
+          style={
             activeFilters > 0
-              ? "bg-[var(--accent)] text-white"
-              : "bg-[var(--border)] text-slate-500"
-          }`}
+              ? { background: 'var(--accent)', color: '#fff' }
+              : { background: 'var(--border)', color: 'var(--foreground)', opacity: 0.5 }
+          }
         >
           {activeFilters}
         </span>
@@ -151,7 +156,7 @@ export function FilterPanel() {
       {/* Date range */}
       <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+          <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             From
           </label>
           <input
@@ -163,11 +168,12 @@ export function FilterPanel() {
                 dateRange: [e.target.value, filters.dateRange[1]],
               })
             }
-            className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)]"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
+            style={{ color: 'var(--foreground)' }}
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
+          <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             To
           </label>
           <input
@@ -179,7 +185,8 @@ export function FilterPanel() {
                 dateRange: [filters.dateRange[0], e.target.value],
               })
             }
-            className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-muted)]"
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
+            style={{ color: 'var(--foreground)' }}
           />
         </div>
       </div>

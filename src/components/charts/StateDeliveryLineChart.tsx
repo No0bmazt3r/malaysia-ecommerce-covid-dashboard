@@ -46,7 +46,7 @@ export function StateDeliveryLineChart() {
     const maxVal = d3.max(Array.from(rollups.values()).flatMap(m => Array.from(m.values()))) || 0;
     const y = d3.scaleLinear().domain([0, maxVal * 1.2]).range([height, 0]);
 
-    const color = d3.scaleOrdinal(d3.schemeCategory10).domain(topStates);
+    const color = d3.scaleOrdinal(["#0B2A4A", "#5D8FA3", "#63B7B2", "#E4B363", "#D96C6C"]).domain(topStates);
 
     g.append("g")
       .attr("transform", `translate(0,${height})`)
@@ -66,8 +66,8 @@ export function StateDeliveryLineChart() {
       .append("div")
       .attr("class", "chart-tooltip")
       .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("padding", "8px 12px")
       .style("border-radius", "8px")
       .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
@@ -122,11 +122,11 @@ export function StateDeliveryLineChart() {
   return (
     <div className="dashboard-card rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Delivery Time Trends by State</h3>
-      <p className="text-xs text-slate-500 mb-4">Average delivery time (days) across COVID phases for top states.</p>
+      <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Average delivery time (days) across COVID phases for top states.</p>
       {hasData ? (
         <svg ref={ref} className="w-full" />
       ) : (
-        <p className="text-sm text-slate-500">No data</p>
+        <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>
       )}
     </div>
   );

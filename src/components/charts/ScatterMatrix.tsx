@@ -18,10 +18,10 @@ export function ScatterMatrix() {
     svg.selectAll("*").remove();
 
     const isDark = theme === "dark";
-    const panelFill = isDark ? "rgba(15, 23, 42, 0.4)" : "#f8fafc";
-    const borderColor = isDark ? "rgba(148, 163, 184, 0.12)" : "rgba(148, 163, 184, 0.2)";
-    const labelColor = isDark ? "#cbd5e1" : "#475569";
-    const diagBg = isDark ? "rgba(15, 23, 42, 0.6)" : "#f1f5f9";
+    const panelFill = isDark ? "rgba(15, 30, 46, 0.4)" : "#FAFBFC";
+    const borderColor = isDark ? "#1E2E3E" : "#E8ECF0";
+    const labelColor = isDark ? "#CBD5E1" : "#475569";
+    const diagBg = isDark ? "rgba(15, 30, 46, 0.6)" : "#F6F3EC";
 
     const vars: { key: keyof (typeof filteredData)[0]; label: string }[] = [
       { key: "sales_revenue", label: "Revenue" },
@@ -47,7 +47,7 @@ export function ScatterMatrix() {
     const phaseColor = d3
       .scaleOrdinal<string>()
       .domain(["Pre-MCO", "MCO", "CMCO", "RMCO"])
-      .range(["#10b981", "#ef4444", "#f59e0b", "#3b82f6"]);
+      .range(["#8DB596", "#D96C6C", "#E4B363", "#5D8FA3"]);
 
     // Tooltip
     const tooltip = d3
@@ -59,9 +59,9 @@ export function ScatterMatrix() {
       .style("opacity", 0)
       .style("padding", "8px 12px")
       .style("border-radius", "10px")
-      .style("border", `1px solid ${isDark ? "rgba(148,163,184,0.15)" : "rgba(148,163,184,0.25)"}`)
-      .style("background", isDark ? "rgba(15, 23, 42, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#e2e8f0" : "#0f172a")
+      .style("border", `1px solid ${isDark ? "rgba(198, 193, 188, 0.15)" : "rgba(198, 193, 188, 0.3)"}`)
+      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
+      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
       .style("box-shadow", "0 8px 32px rgba(15, 23, 42, 0.16)")
       .style("font-size", "12px")
       .style("font-family", "Inter, system-ui, sans-serif")
@@ -166,7 +166,7 @@ export function ScatterMatrix() {
       .attr("width", 120)
       .attr("height", 100)
       .attr("rx", 8)
-      .attr("fill", isDark ? "rgba(15, 23, 42, 0.8)" : "rgba(255,255,255,0.9)")
+      .attr("fill", isDark ? "rgba(15, 30, 46, 0.8)" : "rgba(255, 255, 255, 0.9)")
       .attr("stroke", borderColor);
 
     ["Pre-MCO", "MCO", "CMCO", "RMCO"].forEach((p, i) => {
@@ -196,20 +196,20 @@ export function ScatterMatrix() {
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
           <h3
-            className="text-lg font-bold tracking-tight text-slate-950 dark:text-white"
-            style={{ fontFamily: "var(--font-display)" }}
+            className="text-lg font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
           >
             Scatter Plot Matrix
           </h3>
-          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+          <p className="mt-0.5 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
             Explore relationships across ad spend, delivery, revenue, and rating.
           </p>
         </div>
-        <span className="rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600 dark:text-emerald-300">
+        <span className="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.15em]" style={{ background: 'rgba(141, 181, 150, 0.12)', color: '#8DB596' }}>
           Correlation
         </span>
       </div>
-      <p className="mb-3 text-[11px] text-slate-500 dark:text-slate-400">
+      <p className="mb-3 text-[11px]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
         Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈−0.75).
       </p>
       {loading ? (
@@ -221,10 +221,10 @@ export function ScatterMatrix() {
       ) : (
         <div className="grid min-h-[280px] place-items-center rounded-xl border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
           <div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
               No scatter points to plot
             </p>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               Adjust the filters to restore the correlation matrix.
             </p>
           </div>
