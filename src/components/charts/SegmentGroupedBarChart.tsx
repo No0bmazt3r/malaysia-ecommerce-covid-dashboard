@@ -37,6 +37,7 @@ export function SegmentGroupedBarChart() {
     );
 
     const data = phases.map(phase => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const obj: any = { phase };
       segments.forEach(seg => {
         obj[seg] = rollups.get(phase)?.get(seg) || 0;

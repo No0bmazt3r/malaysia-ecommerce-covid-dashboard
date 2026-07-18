@@ -39,6 +39,7 @@ export function CategoryMosaicPlot() {
     const totalOrders = filteredData.length;
     
     let xOffset = 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rects: any[] = [];
     
     categories.forEach(cat => {

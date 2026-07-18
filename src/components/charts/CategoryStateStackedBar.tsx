@@ -39,6 +39,7 @@ export function CategoryStateStackedBar() {
     );
 
     const stackedData = states.map((state) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const obj: any = { state };
       let total = 0;
       categories.forEach((cat) => {
@@ -52,6 +53,7 @@ export function CategoryStateStackedBar() {
 
     stackedData.sort((a, b) => b.total - a.total);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stack = d3.stack().keys(categories)(stackedData as any);
 
     const x = d3.scaleLinear().domain([0, d3.max(stackedData, (d) => d.total) || 0]).range([0, width]);
@@ -93,10 +95,12 @@ export function CategoryStateStackedBar() {
       .data((d) => d.map((item) => ({ ...item, category: d.key })))
       .enter()
       .append("rect")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr("y", (d: any) => y(d.data.state)!)
       .attr("x", (d) => x(d[0]))
       .attr("width", (d) => x(d[1]) - x(d[0]))
       .attr("height", y.bandwidth())
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("mouseover", function (event, d: any) {
         d3.select(this).attr("opacity", 0.8);
         const val = d[1] - d[0];

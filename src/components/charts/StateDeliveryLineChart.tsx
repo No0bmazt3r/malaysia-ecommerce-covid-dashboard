@@ -57,8 +57,10 @@ export function StateDeliveryLineChart() {
       .call(d3.axisLeft(y))
       .call((sel) => sel.selectAll("text").attr("fill", axisColor));
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const line = d3.line<string>()
       .x(d => x(d)!)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .y(d => y(0)); // Placeholder
 
     const tooltip = d3

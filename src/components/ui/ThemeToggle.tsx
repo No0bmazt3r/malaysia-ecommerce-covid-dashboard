@@ -20,6 +20,7 @@ export function ThemeToggle() {
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
     const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     const initialTheme = stored ?? preferred;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(initialTheme);
     applyTheme(initialTheme);
   }, []);

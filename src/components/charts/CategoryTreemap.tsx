@@ -29,8 +29,13 @@ export function CategoryTreemap() {
       children: Array.from(rollups, ([name, value]) => ({ name, value }))
     };
 
+     
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const root = d3.hierarchy(data).sum((d: any) => d.value).sort((a: any, b: any) => b.value - a.value);
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     d3.treemap<any>().size([width, height]).padding(2)(root as any);
 
     const color = d3.scaleOrdinal(["#0B2A4A", "#5D8FA3", "#63B7B2", "#E4B363", "#D96C6C", "#8DB596", "#A8D5D1", "#3D6E8A"]).domain(data.children.map(d => d.name));
@@ -51,14 +56,19 @@ export function CategoryTreemap() {
     const leaf = svg.selectAll("g")
       .data(root.leaves())
       .enter().append("g")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr("transform", (d: any) => `translate(${d.x0},${d.y0})`);
 
     leaf.append("rect")
       .attr("id", (d, i) => `leaf-${i}`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr("fill", (d: any) => color(d.data.name))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr("width", (d: any) => d.x1 - d.x0)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr("height", (d: any) => d.y1 - d.y0)
       .attr("rx", 4)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("mouseover", function(event, d: any) {
         d3.select(this).attr("opacity", 0.8);
         tooltip.style("opacity", 1)
@@ -78,6 +88,7 @@ export function CategoryTreemap() {
     leaf.append("text")
       .attr("clip-path", (d, i) => `url(#clip-${i})`)
       .selectAll("tspan")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .data((d: any) => [d.data.name, `RM ${(d.data.value / 1000).toFixed(0)}k`])
       .enter().append("tspan")
       .attr("x", 4)

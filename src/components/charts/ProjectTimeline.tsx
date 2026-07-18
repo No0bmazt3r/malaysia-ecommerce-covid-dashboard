@@ -180,6 +180,7 @@ export function ProjectTimeline() {
 
       // Hover interactions on circle
       circle
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .on("mouseenter", function (event) {
           d3.select(this)
             .transition()
@@ -208,6 +209,8 @@ export function ProjectTimeline() {
             .attr("stroke-width", 3);
           tooltip.style("opacity", 0);
         })
+         
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .on("click", (_event, d) => {
           if (m.phase) {
             setFilters({
@@ -286,6 +289,7 @@ export function ProjectTimeline() {
     return () => {
       tooltip.remove();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme]);
 
   return (

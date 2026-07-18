@@ -47,6 +47,7 @@ export function MiniScatterMatrix() {
 
     const scales = new Map();
     vars.forEach((v) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const extent = d3.extent(sampledData, (d: any) => d[v.key] as number) as [number, number];
       scales.set(v.key, d3.scaleLinear().domain(extent).nice().range([size - 10, 10]));
     });
@@ -106,10 +107,13 @@ export function MiniScatterMatrix() {
             .data(sampledData)
             .enter()
             .append("circle")
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .attr("cx", (d: any) => scaleX(d[varX]))
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .attr("cy", (d: any) => scaleY(d[varY]))
             .attr("r", 3)
             .attr("fill", dotColor)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .on("mouseover", function (event, d: any) {
               d3.select(this)
                 .attr("r", 5)

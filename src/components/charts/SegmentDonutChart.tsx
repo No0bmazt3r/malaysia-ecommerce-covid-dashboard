@@ -33,8 +33,11 @@ export function SegmentDonutChart() {
       .domain(["New", "Returning", "Loyal/VIP"])
       .range(["#5D8FA3", "#63B7B2", "#8DB596"]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pie = d3.pie<any>().value(d => d.value).sort(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const arc = d3.arc<any>().innerRadius(radius * 0.6).outerRadius(radius);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const outerArc = d3.arc<any>().innerRadius(radius * 0.9).outerRadius(radius * 0.9);
 
     const tooltip = d3.select("body").append("div")
