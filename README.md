@@ -61,6 +61,38 @@ The root route redirects to `/overview`.
 - Shared surface utilities (`.dashboard-card`, `.dashboard-surface`) and radius/shadow tokens keep cards consistent across every page.
 - A statistical-report identity: 2px corner radii, a faint graph-paper background, auto-numbered `FIG.` tags on every chart card, skeleton loading states, and a page fade-in animation.
 
+## Why These Charts
+
+Each visualization was chosen against established data-visualization guidance:
+Cleveland & McGill's ranking of visual encodings (position and length are decoded
+most accurately; color/saturation least), ColorBrewer's sequential color schemes
+for magnitude, Tufte's data-ink ratio (remove decoration that carries no data),
+and Shneiderman's information-seeking mantra ("overview first, zoom and filter,
+then details-on-demand") — which is the structure of the whole dashboard:
+the overview page summarizes, the filter panel narrows, and tooltips give details.
+
+| Chart | Page | Why this chart / best practice applied |
+|---|---|---|
+| KPI cards | Overview | Headline figures deserve plain numbers, not charts — a stat tile is the highest data-ink form for a single value. |
+| Monthly revenue line chart | Overview | Time series → position on a common scale, the most accurately decoded encoding (Cleveland & McGill). Line shows trend; area fill adds magnitude context. |
+| Revenue heat map (state × phase) | Overview, Regional | Two categorical dimensions × one measure → matrix. Magnitude uses the ColorBrewer YlOrRd sequential ramp (light→dark = low→high, perceptually ordered). Cells click to cross-filter (details-on-demand). |
+| Sales by state bar chart | Regional | Ranking → sorted horizontal bars: length on a common baseline is decoded almost as accurately as position. The Sabah anomaly is pre-attentively highlighted in a contrast hue. |
+| Delivery time line chart | Regional | Trend comparison limited to the top 5 states — capping series count avoids an unreadable "spaghetti" chart. |
+| Category × state stacked bar | Regional | Part-to-whole composition per state; 2px gaps separate segments so adjacent colors never touch. |
+| Category treemap | Product | Part-to-whole across many categories → area encoding scales better than a pie beyond ~5 slices; direct labels avoid a color-lookup legend. |
+| Category mosaic plot | Product | Two categorical dimensions as proportional areas — shows joint distribution that two separate bar charts would hide. |
+| Top products bar chart | Product | Ranking → sorted bars (length encoding), cut to top 10 to keep labels legible. |
+| Scatter plot matrix | Product | Correlation across 6 numeric variables → scatter plots are the canonical bivariate-relationship form; points are sampled per cell for responsiveness, with color = COVID phase and a legend. |
+| Segment donut chart | Customer | Part-to-whole with only 3 segments (safe range for a pie form); the center shows the total so the hole carries data; legend lists exact values because the soft brand hues are low-contrast. |
+| Segment grouped bar chart | Customer | Comparing segments *within* each phase → grouped bars keep every value on a common baseline, unlike stacking. |
+| Customer age scatter plot | Customer | Distribution/spread of individual orders across age groups — shows outliers that averages would hide. |
+| Project timeline | Timeline, Overview | Temporal milestones → position along a time axis, with the dataset's real MCO phase boundaries as context. |
+
+Cross-cutting practices: every multi-series chart has a legend, color is never
+the only carrier of identity (labels and tooltips repeat it), grids and axes are
+kept recessive, all charts share hover details-on-demand, and empty/loading
+states are designed rather than blank.
+
 ## Getting Started
 
 Install dependencies and run the development server:

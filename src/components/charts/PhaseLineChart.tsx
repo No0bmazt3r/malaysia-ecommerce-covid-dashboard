@@ -80,8 +80,7 @@ export function PhaseLineChart() {
       .attr("x2", width)
       .attr("y1", (d) => y(d))
       .attr("y2", (d) => y(d))
-      .attr("stroke", gridColor)
-      .attr("stroke-dasharray", "3,6");
+      .attr("stroke", gridColor);
 
     // X axis
     g.append("g")
@@ -147,7 +146,7 @@ export function PhaseLineChart() {
       .datum(byMonth)
       .attr("fill", "none")
       .attr("stroke", lineStroke)
-      .attr("stroke-width", 2.5)
+      .attr("stroke-width", 2)
       .attr("stroke-linecap", "round")
       .attr("d", line);
 
@@ -159,7 +158,7 @@ export function PhaseLineChart() {
       .attr("class", "data-dot")
       .attr("cx", (d) => x(d.month) ?? 0)
       .attr("cy", (d) => y(d.revenue))
-      .attr("r", 3.5)
+      .attr("r", 2.5)
       .attr("fill", dotFill)
       .attr("stroke", isDark ? "#0F1E2E" : "#ffffff")
       .attr("stroke-width", 2)
@@ -180,7 +179,7 @@ export function PhaseLineChart() {
           .style("top", `${event.pageY - 14}px`);
       })
       .on("mouseleave", function () {
-        d3.select(this).transition().duration(100).attr("r", 3.5);
+        d3.select(this).transition().duration(100).attr("r", 2.5);
         tooltip.style("opacity", 0);
       });
 

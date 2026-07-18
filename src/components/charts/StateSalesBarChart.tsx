@@ -74,9 +74,10 @@ export function StateSalesBarChart() {
       .attr("width", (d) => x(d[1]))
       .attr("height", y.bandwidth())
       .attr("fill", (d) => (d[0] === "Sabah" ? highlightFill : barFill))
-      .attr("rx", 4)
+      .attr("rx", 2)
       .on("mouseover", function (event, d) {
-        d3.select(this).attr("opacity", 0.8);
+        g.selectAll(".bar").attr("opacity", 0.35);
+        d3.select(this).attr("opacity", 1);
         tooltip
           .style("opacity", 1)
           .html(`<strong>${d[0]}</strong><br/>Revenue: RM ${d[1].toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
@@ -85,7 +86,7 @@ export function StateSalesBarChart() {
         tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        d3.select(this).attr("opacity", 1);
+        g.selectAll(".bar").attr("opacity", 1);
         tooltip.style("opacity", 0);
       });
 

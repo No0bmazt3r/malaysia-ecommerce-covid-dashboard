@@ -53,7 +53,10 @@ export function HeatMap() {
     const y = d3.scaleBand().domain(states).range([0, height]).padding(0.06);
     const max = d3.max(data, (d) => d.value) ?? 1;
 
-    const color = d3.scaleSequential(d3.interpolateYlOrRd).domain([0, max]);
+    // ColorBrewer YlOrRd: the standard perceptually-ordered sequential scheme
+    // for heatmaps. Here color carries the data, so convention beats brand hues.
+    const ramp = d3.interpolateYlOrRd;
+    const color = d3.scaleSequential(ramp).domain([0, max]);
 
     // X axis (bottom)
     g.append("g")
@@ -95,9 +98,9 @@ export function HeatMap() {
       .attr("id", gradientId)
       .attr("x1", "0%")
       .attr("x2", "100%");
-    gradient.append("stop").attr("offset", "0%").attr("stop-color", d3.interpolateYlOrRd(0));
-    gradient.append("stop").attr("offset", "50%").attr("stop-color", d3.interpolateYlOrRd(0.5));
-    gradient.append("stop").attr("offset", "100%").attr("stop-color", d3.interpolateYlOrRd(1));
+    gradient.append("stop").attr("offset", "0%").attr("stop-color", ramp(0));
+    gradient.append("stop").attr("offset", "50%").attr("stop-color", ramp(0.5));
+    gradient.append("stop").attr("offset", "100%").attr("stop-color", ramp(1));
 
     legendGroup
       .append("text")
@@ -112,7 +115,7 @@ export function HeatMap() {
       .append("rect")
       .attr("width", legendWidth)
       .attr("height", legendHeight)
-      .attr("rx", 5)
+      .attr("rx", 2)
       .attr("fill", `url(#${gradientId})`);
 
     legendGroup
@@ -159,7 +162,7 @@ export function HeatMap() {
       .attr("y", (d) => y(d.state) ?? 0)
       .attr("width", x.bandwidth())
       .attr("height", y.bandwidth())
-      .attr("rx", 4)
+      .attr("rx", 2)
       .attr("fill", (d) => color(d.value))
       .attr("stroke", cellStroke)
       .attr("stroke-width", 1.5)

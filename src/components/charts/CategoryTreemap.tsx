@@ -67,16 +67,17 @@ export function CategoryTreemap() {
       .attr("width", (d: any) => d.x1 - d.x0)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr("height", (d: any) => d.y1 - d.y0)
-      .attr("rx", 4)
+      .attr("rx", 2)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("mouseover", function(event, d: any) {
-        d3.select(this).attr("opacity", 0.8);
+        leaf.selectAll("rect").attr("opacity", 0.4);
+        d3.select(this).attr("opacity", 1);
         tooltip.style("opacity", 1)
           .html(`<strong>${d.data.name}</strong><br/>RM ${d.data.value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
       })
       .on("mousemove", event => tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px"))
       .on("mouseout", function() {
-        d3.select(this).attr("opacity", 1);
+        leaf.selectAll("rect").attr("opacity", 1);
         tooltip.style("opacity", 0);
       });
 

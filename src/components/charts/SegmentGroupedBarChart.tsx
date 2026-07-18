@@ -19,7 +19,7 @@ export function SegmentGroupedBarChart() {
     const isDark = theme === "dark";
     const axisColor = isDark ? "#94a3b8" : "#64748b";
 
-    const margin = { top: 20, right: 30, bottom: 40, left: 60 };
+    const margin = { top: 20, right: 110, bottom: 40, left: 60 };
     const width = 800 - margin.left - margin.right;
     const height = 350 - margin.top - margin.bottom;
 
@@ -88,17 +88,25 @@ export function SegmentGroupedBarChart() {
       .attr("width", x1.bandwidth())
       .attr("height", d => height - y(d.value))
       .attr("fill", d => color(d.key))
-      .attr("rx", 3)
+      .attr("rx", 2)
       .on("mouseover", function(event, d) {
-        d3.select(this).attr("opacity", 0.8);
+        g.selectAll("rect").attr("opacity", 0.35);
+        d3.select(this).attr("opacity", 1);
         tooltip.style("opacity", 1)
           .html(`<strong>${d.phase} - ${d.key}</strong><br/>RM ${d.value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
       })
       .on("mousemove", event => tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px"))
       .on("mouseout", function() {
-        d3.select(this).attr("opacity", 1);
+        g.selectAll("rect").attr("opacity", 1);
         tooltip.style("opacity", 0);
       });
+
+    // Legend — same segment colors as the donut on this page
+    const legend = svg.append("g").attr("transform", `translate(${width + margin.left + 20}, ${margin.top})`);
+    segments.forEach((seg, i) => {
+      legend.append("rect").attr("y", i * 20).attr("width", 12).attr("height", 12).attr("rx", 2).attr("fill", color(seg));
+      legend.append("text").attr("x", 20).attr("y", i * 20 + 10).attr("font-size", "11px").attr("fill", axisColor).text(seg);
+    });
 
     return () => { tooltip.remove(); };
   }, [filteredData, hasData, theme]);

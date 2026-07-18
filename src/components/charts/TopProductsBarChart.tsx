@@ -71,15 +71,16 @@ export function TopProductsBarChart() {
       .attr("width", d => x(d.revenue))
       .attr("height", y.bandwidth())
       .attr("fill", isDark ? "#6B9DB1" : "#5D8FA3")
-      .attr("rx", 4)
+      .attr("rx", 2)
       .on("mouseover", function(event, d) {
-        d3.select(this).attr("opacity", 0.8);
+        g.selectAll(".bar").attr("opacity", 0.35);
+        d3.select(this).attr("opacity", 1);
         tooltip.style("opacity", 1)
           .html(`<strong>${d.id}</strong><br/>Revenue: RM ${d.revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`);
       })
       .on("mousemove", event => tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px"))
       .on("mouseout", function() {
-        d3.select(this).attr("opacity", 1);
+        g.selectAll(".bar").attr("opacity", 1);
         tooltip.style("opacity", 0);
       });
 

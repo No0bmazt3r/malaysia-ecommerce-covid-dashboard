@@ -94,7 +94,7 @@ export function ScatterMatrix() {
             .append("rect")
             .attr("width", size)
             .attr("height", size)
-            .attr("rx", 6)
+            .attr("rx", 2)
             .attr("fill", diagBg)
             .attr("stroke", borderColor);
 
@@ -115,7 +115,7 @@ export function ScatterMatrix() {
             .append("rect")
             .attr("width", size)
             .attr("height", size)
-            .attr("rx", 6)
+            .attr("rx", 2)
             .attr("fill", panelFill)
             .attr("stroke", borderColor);
 
@@ -180,7 +180,7 @@ export function ScatterMatrix() {
       .attr("y", -10)
       .attr("width", 120)
       .attr("height", 100)
-      .attr("rx", 8)
+      .attr("rx", 2)
       .attr("fill", isDark ? "rgba(15, 30, 46, 0.8)" : "rgba(255, 255, 255, 0.9)")
       .attr("stroke", borderColor);
 

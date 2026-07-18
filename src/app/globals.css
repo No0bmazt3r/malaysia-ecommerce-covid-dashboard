@@ -209,6 +209,11 @@ body {
   letter-spacing: 0.08em;
 }
 
+/* All text inside chart SVGs (axes, ticks, labels) uses the data face too. */
+.dashboard-card svg text {
+  font-family: var(--font-mono);
+}
+
 /* Chart cards get an auto FIG. number; the counter resets per page. */
 main {
   counter-reset: fig;

@@ -18,6 +18,7 @@ export function CategoryStateStackedBar() {
 
     const isDark = theme === "dark";
     const axisColor = isDark ? "#94a3b8" : "#64748b";
+    const surface = isDark ? "#0F1E2E" : "#ffffff";
 
     const margin = { top: 20, right: 120, bottom: 40, left: 100 };
     const width = 800 - margin.left - margin.right;
@@ -100,9 +101,12 @@ export function CategoryStateStackedBar() {
       .attr("x", (d) => x(d[0]))
       .attr("width", (d) => x(d[1]) - x(d[0]))
       .attr("height", y.bandwidth())
+      .attr("stroke", surface)
+      .attr("stroke-width", 1.5)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("mouseover", function (event, d: any) {
-        d3.select(this).attr("opacity", 0.8);
+        g.selectAll("g.layer rect").attr("opacity", 0.35);
+        d3.select(this).attr("opacity", 1);
         const val = d[1] - d[0];
         tooltip
           .style("opacity", 1)
@@ -112,14 +116,14 @@ export function CategoryStateStackedBar() {
         tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px");
       })
       .on("mouseout", function () {
-        d3.select(this).attr("opacity", 1);
+        g.selectAll("g.layer rect").attr("opacity", 1);
         tooltip.style("opacity", 0);
       });
 
     // Legend
     const legend = svg.append("g").attr("transform", `translate(${width + margin.left + 20}, ${margin.top})`);
     categories.forEach((cat, i) => {
-      legend.append("rect").attr("y", i * 20).attr("width", 12).attr("height", 12).attr("fill", color(cat));
+      legend.append("rect").attr("y", i * 20).attr("width", 12).attr("height", 12).attr("rx", 2).attr("fill", color(cat));
       legend.append("text").attr("x", 20).attr("y", i * 20 + 10).attr("font-size", "11px").attr("fill", axisColor).text(cat);
     });
 
