@@ -16,7 +16,18 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   const [rawData, setRawData] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => { loadDataset().then((d) => { setRawData(d); setLoading(false); }); }, []);
+  useEffect(() => { 
+    loadDataset().then((d) => { 
+      setRawData(d); 
+      if (d.length > 0) {
+        const times = d.map(r => new Date(r.order_date).getTime());
+        const minDate = new Date(Math.min(...times)).toISOString().split("T")[0];
+        const maxDate = new Date(Math.max(...times)).toISOString().split("T")[0];
+        setFilters(prev => ({ ...prev, dateRange: [minDate, maxDate] }));
+      }
+      setLoading(false); 
+    }); 
+  }, []);
   const filteredData = useMemo(() => applyFilters(rawData, filters), [rawData, filters]);
 
   return (

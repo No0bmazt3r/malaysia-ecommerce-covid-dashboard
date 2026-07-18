@@ -1,4 +1,6 @@
 "use client";
+import { useMemo } from "react";
+import * as Slider from "@radix-ui/react-slider";
 import { useDashboard } from "@/context/DashboardContext";
 import { uniqueValues } from "@/lib/data";
 import { PhaseGlossary, PHASE_DEFINITIONS } from "@/components/ui/PhaseGlossary";
@@ -100,6 +102,13 @@ function DropdownFilter({
 
 export function FilterPanel() {
   const { rawData, filters, setFilters } = useDashboard();
+  
+  const timestamps = useMemo(() => {
+    if (rawData.length === 0) return null;
+    const times = rawData.map((d) => new Date(d.order_date).getTime());
+    return { min: Math.min(...times), max: Math.max(...times) };
+  }, [rawData]);
+
   const reset = () =>
     setFilters({
       dateRange: ["2020-01-01", "2021-12-31"],
@@ -134,41 +143,47 @@ export function FilterPanel() {
       </div>
 
       {/* Date range */}
-      <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-            From
-          </label>
-          <input
-            type="date"
-            value={filters.dateRange[0]}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                dateRange: [e.target.value, filters.dateRange[1]],
-              })
-            }
-            className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
-            style={{ color: 'var(--foreground)' }}
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-            To
-          </label>
-          <input
-            type="date"
-            value={filters.dateRange[1]}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                dateRange: [filters.dateRange[0], e.target.value],
-              })
-            }
-            className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-2.5 py-2 text-sm outline-none transition focus:ring-2"
-            style={{ color: 'var(--foreground)' }}
-          />
-        </div>
+      <div className="flex flex-col gap-3">
+        <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+          Date Range
+        </label>
+        
+        {!timestamps ? (
+          <div className="h-4 w-full rounded-[2px] skeleton-shimmer" />
+        ) : (
+          <div className="px-2">
+            <Slider.Root
+              className="relative flex w-full touch-none select-none items-center"
+              min={timestamps.min}
+              max={timestamps.max}
+              step={86400000}
+              value={[
+                new Date(filters.dateRange[0]).getTime() || timestamps.min,
+                new Date(filters.dateRange[1]).getTime() || timestamps.max,
+              ]}
+              onValueChange={(val) => {
+                const start = new Date(val[0]).toISOString().split("T")[0];
+                const end = new Date(val[1]).toISOString().split("T")[0];
+                setFilters({ ...filters, dateRange: [start, end] });
+              }}
+              style={{ height: "20px" }}
+            >
+              <Slider.Track className="relative h-1.5 grow rounded-full bg-[var(--surface-muted)]">
+                <Slider.Range className="absolute h-full rounded-full" style={{ background: "var(--accent)" }} />
+              </Slider.Track>
+              <Slider.Thumb
+                className="block h-4 w-4 cursor-grab active:cursor-grabbing rounded-full border border-[var(--border-strong)] bg-[var(--surface-strong)] shadow hover:scale-110 focus:outline-none focus:ring-2"
+              />
+              <Slider.Thumb
+                className="block h-4 w-4 cursor-grab active:cursor-grabbing rounded-full border border-[var(--border-strong)] bg-[var(--surface-strong)] shadow hover:scale-110 focus:outline-none focus:ring-2"
+              />
+            </Slider.Root>
+            <div className="mt-2.5 flex items-center justify-between text-[10px] font-semibold tracking-wide" style={{ color: 'var(--secondary, #5D8FA3)', fontFamily: "var(--font-mono)" }}>
+              <span>{filters.dateRange[0]}</span>
+              <span>{filters.dateRange[1]}</span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Dimension filters */}
