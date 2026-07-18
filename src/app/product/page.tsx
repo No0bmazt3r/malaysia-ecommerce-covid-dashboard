@@ -24,22 +24,32 @@ export default function Product() {
             </p>
           </div>
 
-          <div className="flex items-center rounded-lg bg-[var(--surface-muted)] p-1.5 shadow-inner self-start">
+          <div className="relative flex items-center rounded-lg bg-[var(--surface-muted)] p-1.5 shadow-inner self-start">
+            {/* Sliding Pill Background */}
+            <div
+              className={`absolute bottom-1.5 left-1.5 top-1.5 rounded-md bg-white shadow-sm transition-all duration-300 ease-out dark:bg-slate-800 ${
+                activeTab === "performance"
+                  ? "w-[108px] translate-x-0"
+                  : "w-[146px] translate-x-[108px]"
+              }`}
+            />
+            
             <button
               onClick={() => setActiveTab("performance")}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
+              className={`relative z-10 w-[108px] rounded-md py-2 text-sm font-medium transition-colors ${
                 activeTab === "performance"
-                  ? "bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white"
+                  ? "text-slate-900 dark:text-white"
                   : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               Performance
             </button>
+            
             <button
               onClick={() => setActiveTab("correlation")}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-all ${
+              className={`relative z-10 w-[146px] rounded-md py-2 text-sm font-medium transition-colors ${
                 activeTab === "correlation"
-                  ? "bg-white text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white"
+                  ? "text-slate-900 dark:text-white"
                   : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
