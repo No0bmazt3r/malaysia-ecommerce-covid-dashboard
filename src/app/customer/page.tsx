@@ -12,7 +12,7 @@ export default function Customer() {
         <h2 className="display-heading mt-3 text-2xl" style={{ color: 'var(--foreground)' }}>
           Audience Analysis
         </h2>
-        <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+        <p className="mt-1.5 text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Understand how different customer segments performed.{" "}
           <span className="font-semibold" style={{ color: '#8DB596' }}>
             Note the Loyal-VIP cluster spike during MCO.

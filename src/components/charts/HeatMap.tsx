@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function HeatMap() {
-  const { filteredData, setFilters, filters } = useDashboard();
+  const { filteredData, setFilters, filters, loading } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
 
@@ -212,7 +212,9 @@ export function HeatMap() {
           </p>
         </div>
       </div>
-      {hasData ? (
+      {loading ? (
+        <div className="h-[320px] w-full rounded-[2px] skeleton-shimmer" />
+      ) : hasData ? (
         <div className="overflow-x-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] p-3">
           <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
         </div>

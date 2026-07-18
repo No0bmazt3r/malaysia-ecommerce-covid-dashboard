@@ -2,6 +2,7 @@ import { HeatMap } from "@/components/charts/HeatMap";
 import { StateSalesBarChart } from "@/components/charts/StateSalesBarChart";
 import { CategoryStateStackedBar } from "@/components/charts/CategoryStateStackedBar";
 import { StateDeliveryLineChart } from "@/components/charts/StateDeliveryLineChart";
+import { PhaseGlossary } from "@/components/ui/PhaseGlossary";
 
 export default function Regional() {
   return (
@@ -16,12 +17,15 @@ export default function Regional() {
         >
           Revenue by State &amp; COVID Phase
         </h2>
-        <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+        <p className="mt-1.5 text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Explore revenue distribution across Malaysian states and COVID-19 phases.{" "}
           <span className="font-semibold" style={{ color: '#D96C6C' }}>
             Look for the Sabah + CMCO anomaly.
           </span>
         </p>
+        <div className="mt-4">
+          <PhaseGlossary />
+        </div>
       </section>
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <StateSalesBarChart />

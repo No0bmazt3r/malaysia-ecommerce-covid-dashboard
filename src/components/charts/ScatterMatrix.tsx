@@ -1,18 +1,33 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
+
+// Cap the points drawn per cell: 30 cells × every row would mean 100k+ DOM
+// nodes and a frozen tab. At 2px dots a sample is visually identical.
+const MAX_POINTS = 600;
 
 export function ScatterMatrix() {
   const { filteredData, loading } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
+  const [deferred, setDeferred] = useState(false);
 
   const hasData = filteredData.length > 0;
+  const isSampled = filteredData.length > MAX_POINTS;
+
+  // Let the tab switch paint (skeleton first) before the heavy SVG build.
+  useEffect(() => {
+    const t = setTimeout(() => setDeferred(true), 50);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
-    if (!ref.current || !hasData) return;
+    if (!ref.current || !hasData || !deferred) return;
+
+    const step = Math.ceil(filteredData.length / MAX_POINTS);
+    const plotData = step > 1 ? filteredData.filter((_, i) => i % step === 0) : filteredData;
 
     const svg = d3.select(ref.current);
     svg.selectAll("*").remove();
@@ -114,7 +129,7 @@ export function ScatterMatrix() {
 
           cell
             .selectAll("circle")
-            .data(filteredData)
+            .data(plotData)
             .enter()
             .append("circle")
             .attr("cx", (d) => xScale(+d[xVar]))
@@ -189,7 +204,7 @@ export function ScatterMatrix() {
     return () => {
       tooltip.remove();
     };
-  }, [filteredData, hasData, theme]);
+  }, [filteredData, hasData, theme, deferred]);
 
   return (
     <div className="dashboard-card chart-fig overflow-hidden rounded-[var(--section-radius)] p-5">
@@ -208,8 +223,9 @@ export function ScatterMatrix() {
       </div>
       <p className="mb-3 text-[11px]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
         Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈−0.75).
+        {isSampled && ` Showing a representative sample of ${MAX_POINTS} orders per cell.`}
       </p>
-      {loading ? (
+      {loading || !deferred ? (
         <div className="mx-auto h-[600px] w-full rounded-[2px] skeleton-shimmer" />
       ) : hasData ? (
         <div className="overflow-x-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] p-3">

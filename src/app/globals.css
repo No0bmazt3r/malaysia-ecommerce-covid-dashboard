@@ -26,28 +26,20 @@
   --border-strong: rgba(198, 193, 188, 0.55);
   --shadow-sm: 0 1px 2px rgba(11, 42, 74, 0.05);
   --shadow: 0 1px 3px rgba(11, 42, 74, 0.07);
-  --shadow-lg: 0 2px 8px rgba(11, 42, 74, 0.1);
 
   /* ── Brand colors ── */
   --primary: #0B2A4A;
-  --primary-light: #3D6E8A;
   --secondary: #5D8FA3;
   --accent: #63B7B2;
   --accent-muted: rgba(99, 183, 178, 0.12);
-  --accent-gradient: linear-gradient(135deg, #0B2A4A, #5D8FA3);
-  --accent-gradient-vivid: linear-gradient(135deg, #63B7B2, #A8D5D1);
 
   /* ── Semantic ── */
   --success: #8DB596;
   --warning: #E4B363;
   --critical: #D96C6C;
 
-  /* ── Neutral ── */
-  --neutral: #C6C1BC;
-  --cream: #F6F3EC;
-
   /* ── Radii ── */
-  /* Sharp corners: this reads as a printed statistical report, not a web template. */
+  /* 2px everywhere for the printed-report look */
   --card-radius: 2px;
   --section-radius: 2px;
 }
@@ -67,10 +59,8 @@
   --border-strong: rgba(198, 193, 188, 0.22);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 2px 8px rgba(0, 0, 0, 0.35);
 
   --primary: #0B2A4A;
-  --primary-light: #5D8FA3;
   --secondary: #6B9DB1;
   --accent: #74C5C0;
   --accent-muted: rgba(116, 197, 192, 0.12);
@@ -78,9 +68,6 @@
   --success: #9DC5A6;
   --warning: #EDCA82;
   --critical: #E48585;
-
-  --neutral: rgba(198, 193, 188, 0.3);
-  --cream: rgba(246, 243, 236, 0.05);
 }
 
 /* ── Base ─────────────────────────────────────────── */
@@ -135,12 +122,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-.dashboard-muted {
-  background: var(--surface-muted);
-}
-
 /* ── Header identity bar ────────────────────────── */
-/* Static three-segment rule in the brand palette — like a report cover band. */
 .header-gradient-bar {
   height: 3px;
   background: linear-gradient(
@@ -173,7 +155,8 @@ body {
   50% { opacity: 0.8; }
 }
 
-.skeleton {
+.skeleton,
+.skeleton-shimmer {
   background: linear-gradient(90deg, var(--surface-muted) 25%, var(--border) 50%, var(--surface-muted) 75%);
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s ease-in-out infinite;
@@ -193,7 +176,6 @@ body {
 }
 
 /* ── Graph-paper background ───────────────────────── */
-/* A faint plotting grid: the subject of this app is charts, so the page sits on graph paper. */
 .ambient-bg::before {
   content: '';
   position: fixed;
@@ -221,15 +203,13 @@ body {
 }
 
 /* ── Report identity ──────────────────────────────── */
-/* Every small-caps label in the app is set in the mono data face,
-   so labels read as report annotations rather than web chrome. */
+/* All small-caps labels use the mono data face. */
 .uppercase {
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
 }
 
-/* Chart cards are numbered figures, like an academic report.
-   The counter resets per page and increments per chart card. */
+/* Chart cards get an auto FIG. number; the counter resets per page. */
 main {
   counter-reset: fig;
 }
@@ -293,72 +273,13 @@ main {
   border-color: rgba(228, 179, 99, 0.18) !important;
 }
 
-/* ── Mode Overrides ───────────────────────────────── */
-.mode-elderly {
-  font-size: 18px !important;
-}
-.mode-elderly h1, .mode-elderly h2, .mode-elderly h3 {
-  font-size: 1.5em;
-}
-.mode-elderly .dashboard-card {
-  border-width: 3px;
-  border-color: #0B2A4A;
-  box-shadow: 6px 6px 0 0 #0B2A4A;
-}
-:root[data-theme="dark"] .mode-elderly .dashboard-card {
-  border-color: #E8ECF0;
-  box-shadow: 6px 6px 0 0 #E8ECF0;
-}
-.mode-elderly button, .mode-elderly input, .mode-elderly select {
-  padding: 12px 16px;
-  font-size: 18px;
-}
-.mode-kiosk {
-  --background: #F6F3EC;
-}
-:root[data-theme="dark"] .mode-kiosk {
-  --background: #0A1A28;
-}
-
-/* ── Shimmer Loading Effect ──────────────────────── */
-.skeleton-shimmer {
-  position: relative;
-  overflow: hidden;
-  background-color: #F6F3EC;
-}
-.skeleton-shimmer::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transform: translateX(-100%);
-  background-image: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(255, 255, 255, 0.5) 20%,
-    rgba(255, 255, 255, 0.5) 60%,
-    rgba(255, 255, 255, 0)
-  );
-  animation: shimmer 1.5s infinite;
-}
-
-:root[data-theme="dark"] .skeleton-shimmer {
-  background-color: #162A3D;
-}
-:root[data-theme="dark"] .skeleton-shimmer::after {
-  background-image: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0,
-    rgba(255, 255, 255, 0.06) 20%,
-    rgba(255, 255, 255, 0.06) 60%,
-    rgba(255, 255, 255, 0)
-  );
-}
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
+/* ── Reduced motion ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

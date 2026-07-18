@@ -19,7 +19,7 @@ export default function Product() {
             <h2 className="display-heading mt-3 text-2xl" style={{ color: 'var(--foreground)' }}>
               Product &amp; Correlation Analysis
             </h2>
-            <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+            <p className="mt-1.5 text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
               Deep dive into top performing SKUs, category revenues, and complex multivariate correlations.
             </p>
           </div>
@@ -29,24 +29,37 @@ export default function Product() {
             <div
               className={`absolute bottom-1.5 left-1.5 top-1.5 rounded-[2px] bg-[var(--surface-strong)] shadow-sm transition-all duration-300 ease-out ${
                 activeTab === "performance"
-                  ? "w-[108px] translate-x-0"
-                  : "w-[146px] translate-x-[108px]"
+                  ? "w-[130px] translate-x-0"
+                  : "w-[172px] translate-x-[130px]"
               }`}
             />
-            
+
             <button
               onClick={() => setActiveTab("performance")}
-              className={`relative z-10 w-[108px] rounded-[2px] py-2 text-sm font-medium transition-colors`}
+              className="relative z-10 inline-flex w-[130px] items-center justify-center gap-1.5 rounded-[2px] py-2 text-sm font-medium transition-colors"
               style={{ color: activeTab === "performance" ? 'var(--foreground)' : 'var(--secondary, #5D8FA3)' }}
             >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 shrink-0" aria-hidden="true">
+                <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                <rect x="15" y="5" width="4" height="12" rx="1" />
+                <rect x="7" y="8" width="4" height="9" rx="1" />
+              </svg>
               Performance
             </button>
-            
+
             <button
               onClick={() => setActiveTab("correlation")}
-              className={`relative z-10 w-[146px] rounded-[2px] py-2 text-sm font-medium transition-colors`}
+              className="relative z-10 inline-flex w-[172px] items-center justify-center gap-1.5 rounded-[2px] py-2 text-sm font-medium transition-colors"
               style={{ color: activeTab === "correlation" ? 'var(--foreground)' : 'var(--secondary, #5D8FA3)' }}
             >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 shrink-0" aria-hidden="true">
+                <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+                <circle cx="18.5" cy="5.5" r=".5" fill="currentColor" />
+                <circle cx="11.5" cy="11.5" r=".5" fill="currentColor" />
+                <circle cx="7.5" cy="16.5" r=".5" fill="currentColor" />
+                <circle cx="17.5" cy="14.5" r=".5" fill="currentColor" />
+                <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+              </svg>
               Correlation Matrix
             </button>
           </div>

@@ -12,5 +12,3 @@ export interface Filters {
   dateRange: [string, string]; covidPhase: string[]; state: string[];
   category: string[]; segment: string[]; searchQuery: string;
 }
-
-export type UCMode = "analyst" | "elderly" | "kiosk";

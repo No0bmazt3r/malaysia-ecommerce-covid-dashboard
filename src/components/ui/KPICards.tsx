@@ -52,43 +52,6 @@ export function KPICards() {
 
   const statusColor = { good: "var(--success)", warn: "var(--warning)", bad: "var(--critical)" } as const;
 
-  const { mode } = useDashboard();
-
-  if (mode === "kiosk") {
-    return (
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="flex flex-col items-center justify-center rounded-[2px] p-8 text-center border-4" style={{ background: 'rgba(141, 181, 150, 0.15)', borderColor: 'rgba(141, 181, 150, 0.4)' }}>
-          <div className="text-2xl font-bold mb-3 uppercase" style={{ color: 'var(--foreground)' }}>Revenue</div>
-          <div className="text-5xl font-black" style={{ color: '#8DB596', fontFamily: 'var(--font-mono)' }}>RM {kpis.totalRevenue.toLocaleString("en-MY", { maximumFractionDigits: 0 })}</div>
-        </div>
-        <div className="flex flex-col items-center justify-center rounded-[2px] p-8 text-center border-4" style={{ background: 'rgba(93, 143, 163, 0.15)', borderColor: 'rgba(93, 143, 163, 0.4)' }}>
-          <div className="text-2xl font-bold mb-3 uppercase" style={{ color: 'var(--foreground)' }}>Deliveries</div>
-          <div className="text-5xl font-black" style={{ color: '#5D8FA3', fontFamily: 'var(--font-mono)' }}>{kpis.avgDelivery.toFixed(1)} Days</div>
-        </div>
-        <div className="flex flex-col items-center justify-center rounded-[2px] p-8 text-center border-4" style={{ background: 'rgba(228, 179, 99, 0.15)', borderColor: 'rgba(228, 179, 99, 0.4)' }}>
-          <div className="text-2xl font-bold mb-3 uppercase" style={{ color: 'var(--foreground)' }}>Rating</div>
-          <div className="text-5xl font-black" style={{ color: '#E4B363', fontFamily: 'var(--font-mono)' }}>{kpis.avgRating.toFixed(1)} / 5</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (mode === "elderly") {
-    return (
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((c) => (
-          <div key={c.label} className="flex flex-col rounded-[2px] bg-[var(--surface-strong)] border-4 p-6" style={{ borderColor: 'var(--foreground)', boxShadow: `8px 8px 0 0 var(--foreground)` }}>
-            <div className="mb-4">
-              <span className="text-2xl font-bold uppercase" style={{ color: 'var(--foreground)' }}>{c.label}</span>
-            </div>
-            <div className="text-4xl font-black mb-2" style={{ color: 'var(--foreground)' }}>{c.value}</div>
-            <div className="text-xl font-bold" style={{ color: 'var(--secondary, #5D8FA3)' }}>{c.note}</div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
       {cards.map((c, idx) => (

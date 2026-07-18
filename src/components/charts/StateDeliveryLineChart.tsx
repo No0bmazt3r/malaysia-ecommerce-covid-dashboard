@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function StateDeliveryLineChart() {
-  const { filteredData } = useDashboard();
+  const { filteredData, loading } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
   const hasData = filteredData.length > 0;
@@ -56,12 +56,6 @@ export function StateDeliveryLineChart() {
     g.append("g")
       .call(d3.axisLeft(y))
       .call((sel) => sel.selectAll("text").attr("fill", axisColor));
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const line = d3.line<string>()
-      .x(d => x(d)!)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .y(d => y(0)); // Placeholder
 
     const tooltip = d3
       .select("body")
@@ -125,10 +119,17 @@ export function StateDeliveryLineChart() {
     <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Delivery Time Trends by State</h3>
       <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Average delivery time (days) across COVID phases for top states.</p>
-      {hasData ? (
+      {loading ? (
+        <div className="h-[320px] w-full rounded-[2px] skeleton-shimmer" />
+      ) : hasData ? (
         <svg ref={ref} className="w-full" />
       ) : (
-        <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>
+        <div className="grid min-h-[240px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
+          <div>
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>No data for the current filters</p>
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>Clear one or more filters to bring this chart back.</p>
+          </div>
+        </div>
       )}
     </div>
   );

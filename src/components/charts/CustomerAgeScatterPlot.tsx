@@ -5,7 +5,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function CustomerAgeScatterPlot() {
-  const { filteredData } = useDashboard();
+  const { filteredData, loading } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
   const hasData = filteredData.length > 0;
@@ -94,7 +94,18 @@ export function CustomerAgeScatterPlot() {
     <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
       <h3 className="text-lg font-bold">Age vs Average Order Value</h3>
       <p className="text-xs mb-4" style={{ color: 'var(--secondary, #5D8FA3)' }}>Customer-level AOV spread across age groups.</p>
-      {hasData ? <svg ref={ref} className="w-full" /> : <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>}
+      {loading ? (
+        <div className="h-[320px] w-full rounded-[2px] skeleton-shimmer" />
+      ) : hasData ? (
+        <svg ref={ref} className="w-full" />
+      ) : (
+        <div className="grid min-h-[240px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
+          <div>
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>No data for the current filters</p>
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>Clear one or more filters to bring this chart back.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

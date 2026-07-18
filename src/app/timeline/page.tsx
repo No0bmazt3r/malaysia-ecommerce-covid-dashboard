@@ -1,4 +1,5 @@
 import { ProjectTimeline } from "@/components/charts/ProjectTimeline";
+import { PhaseGlossary } from "@/components/ui/PhaseGlossary";
 
 export default function Timeline() {
   return (
@@ -13,9 +14,12 @@ export default function Timeline() {
         >
           Project Progress Timeline
         </h2>
-        <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+        <p className="mt-1.5 text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Development milestones cross-referenced with actual Malaysian MCO/CMCO/RMCO phase boundaries.
         </p>
+        <div className="mt-4">
+          <PhaseGlossary />
+        </div>
       </section>
       <ProjectTimeline />
     </div>

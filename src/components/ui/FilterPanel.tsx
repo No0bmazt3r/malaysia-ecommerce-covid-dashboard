@@ -1,17 +1,20 @@
 "use client";
 import { useDashboard } from "@/context/DashboardContext";
 import { uniqueValues } from "@/lib/data";
+import { PhaseGlossary, PHASE_DEFINITIONS } from "@/components/ui/PhaseGlossary";
 
 function CheckboxGroup({
   label,
   options,
   selected,
   onChange,
+  hints,
 }: {
   label: string;
   options: string[];
   selected: string[];
   onChange: (v: string[]) => void;
+  hints?: Record<string, string>;
 }) {
   const toggle = (value: string) => {
     if (selected.includes(value)) {
@@ -26,7 +29,7 @@ function CheckboxGroup({
       <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
         {label}
         {selected.length > 0 && (
-          <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white" style={{ background: 'var(--accent)' }}>
+          <span className="ml-1.5 inline-flex h-4 min-w-4 items-center justify-center rounded-[2px] px-1 text-[10px] font-bold text-white" style={{ background: 'var(--accent)' }}>
             {selected.length}
           </span>
         )}
@@ -37,6 +40,7 @@ function CheckboxGroup({
           return (
             <label
               key={option}
+              title={hints?.[option]}
               className={`flex cursor-pointer items-center gap-2.5 rounded-[2px] px-2.5 py-1.5 text-sm transition ${
                 checked
                   ? "bg-[var(--accent-muted)] font-medium"
@@ -83,7 +87,7 @@ function DropdownFilter({
         className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-3 py-2.5 text-sm outline-none transition focus:ring-2"
         style={{ color: 'var(--foreground)', borderColor: undefined }}
       >
-        <option value="all">All regions</option>
+        <option value="all">All states</option>
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -105,13 +109,6 @@ export function FilterPanel() {
       segment: [],
       searchQuery: "",
     });
-  const activeFilters =
-    filters.covidPhase.length +
-    filters.state.length +
-    filters.category.length +
-    filters.segment.length +
-    (filters.searchQuery ? 1 : 0);
-
   return (
     <div className="dashboard-card space-y-4 rounded-[var(--section-radius)] p-5 lg:sticky lg:top-20">
       {/* Header */}
@@ -134,23 +131,6 @@ export function FilterPanel() {
         >
           Reset
         </button>
-      </div>
-
-      {/* Active count */}
-      <div className="flex items-center justify-between rounded-[2px] bg-[var(--surface-muted)] px-3 py-2">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-          Active filters
-        </span>
-        <span
-          className="grid h-6 min-w-6 place-items-center rounded-[2px] text-xs font-bold"
-          style={
-            activeFilters > 0
-              ? { background: 'var(--accent)', color: '#fff' }
-              : { background: 'var(--border)', color: 'var(--foreground)', opacity: 0.5 }
-          }
-        >
-          {activeFilters}
-        </span>
       </div>
 
       {/* Date range */}
@@ -199,7 +179,9 @@ export function FilterPanel() {
             options={uniqueValues(rawData, "covid_phase")}
             selected={filters.covidPhase}
             onChange={(v) => setFilters({ ...filters, covidPhase: v })}
+            hints={PHASE_DEFINITIONS}
           />
+          <PhaseGlossary />
           <DropdownFilter
             label="State / Region"
             options={uniqueValues(rawData, "state")}

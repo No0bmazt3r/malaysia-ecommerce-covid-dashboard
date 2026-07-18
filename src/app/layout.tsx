@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="ambient-bg min-h-screen antialiased">
         <DashboardProvider>
-          {/* Animated accent bar */}
+          {/* Report cover band */}
           <div className="header-gradient-bar" />
 
           <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)] backdrop-blur-xl">

@@ -47,7 +47,7 @@ export default function Insights() {
         >
           Actionable Business Insights
         </h2>
-        <p className="mt-1.5 max-w-2xl text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+        <p className="mt-1.5 text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
           Key discoveries from multivariate analysis of the dataset. Each finding is cross-referenced with the dashboard visualizations.
         </p>
       </section>

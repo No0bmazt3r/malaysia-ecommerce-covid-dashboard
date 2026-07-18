@@ -110,7 +110,12 @@ export function CategoryTreemap() {
       ) : hasData ? (
         <svg ref={ref} className="w-full" />
       ) : (
-        <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>
+        <div className="grid min-h-[240px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
+          <div>
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>No data for the current filters</p>
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>Clear one or more filters to bring this chart back.</p>
+          </div>
+        </div>
       )}
     </div>
   );

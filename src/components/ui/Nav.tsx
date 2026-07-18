@@ -3,7 +3,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-// Lucide icon paths (public/Icons/*.svg), inlined so they inherit the tab's text color.
+// Lucide icon paths from public/Icons/*.svg, inlined so they inherit the
+// tab's text color (an <img> can't pick up currentColor).
 const icons: Record<string, React.ReactNode> = {
   "layout-dashboard": (
     <>

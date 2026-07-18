@@ -42,3 +42,10 @@ next-env.d.ts
 
 #Not Needed only for claude local
 /.claude
+
+# local AI tooling (not part of the project)
+/.agents/
+skills-lock.json
+
+# local screenshots
+/image.png

@@ -6,7 +6,7 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 export function MiniScatterMatrix() {
-  const { filteredData } = useDashboard();
+  const { filteredData, loading } = useDashboard();
   const theme = useDashboardTheme();
   const ref = useRef<SVGSVGElement>(null);
   const hasData = filteredData.length > 0;
@@ -159,10 +159,17 @@ export function MiniScatterMatrix() {
       </div>
 
       <div className="overflow-x-auto">
-        {hasData ? (
+        {loading ? (
+        <div className="h-[320px] w-full rounded-[2px] skeleton-shimmer" />
+      ) : hasData ? (
           <svg ref={ref} className="mx-auto min-w-[500px] w-full max-w-[700px]" />
         ) : (
-          <p className="text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>No data</p>
+          <div className="grid min-h-[240px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
+          <div>
+            <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>No data for the current filters</p>
+            <p className="mt-1 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>Clear one or more filters to bring this chart back.</p>
+          </div>
+        </div>
         )}
       </div>
     </div>
