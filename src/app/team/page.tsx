@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const members = [
   { name: "Nurul Hawardah Binti Mohammad Yusoff", id: "22007264", picture: "/Wardah.svg" },
-  { name: "Wan Nur Ariana Sofea Binti Wan Zaki", id: "22011056", picture: "/Ariana.svg" },
+  { name: "Wan Nur Ariana Sofea Binti Wan Zaki", id: "22011056", picture: "/Ariana3.svg" },
   { name: "Zuyyin Damia Binti Norazmi", id: "22007506", picture: "/Zuyyin2.svg"},
   { name: "Muhammad Ibrahim Al-Imran Bin Mohd Isa", id: "22006656", picture: "/Baim.svg" },
   { name: "Sharvin A/L Kanesan", id: "22006930", picture: "/Sharvin.svg" },
