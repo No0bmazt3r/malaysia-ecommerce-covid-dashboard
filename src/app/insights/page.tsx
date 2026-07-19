@@ -1,4 +1,10 @@
+"use client";
+import { useUserMode } from "@/hooks/useUserMode";
+import { ChildSimpleScreen } from "@/components/child/ChildSimpleScreen";
+
 export default function Insights() {
+  const userMode = useUserMode();
+  if (userMode === "child") return <ChildSimpleScreen />;
   const insights = [
     {
       title: "Regional Anomaly: Sabah + Electronics + CMCO",

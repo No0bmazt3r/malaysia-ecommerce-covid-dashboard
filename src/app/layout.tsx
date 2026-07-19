@@ -3,6 +3,7 @@ import "./globals.css";
 import { DashboardProvider } from "@/context/DashboardContext";
 import { Nav } from "@/components/ui/Nav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { UserModeToggle } from "@/components/ui/UserModeToggle";
 
 export const metadata: Metadata = {
   title: "Malaysia E-Commerce × COVID Dashboard",
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Right: controls */}
               <div className="flex items-center gap-2.5">
+                <UserModeToggle />
                 <ThemeToggle />
               </div>
             </div>

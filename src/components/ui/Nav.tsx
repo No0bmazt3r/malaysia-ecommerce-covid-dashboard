@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useUserMode } from "@/hooks/useUserMode";
 
 // Lucide icon paths from public/Icons/*.svg, inlined so they inherit the
 // tab's text color (an <img> can't pick up currentColor).
@@ -96,6 +97,7 @@ const links = [
 
 export function Nav() {
   const pathname = usePathname();
+  const userMode = useUserMode();
   const navRef = useRef<HTMLElement>(null);
   const [pillStyle, setPillStyle] = useState({ left: 0, top: 0, width: 0, height: 0, opacity: 0 });
 
@@ -129,6 +131,9 @@ export function Nav() {
       window.removeEventListener("resize", updatePill);
     };
   }, [pathname]);
+
+  // Simple View replaces this nav with the large ChildNav tiles in-page.
+  if (userMode === "child") return null;
 
   return (
     <nav ref={navRef} className="relative flex flex-wrap items-center gap-1 rounded-[2px] bg-[var(--surface-muted)] p-1.5 shadow-inner" role="tablist">

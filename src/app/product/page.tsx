@@ -4,9 +4,15 @@ import { ScatterMatrix } from "@/components/charts/ScatterMatrix";
 import { CategoryTreemap } from "@/components/charts/CategoryTreemap";
 import { CategoryMosaicPlot } from "@/components/charts/CategoryMosaicPlot";
 import { TopProductsBarChart } from "@/components/charts/TopProductsBarChart";
+import { useUserMode } from "@/hooks/useUserMode";
+import { ChildProductsView } from "@/components/child/ChildProductsView";
+import { ElderlyScatterSingle } from "@/components/elderly/ElderlyScatterSingle";
 
 export default function Product() {
   const [activeTab, setActiveTab] = useState<"performance" | "correlation">("performance");
+  const userMode = useUserMode();
+
+  if (userMode === "child") return <ChildProductsView />;
 
   return (
     <div className="space-y-6">
@@ -78,7 +84,7 @@ export default function Product() {
 
       {activeTab === "correlation" && (
         <div className="animate-in fade-in duration-500 slide-in-from-bottom-2">
-          <ScatterMatrix />
+          {userMode === "elderly" ? <ElderlyScatterSingle /> : <ScatterMatrix />}
         </div>
       )}
     </div>

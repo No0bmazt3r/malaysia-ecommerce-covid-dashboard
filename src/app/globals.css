@@ -70,6 +70,58 @@
   --critical: #E48585;
 }
 
+/* ── User modes ───────────────────────────────────── */
+/* Elderly: larger type, higher contrast, bigger targets.
+   Root font-size bump scales every rem-based Tailwind size. */
+:root[data-usermode="elderly"] {
+  font-size: 18px;
+  /* Secondary text darkened from #5D8FA3 (~3.1:1 on white) to ≥5:1 */
+  --secondary: #38607A;
+  --border: rgba(120, 116, 112, 0.5);
+  --border-strong: rgba(90, 87, 84, 0.7);
+}
+
+:root[data-theme="dark"][data-usermode="elderly"] {
+  --secondary: #A9CBDD;
+  --border: rgba(198, 193, 188, 0.28);
+  --border-strong: rgba(198, 193, 188, 0.45);
+}
+
+:root[data-usermode="elderly"] body {
+  line-height: 1.65;
+  font-weight: 500;
+}
+
+/* Minimum ~44px tap targets for interactive controls */
+:root[data-usermode="elderly"] button,
+:root[data-usermode="elderly"] select,
+:root[data-usermode="elderly"] nav a {
+  min-height: 44px;
+}
+
+/* Pixel-literal micro-labels don't scale with root font-size — bump them
+   in rem so they track the 18px base. */
+:root[data-usermode="elderly"] .text-\[10px\] { font-size: 0.72rem; }
+:root[data-usermode="elderly"] .text-\[11px\] { font-size: 0.78rem; }
+:root[data-usermode="elderly"] .text-\[8px\] { font-size: 0.6rem; }
+
+/* Child: bright saturated traffic-light palette, validated for CVD
+   separation (scripts/validate_palette.js, light + dark surfaces).
+   Always paired with icon + word label — never color alone. */
+:root[data-usermode="child"] {
+  --viz-good: #0CA678;
+  --viz-ok: #D98A00;
+  --viz-bad: #E03131;
+  --accent: #0CA678;
+  --accent-muted: rgba(12, 166, 120, 0.14);
+}
+
+:root[data-theme="dark"][data-usermode="child"] {
+  --viz-good: #0CA678;
+  --viz-ok: #C27C00;
+  --viz-bad: #D6336C;
+}
+
 /* ── Base ─────────────────────────────────────────── */
 html {
   background: var(--background);

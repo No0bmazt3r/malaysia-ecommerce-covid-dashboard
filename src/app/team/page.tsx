@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useUserMode } from "@/hooks/useUserMode";
+import { ChildSimpleScreen } from "@/components/child/ChildSimpleScreen";
 
 const members = [
   { name: "Nurul Hawardah Binti Mohammad Yusoff", id: "22007264", picture: "/Wardah.svg" },
@@ -20,6 +22,8 @@ function getInitials(name: string) {
 }
 
 export default function TeamPage() {
+  const userMode = useUserMode();
+  if (userMode === "child") return <ChildSimpleScreen />;
   return (
     <section
       className="dashboard-surface w-full"

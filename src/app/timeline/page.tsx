@@ -1,7 +1,12 @@
+"use client";
 import { ProjectTimeline } from "@/components/charts/ProjectTimeline";
 import { PhaseGlossary } from "@/components/ui/PhaseGlossary";
+import { useUserMode } from "@/hooks/useUserMode";
+import { ChildSimpleScreen } from "@/components/child/ChildSimpleScreen";
 
 export default function Timeline() {
+  const userMode = useUserMode();
+  if (userMode === "child") return <ChildSimpleScreen />;
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">

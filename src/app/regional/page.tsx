@@ -1,10 +1,15 @@
+"use client";
 import { HeatMap } from "@/components/charts/HeatMap";
+import { useUserMode } from "@/hooks/useUserMode";
+import { ChildDeliveryView } from "@/components/child/ChildDeliveryView";
 import { StateSalesBarChart } from "@/components/charts/StateSalesBarChart";
 import { CategoryStateStackedBar } from "@/components/charts/CategoryStateStackedBar";
 import { StateDeliveryLineChart } from "@/components/charts/StateDeliveryLineChart";
 import { PhaseGlossary } from "@/components/ui/PhaseGlossary";
 
 export default function Regional() {
+  const userMode = useUserMode();
+  if (userMode === "child") return <ChildDeliveryView />;
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">

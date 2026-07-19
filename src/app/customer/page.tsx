@@ -1,8 +1,13 @@
+"use client";
 import { SegmentDonutChart } from "@/components/charts/SegmentDonutChart";
+import { useUserMode } from "@/hooks/useUserMode";
+import { ChildHappyView } from "@/components/child/ChildHappyView";
 import { SegmentGroupedBarChart } from "@/components/charts/SegmentGroupedBarChart";
 import { CustomerAgeScatterPlot } from "@/components/charts/CustomerAgeScatterPlot";
 
 export default function Customer() {
+  const userMode = useUserMode();
+  if (userMode === "child") return <ChildHappyView />;
   return (
     <div className="space-y-6">
       <section className="dashboard-surface rounded-[var(--section-radius)] px-6 py-6 md:px-8">
