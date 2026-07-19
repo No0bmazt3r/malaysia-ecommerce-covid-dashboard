@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { useDashboard } from "@/context/DashboardContext";
-import { useChildTooltip } from "./ChildTooltip";
+import { childTipHandlers, useChildTooltip } from "./ChildTooltip";
 
 const BAR_COLOR = "var(--viz-good, #0CA678)";
 
@@ -51,27 +51,26 @@ export function ChildOverviewChart() {
           const y = chartH - h;
           const isBest = i === bestIndex;
           const isHovered = hovered === i;
+          const handlers = childTipHandlers(tip, `q-${i}`, q.label, exact(q.revenue), BAR_COLOR);
           return (
             <g
               key={q.label}
-              tabIndex={0}
-              aria-label={`${q.label}: ${exact(q.revenue)}`}
+              {...handlers}
               onMouseEnter={(e) => {
                 setHovered(i);
-                tip.show(e, q.label, exact(q.revenue), BAR_COLOR);
+                handlers.onMouseEnter(e);
               }}
-              onMouseMove={(e) => tip.show(e, q.label, exact(q.revenue), BAR_COLOR)}
               onMouseLeave={() => {
                 setHovered(null);
-                tip.hide();
+                handlers.onMouseLeave();
               }}
               onFocus={(e) => {
                 setHovered(i);
-                tip.showForElement(e.currentTarget, q.label, exact(q.revenue), BAR_COLOR);
+                handlers.onFocus(e);
               }}
               onBlur={() => {
                 setHovered(null);
-                tip.hide();
+                handlers.onBlur();
               }}
               style={{ cursor: "default", outline: "none" }}
             >

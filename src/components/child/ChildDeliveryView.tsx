@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { PackageCheck, PackageX } from "lucide-react";
 import { useDashboard } from "@/context/DashboardContext";
 import { ChildScreen } from "./ChildScreen";
-import { useChildTooltip } from "./ChildTooltip";
+import { childTipHandlers, useChildTooltip } from "./ChildTooltip";
 
 /* Icon-array pictogram: out of every 10 packages, how many arrived on time.
    Color is never alone — each state pairs an icon shape with a word chip. */
@@ -42,14 +42,8 @@ export function ChildDeliveryView() {
           return (
             <span
               key={i}
-              tabIndex={0}
               className="focus:outline-none"
-              aria-label={`${title}: ${value}`}
-              onMouseEnter={(e) => tip.show(e, title, value, color)}
-              onMouseMove={(e) => tip.show(e, title, value, color)}
-              onMouseLeave={tip.hide}
-              onFocus={(e) => tip.showForElement(e.currentTarget, title, value, color)}
-              onBlur={tip.hide}
+              {...childTipHandlers(tip, `pkg-${i}`, title, value, color)}
             >
               <Icon aria-hidden="true" className="h-14 w-14 md:h-16 md:w-16" strokeWidth={2} style={{ color }} />
             </span>

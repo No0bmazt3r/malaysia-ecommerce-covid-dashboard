@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import { useDashboard } from "@/context/DashboardContext";
 import { ChildScreen } from "./ChildScreen";
-import { useChildTooltip } from "./ChildTooltip";
+import { childTipHandlers, useChildTooltip } from "./ChildTooltip";
 
 /* Top five product categories as one big horizontal bar chart. */
 export function ChildProductsView() {
@@ -42,13 +42,7 @@ export function ChildProductsView() {
             </div>
             <div
               className="h-9 w-full rounded-[2px] bg-[var(--surface-muted)] focus:outline-none"
-              tabIndex={0}
-              aria-label={`${t.category}: ${exact(t.revenue)}`}
-              onMouseEnter={(e) => tip.show(e, t.category, exact(t.revenue), "var(--viz-good, #0CA678)")}
-              onMouseMove={(e) => tip.show(e, t.category, exact(t.revenue), "var(--viz-good, #0CA678)")}
-              onMouseLeave={tip.hide}
-              onFocus={(e) => tip.showForElement(e.currentTarget, t.category, exact(t.revenue), "var(--viz-good, #0CA678)")}
-              onBlur={tip.hide}
+              {...childTipHandlers(tip, `bar-${t.category}`, t.category, exact(t.revenue), "var(--viz-good, #0CA678)")}
             >
               <div
                 className="h-full rounded-[2px]"

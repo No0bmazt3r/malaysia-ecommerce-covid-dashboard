@@ -1,6 +1,6 @@
 "use client";
 import type { LucideIcon } from "lucide-react";
-import { useChildTooltip } from "./ChildTooltip";
+import { childTipHandlers, useChildTooltip } from "./ChildTooltip";
 
 export function ChildKPITile({
   icon: Icon,
@@ -21,17 +21,7 @@ export function ChildKPITile({
   // Icon size tracks the metric's relative magnitude (clamped so it always stays readable)
   const size = Math.round(56 * Math.min(Math.max(iconScale, 0.6), 1.4));
 
-  const tipHandlers = detail
-    ? {
-        tabIndex: 0,
-        "aria-label": `${label}: ${detail}`,
-        onMouseEnter: (e: React.MouseEvent) => tip.show(e, label, detail, color),
-        onMouseMove: (e: React.MouseEvent) => tip.show(e, label, detail, color),
-        onMouseLeave: tip.hide,
-        onFocus: (e: React.FocusEvent) => tip.showForElement(e.currentTarget, label, detail, color),
-        onBlur: tip.hide,
-      }
-    : {};
+  const tipHandlers = detail ? childTipHandlers(tip, `kpi-${label}`, label, detail, color) : {};
 
   return (
     <div
