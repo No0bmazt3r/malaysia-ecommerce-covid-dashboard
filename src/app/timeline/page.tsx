@@ -1,5 +1,6 @@
 "use client";
 import { ProjectTimeline } from "@/components/charts/ProjectTimeline";
+import { CovidPhaseTimeline } from "@/components/charts/CovidPhaseTimeline";
 import { PhaseGlossary } from "@/components/ui/PhaseGlossary";
 import { useUserMode } from "@/hooks/useUserMode";
 import { ChildSimpleScreen } from "@/components/child/ChildSimpleScreen";
@@ -26,7 +27,10 @@ export default function Timeline() {
           <PhaseGlossary />
         </div>
       </section>
-      <ProjectTimeline />
+      <div className="space-y-6">
+        <ProjectTimeline />
+        <CovidPhaseTimeline />
+      </div>
     </div>
   );
 }

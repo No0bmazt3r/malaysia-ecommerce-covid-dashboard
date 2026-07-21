@@ -4,6 +4,10 @@ An interactive data-visualization dashboard exploring how Malaysian e-commerce p
 
 > **Full feature documentation:** every chart, view, and user mode is explained and justified against visualization best practice in **[FEATURES.md](./FEATURES.md)**.
 
+## Problem Definition & Objectives
+
+The objective of this dashboard is to allow e-commerce stakeholders to identify supply chain vulnerabilities and marketing inefficiencies caused by COVID-19 movement control orders. By analyzing transaction-level data across different pandemic phases (Pre-MCO, MCO, CMCO, RMCO), the dashboard aims to uncover actionable insights into customer behavior, logistical pressure, and revenue drivers.
+
 ## Team — Group 8
 
 | Picture | Name | Student ID |
@@ -17,7 +21,7 @@ An interactive data-visualization dashboard exploring how Malaysian e-commerce p
 ## Highlights
 
 - **3,500-order dataset** (`public/data/malaysia_ecommerce_covid_clean.csv`) covering revenue, delivery, inventory, marketing, and customer-satisfaction dimensions across Malaysian states and four COVID phases.
-- **14 coordinated D3 visualizations** — line, bar, stacked bar, grouped bar, donut, treemap, mosaic, heat map, scatter matrix, and timeline — all driven by one shared filter state.
+- **15 coordinated D3 visualizations** — line, bar, stacked bar, grouped bar, donut, treemap, mosaic, heat map, scatter matrix, project timeline, and dataset context timeline — all driven by one shared filter state.
 - **Cross-filtering**: clicking a heat-map cell writes the selection back into the global filters, updating every chart and KPI at once.
 - **Three user modes** (user-centered design): **Standard** for adult analysts, **Large Text** for elderly users, and **Simple View** for early-childhood users — switchable at runtime from the header.
 - **Light & dark themes**, independently toggleable and persisted, with charts re-coloring live.

@@ -4,6 +4,7 @@ import { FilterPanel } from "@/components/ui/FilterPanel";
 import { PhaseLineChart } from "@/components/charts/PhaseLineChart";
 import { HeatMap } from "@/components/charts/HeatMap";
 import { ProjectTimeline } from "@/components/charts/ProjectTimeline";
+import { CovidPhaseTimeline } from "@/components/charts/CovidPhaseTimeline";
 import { MiniScatterMatrix } from "@/components/charts/MiniScatterMatrix";
 import { useDashboard } from "@/context/DashboardContext";
 import { useUserMode } from "@/hooks/useUserMode";
@@ -169,6 +170,7 @@ export default function Overview() {
           <HeatMap />
           {userMode === "elderly" ? <ElderlyScatterSingle /> : <MiniScatterMatrix />}
           <ProjectTimeline />
+          <CovidPhaseTimeline />
         </div>
       </div>
     </div>
