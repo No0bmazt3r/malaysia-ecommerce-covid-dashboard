@@ -26,9 +26,9 @@ export function ProjectTimeline() {
     const mutedColor = isDark ? "#94a3b8" : "#64748b";
     const lineColor = isDark ? "rgba(148, 163, 184, 0.45)" : "#C6C1BC";
 
-    const margin = { top: 40, right: 40, bottom: 70, left: 40 };
+    const margin = { top: 40, right: 40, bottom: 40, left: 40 };
     const width = 960 - margin.left - margin.right;
-    const height = 240 - margin.top - margin.bottom;
+    const height = 180 - margin.top - margin.bottom;
 
     svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
 
@@ -61,26 +61,15 @@ export function ProjectTimeline() {
       // Navy is invisible on the dark background; use the dusty-blue variant there.
       { date: "2026-05-12", label: "Project Initiation", color: isDark ? "#6B9DB1" : "#0B2A4A" },
       { date: "2026-05-26", label: "Data Collection", phase: "Pre-MCO", color: "#8DB596" },
-      { date: "2026-06-09", label: "Data Cleaning", phase: "MCO", color: "#E4B363" },
-      { date: "2026-06-30", label: "Dashboard Dev", phase: "CMCO", color: "#5D8FA3" },
-      { date: "2026-07-14", label: "Testing & Validation", phase: "RMCO", color: "#63B7B2" },
-      { date: "2026-08-04", label: "Deployment", color: "#D96C6C" },
+      { date: "2026-06-16", label: "Data Cleaning", phase: "MCO", color: "#E4B363" },
+      { date: "2026-07-07", label: "Dashboard Dev", phase: "CMCO", color: "#5D8FA3" },
+      { date: "2026-08-18", label: "Testing & Validation", phase: "RMCO", color: "#63B7B2" },
+      { date: "2026-09-29", label: "Deployment", color: "#D96C6C" },
     ];
 
     const parse = d3.timeParse("%Y-%m-%d");
     const dates = milestones.map((m) => parse(m.date) as Date);
     const x = d3.scaleTime().domain([d3.min(dates)!, d3.max(dates)!]).range([0, width]);
-    const contextScale = d3
-      .scaleTime()
-      .domain([parse("2020-01-01")!, parse("2021-12-31")!])
-      .range([0, width]);
-
-    const covidPhases = [
-      { label: "Pre-MCO", start: "2020-01-01", end: "2020-03-17", color: isDark ? "rgba(141, 181, 150, 0.3)" : "#d1fae5" },
-      { label: "MCO", start: "2020-03-18", end: "2020-05-03", color: isDark ? "rgba(217, 108, 108, 0.3)" : "#fee2e2" },
-      { label: "CMCO", start: "2020-05-04", end: "2020-06-09", color: isDark ? "rgba(228, 179, 99, 0.3)" : "#fef3c7" },
-      { label: "RMCO", start: "2020-06-10", end: "2021-12-31", color: isDark ? "rgba(93, 143, 163, 0.3)" : "#dbeafe" },
-    ];
 
     // Tooltip
     const tooltip = d3
@@ -267,39 +256,6 @@ export function ProjectTimeline() {
       }
     });
 
-    // Context bar: COVID phases
-    const contextAxisY = height + 46;
-    g.append("text")
-      .attr("x", 0)
-      .attr("y", contextAxisY - 10)
-      .style("font-size", "10px")
-      .style("font-weight", "700")
-      .style("fill", textColor)
-      .text("Dataset context: Malaysian COVID-19 phase boundaries");
-
-    covidPhases.forEach((phase) => {
-      const startX = contextScale(parse(phase.start)!);
-      const endX = contextScale(parse(phase.end)!);
-      const widthX = Math.max(endX - startX, 4);
-
-      g.append("rect")
-        .attr("x", startX)
-        .attr("y", contextAxisY + 2)
-        .attr("width", widthX)
-        .attr("height", 16)
-        .attr("rx", 2)
-        .attr("fill", phase.color)
-        .attr("stroke", isDark ? "rgba(148,163,184,0.35)" : "rgba(148,163,184,0.3)");
-
-      g.append("text")
-        .attr("x", startX + widthX / 2)
-        .attr("y", contextAxisY + 14)
-        .attr("text-anchor", "middle")
-        .style("font-size", "9px")
-        .style("font-weight", "600")
-        .style("fill", textColor)
-        .text(phase.label);
-    });
 
     return () => {
       tooltip.remove();
@@ -317,7 +273,7 @@ export function ProjectTimeline() {
             Project Progress Timeline
           </h3>
           <p className="mt-0.5 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-            Milestones aligned with real Malaysian COVID-19 phase boundaries.
+            Project milestones covering the 5-month academic project window.
           </p>
         </div>
       </div>
