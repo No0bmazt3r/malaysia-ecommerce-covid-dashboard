@@ -58,42 +58,31 @@ export function KPICards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
       {cards.map((c, idx) => {
         const Icon = c.icon;
         return (
           <div
             key={c.label}
-            className="dashboard-card relative overflow-hidden rounded-[20px] p-5 flex items-center gap-4"
+            className="dashboard-card flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm"
             style={{ animationDelay: `${idx * 60}ms` }}
           >
-            {/* Top accent bar */}
-            <div className="absolute inset-x-0 top-0 h-1" style={{ background: c.accentColor }} />
-
-            {/* Icon */}
-            <div className="shrink-0 grid h-12 w-12 place-items-center rounded-xl" style={{ background: 'var(--surface-muted)', color: c.accentColor }}>
-              <Icon className="h-6 w-6" strokeWidth={2.5} />
-            </div>
-
-            {/* Content */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] truncate" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-                  {c.label}
-                </div>
-                <span className="shrink-0 inline-flex h-4 items-center rounded bg-[var(--surface-muted)] px-1.5 text-[8px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--accent)' }}>
-                  Live
-                </span>
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-medium tracking-tight" style={{ color: 'var(--foreground)' }}>
+                {c.label}
               </div>
-              
+              <Icon className="h-7 w-7" style={{ color: c.accentColor }} strokeWidth={2} />
+            </div>
+            
+            <div className="mt-2">
               <div
-                className="mt-1 text-2xl font-bold tracking-tight truncate"
+                className="text-2xl font-bold tracking-tight truncate"
                 style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
               >
                 {c.value}
               </div>
               
-              <div className="mt-1 text-xs truncate" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+              <div className="mt-1 text-xs truncate" style={{ color: 'var(--secondary, #64748b)' }}>
                 {c.note}
               </div>
             </div>
