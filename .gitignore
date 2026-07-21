@@ -49,3 +49,8 @@ skills-lock.json
 
 # local screenshots
 /image.png
+
+#Extra Documentation for Local Development Only
+/REPOSITORY_ANALYSIS.md
+/system.md
+/Dataset_Readme.md
