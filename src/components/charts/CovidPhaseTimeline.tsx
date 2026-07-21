@@ -9,11 +9,6 @@ export function CovidPhaseTimeline() {
   const { filters, setFilters } = useDashboard();
   const ref = useRef<SVGSVGElement>(null);
 
-  const filtersRef = useRef(filters);
-  useEffect(() => {
-    filtersRef.current = filters;
-  }, [filters]);
-
   useEffect(() => {
     if (!ref.current) return;
     const svg = d3.select(ref.current);
@@ -84,6 +79,11 @@ export function CovidPhaseTimeline() {
       const endX = contextScale(parse(phase.end)!);
       const widthX = Math.max(endX - startX, 4);
 
+      const isFiltered = filters.covidPhase.length > 0;
+      const isActive = !isFiltered || filters.covidPhase.includes(phase.label);
+      const activeStroke = isDark ? "#ffffff" : "#0B2A4A";
+      const inactiveStroke = isDark ? "rgba(148,163,184,0.35)" : "rgba(148,163,184,0.3)";
+
       const rect = g.append("rect")
         .attr("x", startX)
         .attr("y", 0)
@@ -91,20 +91,23 @@ export function CovidPhaseTimeline() {
         .attr("height", height)
         .attr("rx", 3)
         .attr("fill", phase.color)
-        .attr("stroke", isDark ? "rgba(148,163,184,0.35)" : "rgba(148,163,184,0.3)")
+        .attr("stroke", isActive && isFiltered ? activeStroke : inactiveStroke)
+        .attr("stroke-width", isActive && isFiltered ? 2 : 1)
+        .style("opacity", isActive ? 1 : 0.4)
         .style("cursor", "pointer");
 
       rect
         .on("mouseenter", function () {
           d3.select(this)
-            .attr("stroke", isDark ? "#ffffff" : "#0B2A4A")
-            .attr("stroke-width", 2);
+            .attr("stroke", activeStroke)
+            .attr("stroke-width", 2)
+            .style("opacity", 1);
           tooltip
             .style("opacity", 1)
             .html(
               `<div style="font-weight:700;margin-bottom:3px;color:${isDark ? '#E8ECF0' : '#0B2A4A'}">${phase.label}</div>` +
               `<div>${phase.start} to ${phase.end}</div>` +
-              `<div style="margin-top:4px;color:var(--accent);font-weight:600;">Click to filter</div>`
+              `<div style="margin-top:4px;color:var(--accent);font-weight:600;">${isActive && isFiltered ? 'Click to deselect' : 'Click to filter'}</div>`
             );
         })
         .on("mousemove", (event) => {
@@ -114,14 +117,21 @@ export function CovidPhaseTimeline() {
         })
         .on("mouseleave", function () {
           d3.select(this)
-            .attr("stroke", isDark ? "rgba(148,163,184,0.35)" : "rgba(148,163,184,0.3)")
-            .attr("stroke-width", 1);
+            .attr("stroke", isActive && isFiltered ? activeStroke : inactiveStroke)
+            .attr("stroke-width", isActive && isFiltered ? 2 : 1)
+            .style("opacity", isActive ? 1 : 0.4);
           tooltip.style("opacity", 0);
         })
         .on("click", () => {
+          let newPhases = [...filters.covidPhase];
+          if (newPhases.includes(phase.label)) {
+            newPhases = newPhases.filter(p => p !== phase.label);
+          } else {
+            newPhases.push(phase.label);
+          }
           setFilters({
-            ...filtersRef.current,
-            covidPhase: [phase.label],
+            ...filters,
+            covidPhase: newPhases,
           });
         });
 
@@ -132,6 +142,7 @@ export function CovidPhaseTimeline() {
         .style("font-size", "11px")
         .style("font-weight", "600")
         .style("fill", textColor)
+        .style("opacity", isActive ? 1 : 0.5)
         .style("pointer-events", "none")
         .text(phase.label);
     });
@@ -139,7 +150,7 @@ export function CovidPhaseTimeline() {
     return () => {
       tooltip.remove();
     };
-  }, [theme, setFilters]);
+  }, [theme, filters, setFilters]);
 
   return (
     <div className="dashboard-card chart-fig rounded-[var(--section-radius)] p-5">
