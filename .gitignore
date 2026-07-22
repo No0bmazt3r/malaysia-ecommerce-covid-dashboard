@@ -51,7 +51,4 @@ skills-lock.json
 /image.png
 
 #Extra Documentation for Local Development Only
-/REPOSITORY_ANALYSIS.md
-/system.md
-/Dataset_Readme.md
-/teb3133_red_team_evaluator_v2.md
+/docs
