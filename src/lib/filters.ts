@@ -23,7 +23,17 @@ export function applyFilters(data: Order[], filters: Filters): Order[] {
   });
 }
 export function computeKPIs(data: Order[]) {
-  const totalOrders = data.length || 1;
+  const totalOrders = data.length;
+  if (totalOrders === 0) {
+    return {
+      totalRevenue: 0,
+      totalOrders: 0,
+      avgDelivery: 0,
+      stockoutRate: 0,
+      returnRate: 0,
+      avgRating: 0,
+    };
+  }
   return {
     totalRevenue: data.reduce((s, r) => s + r.sales_revenue, 0),
     totalOrders,

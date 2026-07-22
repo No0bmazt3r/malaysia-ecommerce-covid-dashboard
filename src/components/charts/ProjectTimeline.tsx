@@ -65,7 +65,7 @@ export function ProjectTimeline() {
       { date: "2026-06-16", label: "Cleaning", phase: "MCO", color: "#E4B363" },
       { date: "2026-07-07", label: "Development", phase: "CMCO", color: "#5D8FA3" },
       { date: "2026-08-18", label: "Testing", phase: "RMCO", color: "#63B7B2" },
-      { date: "2026-09-29", label: "Deployment", color: "#D96C6C" },
+      { date: "2026-10-20", label: "Deployment", color: "#D96C6C" },
     ];
 
     const parse = d3.timeParse("%Y-%m-%d");

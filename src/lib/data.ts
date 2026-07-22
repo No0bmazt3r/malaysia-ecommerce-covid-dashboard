@@ -4,7 +4,7 @@ let cachedData: Order[] | null = null;
 
 export async function loadDataset(): Promise<Order[]> {
   if (cachedData) return cachedData;
-  const res = await fetch("/data/malaysia_ecommerce_covid_clean.csv");
+  const res = await fetch(`/data/malaysia_ecommerce_covid_clean.csv?v=${Date.now()}`);
   const text = await res.text();
   return new Promise((resolve, reject) => {
     Papa.parse<Order>(text, {

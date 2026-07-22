@@ -22,6 +22,7 @@ export function ElderlyScatterSingle() {
   const ref = useRef<SVGSVGElement>(null);
   const [xKey, setXKey] = useState<keyof Order>("ad_spend_myr");
   const [yKey, setYKey] = useState<keyof Order>("sales_revenue");
+  const [activePoint, setActivePoint] = useState<Order | null>(null);
   const hasData = filteredData.length > 0;
 
   useEffect(() => {
@@ -93,21 +94,6 @@ export function ElderlyScatterSingle() {
       .style("fill", axisColor)
       .text(yLabel);
 
-    const tooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "chart-tooltip")
-      .style("position", "absolute")
-      .style("background", isDark ? "rgba(15, 30, 46, 0.96)" : "rgba(255, 255, 255, 0.98)")
-      .style("color", isDark ? "#E8ECF0" : "#0B2A4A")
-      .style("padding", "10px 14px")
-      .style("border-radius", "8px")
-      .style("box-shadow", "0 4px 12px rgba(0,0,0,0.1)")
-      .style("font-size", "14px")
-      .style("pointer-events", "none")
-      .style("opacity", 0)
-      .style("z-index", "9999");
-
     svg
       .selectAll("circle")
       .data(sampledData)
@@ -119,24 +105,30 @@ export function ElderlyScatterSingle() {
       .attr("fill", dotColor)
       .attr("stroke", isDark ? "#080E1A" : "#FAFBFC")
       .attr("stroke-width", 1)
-      .on("mouseover", function (event, d) {
-        d3.select(this).attr("r", 9).attr("fill", isDark ? "#E48585" : "#D96C6C");
-        tooltip
-          .style("opacity", 1)
-          .html(
-            `<strong>${d.product_category}</strong><br/>${xLabel}: ${d[xKey]}<br/>${yLabel}: ${d[yKey]}`
-          );
+      .attr("tabindex", "0")
+      .style("cursor", "pointer")
+      .style("outline", "none") // We handle focus visually with the circle itself
+      .on("click", function (event, d) {
+        svg.selectAll("circle").attr("r", 6).attr("fill", dotColor);
+        d3.select(this).attr("r", 10).attr("fill", isDark ? "#E48585" : "#D96C6C");
+        setActivePoint(d as Order);
       })
-      .on("mousemove", (event) => {
-        tooltip.style("left", event.pageX + 10 + "px").style("top", event.pageY - 10 + "px");
+      .on("focus", function (event, d) {
+        svg.selectAll("circle").attr("r", 6).attr("fill", dotColor);
+        d3.select(this).attr("r", 10).attr("fill", isDark ? "#E48585" : "#D96C6C");
+        setActivePoint(d as Order);
       })
-      .on("mouseout", function () {
-        d3.select(this).attr("r", 6).attr("fill", dotColor);
-        tooltip.style("opacity", 0);
+      .on("keydown", function (event, d) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          svg.selectAll("circle").attr("r", 6).attr("fill", dotColor);
+          d3.select(this).attr("r", 10).attr("fill", isDark ? "#E48585" : "#D96C6C");
+          setActivePoint(d as Order);
+        }
       });
 
     return () => {
-      tooltip.remove();
+      // Cleanup if needed
     };
   }, [filteredData, hasData, theme, xKey, yKey]);
 
@@ -175,7 +167,25 @@ export function ElderlyScatterSingle() {
       {loading ? (
         <div className="h-[400px] w-full rounded-[2px] skeleton-shimmer" />
       ) : hasData ? (
-        <svg ref={ref} className="w-full" />
+        <div className="flex flex-col">
+          <svg ref={ref} className="w-full focus:outline-none" aria-label="Scatter plot. Use tab to explore points." />
+          <div 
+            className="mt-4 rounded-[4px] border border-[var(--border-strong)] bg-[var(--surface-muted)] p-4 min-h-[80px] flex items-center justify-center"
+            aria-live="polite"
+          >
+            {activePoint ? (
+              <div className="text-[17px] text-center w-full text-[var(--foreground)]">
+                <span className="font-bold block mb-2 text-xl">{activePoint.product_category}</span>
+                <span className="mx-2"><strong>{VARIABLES.find(v => v.key === xKey)?.label}:</strong> {activePoint[xKey]}</span>
+                <span className="mx-2"><strong>{VARIABLES.find(v => v.key === yKey)?.label}:</strong> {activePoint[yKey]}</span>
+              </div>
+            ) : (
+              <p className="text-[17px] font-medium text-[var(--secondary, #5D8FA3)]">
+                Select or tab to a data point on the chart to view its details here.
+              </p>
+            )}
+          </div>
+        </div>
       ) : (
         <div className="grid min-h-[240px] place-items-center rounded-[2px] border border-dashed border-[var(--border-strong)] bg-[var(--surface-muted)] px-6 text-center">
           <div>

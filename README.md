@@ -1,8 +1,8 @@
 # Malaysia E-Commerce × COVID Dashboard
 
-![Standard Mode](https://via.placeholder.com/1200x600/0F1E2E/63B7B2?text=Screenshot:+Standard+Analyst+Mode)
-![Elderly Mode](https://via.placeholder.com/1200x600/F6F3EC/0B2A4A?text=Screenshot:+Elderly+High-Contrast+Mode)
-![Child Mode](https://via.placeholder.com/1200x600/FAFBFC/0CA678?text=Screenshot:+Child+Simple+View)
+![Standard Mode](public/image/Standard.png)
+![Elderly Mode](public/image/Large.png)
+![Child Mode](public/image/Simple.png)
 
 An interactive data-visualization dashboard exploring how Malaysian e-commerce performed across the COVID-19 movement-control phases (Pre-MCO, MCO, CMCO, RMCO) from January 2020 to December 2021. Built with Next.js, React, TypeScript, D3.js, and Tailwind CSS for the **TEB3133 / TFB3133 Data Visualization** course project.
 
@@ -32,10 +32,10 @@ By analyzing transaction-level data across different pandemic phases, the dashbo
 - **Generative BI (Dynamic Insights Engine)**: The Insights page is powered by a custom deterministic mathematical orchestrator. It uses `d3-array` to calculate Z-scores, Pearson correlations, and standard deviations in real-time. When you click a filter (e.g., "Penang"), the engine recalculates all thresholds and dynamically generates prescriptive, causal business recommendations injected into smart text templates instantly (0ms latency, 0 API keys).
 - **15 Coordinated D3 Visualizations**: Line, bar, stacked bar, grouped bar, donut, treemap, mosaic, heat map, scatter matrix, project timeline, and dataset context timeline. All use a shared D3 tooltip boilerplate (`src/lib/d3-utils.ts`) with smart collision bounds for extreme DRY efficiency.
 - **Cross-Filtering & URL State**: Every chart reads from `DashboardContext`. Clicking a heat-map cell writes the selection back into the global filters, updating every chart at once. Filter states are serialized to the URL (`?f=...`) so any sliced view can be bookmarked and shared.
-- **Debounced Autocomplete Search**: Implements a highly optimized 300ms debounced search bar with an intelligent autocomplete dropdown, allowing for precise ID filtering without re-render bottlenecks.
+- **Debounced Autocomplete Search**: Implements a highly optimized 300ms debounced search bar with an intelligent autocomplete dropdown. It supports multi-token searching (e.g., searching multiple Orders or Customers simultaneously via OR-logic) and utilizes a deduplication engine to instantly blacklist already-selected IDs from the dropdown suggestions.
 - **SSR Code-Splitting**: Heavy D3.js chart components are wrapped in `next/dynamic` with SSR disabled, dropping the initial HTML payload size and preventing React hydration mismatches on DOM-heavy visualizations.
 - **Three User Modes**: **Standard** for adult analysts, **Large Text** for elderly users, and **Simple View** for early-childhood users.
-- **Accessible by Default**: Keyboard-focusable marks, tooltips on hover/tap/focus, ≥44px touch targets in Large Text mode, visible focus rings, and `prefers-reduced-motion` support.
+- **Accessible by Default**: Keyboard-focusable marks, persistent, focusable static detail panels for motor-impaired users (zero hover-only traps), ≥44px touch targets in Large Text mode, visible focus rings, and `prefers-reduced-motion` support.
 
 ## Client-Side Generative BI (The Insights Engine)
 
@@ -56,10 +56,10 @@ The full analyst dashboard: six-dimension filter panel, cross-filtering heat map
 ### 2. Large Text (Elderly Users)
 - **Larger Fonts & High Contrast**: Root font-size raised to 18px. Secondary text darkened to ≥5:1 contrast against the background to combat reduced visual acuity and light scattering in aging lenses.
 - **Larger Tap Targets**: All buttons, selects, and nav links get `min-height: 44px` (Apple HIG / WCAG 2.5.5 floor) to accommodate declining motor precision.
-- **Reduced Chart Complexity**: The 36-panel scatter matrix is replaced by a single, large scatter plot with two labeled dropdowns. This preserves analytical capability while drastically reducing perceptual cost and working-memory load.
+- **Reduced Chart Complexity**: The 36-panel scatter matrix is replaced by a single, large scatter plot with two labeled dropdowns. This preserves analytical capability while drastically reducing perceptual cost and working-memory load. Crucially, data discovery is completely decoupled from hover tooltips; clicking or tabbing to a point reveals its details in a permanent, static UI panel to assist users with motor tremors.
 
 ### 3. Simple View (Early Childhood)
-- **Large Icons, Minimal Text**: Pre-literate children read pictures before dense figures. Numeric KPI cards become large tiles with simple statements ("RM 2.1M", "4.1 ★").
+- **Large Icons, Minimal Text**: Pre-literate children read pictures before dense figures. Numeric KPI cards become large tiles with simple statements ("RM 2.1M", "4.1 ★"). All interactive hit-areas are strictly enforced at a minimum of 64x64px to accommodate developing motor skills.
 - **Validated Traffic-Light Palette**: Uses a bright CVD-safe palette (`#0CA678 / #D98A00 / #E03131`). Because ~8% of boys are red-green colorblind, green is shifted toward teal to restore blue-channel separation, and color is always paired with icon shapes.
 - **Simplified Navigation & Charts**: Complex filters are removed to prevent the user from getting lost. Traditional nav is replaced with simple questions ("How Much Did We Sell?"). Charts are reduced to single-hue bars and pictograms (the best-evidenced format for communicating proportions to low-numeracy audiences).
 

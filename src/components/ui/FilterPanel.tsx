@@ -136,7 +136,8 @@ function SearchFilter({
     
     if (!lastToken || lastToken.length < 2) return [];
     
-    const existingTokens = new Set(tokens.map((t) => t.toLowerCase()));
+    const completedTokens = lastToken ? tokens.slice(0, -1) : tokens;
+    const existingTokens = new Set(completedTokens.map((t) => t.toLowerCase()));
     const q = lastToken.toLowerCase();
     const matches = new Set<string>();
     
