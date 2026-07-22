@@ -152,6 +152,8 @@ export function HeatMap() {
       .attr("fill", (d) => color(d.value))
       .attr("stroke", cellStroke)
       .attr("stroke-width", 1.5)
+      .attr("role", "graphics-symbol")
+      .attr("aria-label", (d) => `${d.state} in ${d.phase}: Revenue RM ${d.value.toLocaleString("en-MY", { maximumFractionDigits: 0 })}`)
       .style("cursor", "pointer")
       .style("transition", "opacity 0.15s")
       .on("mouseover", function (event, d) {

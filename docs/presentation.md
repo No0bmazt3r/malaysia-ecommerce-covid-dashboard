@@ -27,3 +27,9 @@
 
 **Slide 7: Conclusion & Q&A**
 "This dashboard is heavily optimized: SSR code-splitting, a custom deduplication engine for our multi-token debounced search, and zero third-party chart wrappers—just pure D3 math. We are ready to take your questions."
+
+**Slide 8: Anticipated Q&A Defenses (Viva Prep)**
+- **Hostile Question:** *"Why use synthetic data instead of real data?"*
+  - **Defense:** "There is no publicly available, granular transactional data linking Malaysian warehouse-level logistics to the specific MCO/CMCO/RMCO COVID phases. We built a procedural Python generator (`generate_dataset.py`) using a fixed random seed. This strictly controlled environment allowed us to mathematically plant anomalies (e.g., the Sabah surge) and exact Pearson correlations (r = -0.75 for Delivery vs Rating) that we could then prove our visualizations are capable of successfully diagnosing."
+- **Hostile Question:** *"Does your Generative BI engine just make up insights?"*
+  - **Defense:** "Absolutely not. It explicitly rejects LLM hallucinations. It is a deterministic mathematical orchestrator running entirely client-side using `d3-array`. It computes Z-scores and correlations on the fly. Crucially, if the filter slice is too narrow (n < 15), it automatically suppresses the output to prevent displaying statistically insignificant insights."

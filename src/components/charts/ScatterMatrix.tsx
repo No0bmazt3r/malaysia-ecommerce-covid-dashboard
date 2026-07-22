@@ -124,6 +124,8 @@ export function ScatterMatrix() {
             .attr("r", 2.5)
             .attr("fill", (d) => phaseColor(d.covid_phase))
             .attr("opacity", 0.7)
+            .attr("role", "graphics-symbol")
+            .attr("aria-label", (d) => `${d.covid_phase}: ${vars[j].label} ${+d[xVar]}, ${vars[i].label} ${+d[yVar]}`)
             .style("mix-blend-mode", isDark ? "screen" : "multiply")
             .style("cursor", "pointer");
 
