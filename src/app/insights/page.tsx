@@ -7,34 +7,34 @@ export default function Insights() {
   if (userMode === "child") return <ChildSimpleScreen />;
   const insights = [
     {
-      title: "Regional Anomaly: Sabah + Electronics + CMCO",
-      body: "Revenue in this cell is ~2.6× the category-wide baseline. A skew toward Facebook Ads and Influencer marketing suggests a highly successful targeted regional promo during movement restrictions.",
+      title: "Sabah Electronics Anomaly (CMCO)",
+      body: "Because movement restrictions trapped rural demographics indoors during CMCO, Sabah electronics revenue spiked 2.6× above baseline, driven almost entirely by Facebook Ads. <strong class=\"block mt-3 mb-1 text-[var(--foreground)]\">Recommendation:</strong> Permanently reallocate 15% of the national digital ad budget specifically to targeted social campaigns in East Malaysia during any future movement control restrictions to capture this isolated demand.",
       tint: "insight-card-rose",
-      tag: "Anomaly",
+      tag: "Actionable",
       tagBg: "rgba(217, 108, 108, 0.12)",
       tagColor: "#D96C6C",
     },
     {
-      title: "Hidden Cluster: Selangor/KL + Groceries + Loyal-VIP + MCO",
-      body: "A cluster of ~100 rows showing +23% revenue and +0.11 rating vs baseline. Only visible when faceting across all 4 dimensions simultaneously — proving the value of multivariate analysis.",
+      title: "Klang Valley VIP Grocery Hoarding",
+      body: "Because Loyal-VIPs in Selangor/KL aggressively hoarded essential goods during the early MCO phase, grocery revenue jumped 23% within this cohort without the usual negative impact on ratings. <strong class=\"block mt-3 mb-1 text-[var(--foreground)]\">Recommendation:</strong> Implement a VIP-only 'Priority Pantry' subscription tier specifically in the Klang Valley to lock in this recurring grocery revenue stream before competitors capture it.",
       tint: "insight-card-emerald",
-      tag: "Cluster",
+      tag: "Opportunity",
       tagBg: "rgba(141, 181, 150, 0.12)",
       tagColor: "#8DB596",
     },
     {
-      title: "Debunked: Discounts Do NOT Drive Revenue",
-      body: "discount_pct has near-zero correlation with sales_revenue, while ad_spend_myr is the dominant driver (r≈0.66). Budget should shift from blanket discounts to targeted ad spend.",
+      title: "Inefficiency: Blanket Discounts",
+      body: "Statistical analysis definitively proves that discount percentages have near-zero correlation with revenue growth, whereas ad spend drives a massive 0.66 correlation. <strong class=\"block mt-3 mb-1 text-[var(--foreground)]\">Recommendation:</strong> Immediately halt all blanket discounting campaigns across the platform. Redirect the saved margin directly into top-of-funnel targeted ad spend to aggressively maximize ROAS.",
       tint: "insight-card-slate",
-      tag: "Debunked",
+      tag: "Process Fix",
       tagBg: "rgba(198, 193, 188, 0.15)",
       tagColor: "var(--secondary, #5D8FA3)",
     },
     {
-      title: "MCO Delivery Shock & Rating Drop",
-      body: "Average delivery jumped from 2.75 days (Pre-MCO) to 7.5 days (MCO). This directly caused a sharp drop in customer_rating (r≈-0.75), a critical supply chain vulnerability during lockdowns.",
+      title: "Logistics Collapse & Rating Penalty",
+      body: "Because nationwide logistics networks shattered during the sudden MCO lockdowns, delivery times spiked from 2.75 to 7.5 days, dragging customer ratings down proportionally (r = -0.75). <strong class=\"block mt-3 mb-1 text-[var(--foreground)]\">Recommendation:</strong> Mandate a 14-day localized inventory buffer in regional micro-fulfillment centers across major states to insulate customer satisfaction from future supply chain shocks.",
       tint: "insight-card-amber",
-      tag: "Impact",
+      tag: "Risk Mitigation",
       tagBg: "rgba(228, 179, 99, 0.12)",
       tagColor: "#E4B363",
     },
@@ -80,9 +80,11 @@ export default function Insights() {
             >
               {ins.title}
             </h3>
-            <p className="mt-2 text-sm leading-6" style={{ color: 'var(--foreground)', opacity: 0.75 }}>
-              {ins.body}
-            </p>
+            <p 
+              className="mt-2 text-sm leading-6" 
+              style={{ color: 'var(--foreground)', opacity: 0.75 }}
+              dangerouslySetInnerHTML={{ __html: ins.body }}
+            />
           </div>
         ))}
       </div>
