@@ -48,7 +48,9 @@ next-env.d.ts
 skills-lock.json
 
 # local screenshots
-/image.png
-
-#Extra Documentation for Local Development Only
-/docs
+# AI & Planning Documentation (Do not commit these)
+/docs/teb3133_red_team_evaluator_v2.md
+/docs/DYNAMIC_INSIGHTS_PROPOSAL.md
+/docs/dynamic_insights_technical_spec.md
+/docs/REPOSITORY_ANALYSIS.md
+/docs/README_DT.md

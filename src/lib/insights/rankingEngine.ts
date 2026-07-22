@@ -16,16 +16,16 @@ export function rankByDimension(
 ): RankedGroup[] {
   const grouped = rollup(
     rows,
-    (group) => {
-      const values = group.map((r) => Number(r[metric]) || 0);
-      const total = values.reduce((a, b) => a + b, 0);
+    (group: Order[]) => {
+      const values = group.map((r: Order) => Number(r[metric]) || 0);
+      const total = values.reduce((a: number, b: number) => a + b, 0);
       return {
         total,
         count: group.length,
         average: group.length > 0 ? total / group.length : 0,
       };
     },
-    (r) => String(r[dimension])
+    (r: Order) => String(r[dimension])
   );
 
   return Array.from(grouped, ([key, stats]) => ({ key, ...stats }))
