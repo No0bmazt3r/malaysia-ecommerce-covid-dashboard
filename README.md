@@ -140,8 +140,4 @@ src/
 
 Production deploys run through the manual GitHub Actions workflow in `.github/workflows/production-deployment.yml`: lint → type-check → Vercel build → deploy, on Node.js 24 with all actions targeting the Node 24 runtime. A broken build never reaches production.
 
-## Future Improvements
 
-- Extract the shared D3 boilerplate (margins, axis styling, tooltip lifecycle) into a common hook.
-- Move the Google Fonts `@import` to `next/font` so fonts are self-hosted.
-- Persist filter state in the URL so a filtered view can be shared as a link.

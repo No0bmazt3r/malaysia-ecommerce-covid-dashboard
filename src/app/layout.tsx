@@ -1,9 +1,30 @@
 import type { Metadata } from "next";
+import { Inter, Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { DashboardProvider } from "@/context/DashboardContext";
 import { Nav } from "@/components/ui/Nav";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { UserModeToggle } from "@/components/ui/UserModeToggle";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+  weight: ["600", "700", "800"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Malaysia E-Commerce × COVID Dashboard",
@@ -14,7 +35,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body className="ambient-bg min-h-screen antialiased">
+      <body className={`ambient-bg min-h-screen antialiased ${inter.variable} ${archivo.variable} ${ibmPlexMono.variable}`}>
         <DashboardProvider>
           {/* Report cover band */}
           <div className="header-gradient-bar" />
