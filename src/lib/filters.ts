@@ -8,8 +8,16 @@ export function applyFilters(data: Order[], filters: Filters): Order[] {
     if (filters.category.length && !filters.category.includes(row.product_category)) return false;
     if (filters.segment.length && !filters.segment.includes(row.customer_segment)) return false;
     if (filters.searchQuery) {
-      const q = filters.searchQuery.toLowerCase();
-      if (!row.order_id.toLowerCase().includes(q) && !row.product_id.toLowerCase().includes(q) && !row.customer_id.toLowerCase().includes(q)) return false;
+      const queries = filters.searchQuery.toLowerCase().split(/[, ]+/).filter(Boolean);
+      if (queries.length > 0) {
+        const matches = queries.some(
+          (q) =>
+            row.order_id.toLowerCase().includes(q) ||
+            row.product_id.toLowerCase().includes(q) ||
+            row.customer_id.toLowerCase().includes(q)
+        );
+        if (!matches) return false;
+      }
     }
     return true;
   });

@@ -131,13 +131,19 @@ function SearchFilter({
   }, [debouncedValue, onChange]);
 
   const suggestions = useMemo(() => {
-    if (localValue.length < 2) return [];
-    const q = localValue.toLowerCase();
+    const tokens = localValue.split(/[, ]+/).filter(Boolean);
+    const lastToken = localValue.trim().length > 0 && !localValue.match(/[, ]$/) ? tokens[tokens.length - 1] : "";
+    
+    if (!lastToken || lastToken.length < 2) return [];
+    
+    const existingTokens = new Set(tokens.map((t) => t.toLowerCase()));
+    const q = lastToken.toLowerCase();
     const matches = new Set<string>();
+    
     for (const r of rawData) {
-      if (r.order_id.toLowerCase().includes(q)) matches.add(`Order: ${r.order_id}`);
-      if (r.product_id.toLowerCase().includes(q)) matches.add(`Product: ${r.product_id}`);
-      if (r.customer_id.toLowerCase().includes(q)) matches.add(`Customer: ${r.customer_id}`);
+      if (r.order_id.toLowerCase().includes(q) && !existingTokens.has(r.order_id.toLowerCase())) matches.add(`Order: ${r.order_id}`);
+      if (r.product_id.toLowerCase().includes(q) && !existingTokens.has(r.product_id.toLowerCase())) matches.add(`Product: ${r.product_id}`);
+      if (r.customer_id.toLowerCase().includes(q) && !existingTokens.has(r.customer_id.toLowerCase())) matches.add(`Customer: ${r.customer_id}`);
       if (matches.size >= 10) break;
     }
     return Array.from(matches);
@@ -150,7 +156,7 @@ function SearchFilter({
       </label>
       <input
         type="text"
-        placeholder="Search ID (e.g. CUST90...)"
+        placeholder="Search IDs (e.g. CUST90, ORD1...)"
         value={localValue}
         onFocus={() => setShowDropdown(true)}
         onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
@@ -171,7 +177,12 @@ function SearchFilter({
                 className="cursor-pointer px-3 py-2 transition hover:bg-[var(--surface-muted)]"
                 onClick={() => {
                   isInternalChange.current = true;
-                  setLocalValue(exactId);
+                  const tokens = localValue.split(/[, ]+/).filter(Boolean);
+                  if (localValue.trim().length > 0 && !localValue.match(/[, ]$/)) {
+                    tokens.pop(); // replace the incomplete token
+                  }
+                  const newTokens = [...tokens, exactId].filter(Boolean);
+                  setLocalValue(newTokens.join(", ") + ", ");
                   setShowDropdown(false);
                 }}
               >
