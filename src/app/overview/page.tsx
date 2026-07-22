@@ -1,11 +1,13 @@
 "use client";
 import { KPICards } from "@/components/ui/KPICards";
 import { FilterPanel } from "@/components/ui/FilterPanel";
-import { PhaseLineChart } from "@/components/charts/PhaseLineChart";
-import { HeatMap } from "@/components/charts/HeatMap";
-import { ProjectTimeline } from "@/components/charts/ProjectTimeline";
-import { CovidPhaseTimeline } from "@/components/charts/CovidPhaseTimeline";
-import { MiniScatterMatrix } from "@/components/charts/MiniScatterMatrix";
+import dynamic from "next/dynamic";
+
+const PhaseLineChart = dynamic(() => import("@/components/charts/PhaseLineChart").then((mod) => mod.PhaseLineChart), { ssr: false });
+const HeatMap = dynamic(() => import("@/components/charts/HeatMap").then((mod) => mod.HeatMap), { ssr: false });
+const ProjectTimeline = dynamic(() => import("@/components/charts/ProjectTimeline").then((mod) => mod.ProjectTimeline), { ssr: false });
+const CovidPhaseTimeline = dynamic(() => import("@/components/charts/CovidPhaseTimeline").then((mod) => mod.CovidPhaseTimeline), { ssr: false });
+const MiniScatterMatrix = dynamic(() => import("@/components/charts/MiniScatterMatrix").then((mod) => mod.MiniScatterMatrix), { ssr: false });
 import { useDashboard } from "@/context/DashboardContext";
 import { useUserMode } from "@/hooks/useUserMode";
 import { ChildOverview } from "@/components/child/ChildOverview";

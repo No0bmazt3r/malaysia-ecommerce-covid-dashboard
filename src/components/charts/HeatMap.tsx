@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { createD3Tooltip } from "@/lib/d3-utils";
+import { createD3Tooltip, positionTooltip } from "@/lib/d3-utils";
 import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
@@ -165,9 +165,7 @@ export function HeatMap() {
           );
       })
       .on("mousemove", (event) => {
-        tooltip
-          .style("left", event.pageX + 14 + "px")
-          .style("top", event.pageY - 14 + "px");
+        positionTooltip(tooltip, event);
       })
       .on("mouseout", function () {
         d3.select(this).attr("stroke", cellStroke).attr("stroke-width", 1.5);

@@ -1,9 +1,11 @@
 "use client";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { useDashboard } from "@/context/DashboardContext";
 import { uniqueValues } from "@/lib/data";
+import type { Order } from "@/lib/types";
 import { PhaseGlossary, PHASE_DEFINITIONS } from "@/components/ui/PhaseGlossary";
+import { useDebounce } from "@/hooks/useDebounce";
 
 function CheckboxGroup({
   label,
@@ -100,6 +102,89 @@ function DropdownFilter({
   );
 }
 
+function SearchFilter({
+  label,
+  value,
+  onChange,
+  rawData,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  rawData: Order[];
+}) {
+  const [localValue, setLocalValue] = useState(value);
+  const debouncedValue = useDebounce(localValue, 300);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const isInternalChange = useRef(false);
+
+  useEffect(() => {
+    isInternalChange.current = false;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLocalValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    if (isInternalChange.current) {
+      onChange(debouncedValue);
+    }
+  }, [debouncedValue, onChange]);
+
+  const suggestions = useMemo(() => {
+    if (localValue.length < 2) return [];
+    const q = localValue.toLowerCase();
+    const matches = new Set<string>();
+    for (const r of rawData) {
+      if (r.order_id.toLowerCase().includes(q)) matches.add(`Order: ${r.order_id}`);
+      if (r.product_id.toLowerCase().includes(q)) matches.add(`Product: ${r.product_id}`);
+      if (r.customer_id.toLowerCase().includes(q)) matches.add(`Customer: ${r.customer_id}`);
+      if (matches.size >= 10) break;
+    }
+    return Array.from(matches);
+  }, [localValue, rawData]);
+
+  return (
+    <div className="flex flex-col gap-1.5 relative">
+      <label className="text-[11px] font-semibold uppercase tracking-[0.15em]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+        {label}
+      </label>
+      <input
+        type="text"
+        placeholder="Search ID (e.g. CUST90...)"
+        value={localValue}
+        onFocus={() => setShowDropdown(true)}
+        onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+        onChange={(e) => {
+          isInternalChange.current = true;
+          setLocalValue(e.target.value);
+        }}
+        className="rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] px-3 py-2 text-sm outline-none transition focus:ring-2 placeholder:text-[var(--secondary)]"
+        style={{ color: 'var(--foreground)', borderColor: 'var(--border)' }}
+      />
+      {showDropdown && suggestions.length > 0 && (
+        <div className="absolute top-[100%] left-0 w-full z-10 mt-1 max-h-40 overflow-y-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-strong)] text-sm shadow-md" style={{ color: 'var(--foreground)' }}>
+          {suggestions.map((s) => {
+            const exactId = s.split(": ")[1];
+            return (
+              <div
+                key={s}
+                className="cursor-pointer px-3 py-2 transition hover:bg-[var(--surface-muted)]"
+                onClick={() => {
+                  isInternalChange.current = true;
+                  setLocalValue(exactId);
+                  setShowDropdown(false);
+                }}
+              >
+                {s}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function FilterPanel() {
   const { rawData, filters, setFilters } = useDashboard();
   
@@ -189,6 +274,12 @@ export function FilterPanel() {
       {/* Dimension filters */}
       {rawData.length > 0 && (
         <>
+          <SearchFilter
+            label="Dynamic Search"
+            value={filters.searchQuery || ""}
+            onChange={(v) => setFilters({ ...filters, searchQuery: v })}
+            rawData={rawData}
+          />
           <CheckboxGroup
             label="COVID Phase"
             options={uniqueValues(rawData, "covid_phase")}

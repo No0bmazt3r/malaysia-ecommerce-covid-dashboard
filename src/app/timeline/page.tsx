@@ -21,7 +21,7 @@ export default function Timeline() {
           Project Progress Timeline
         </h2>
         <p className="mt-1.5 text-sm" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-          Development milestones cross-referenced with actual Malaysian MCO/CMCO/RMCO phase boundaries.
+          Academic development milestones mapped analogously to the historical 2020-2021 COVID-19 dataset phases for thematic consistency.
         </p>
         <div className="mt-4">
           <PhaseGlossary />

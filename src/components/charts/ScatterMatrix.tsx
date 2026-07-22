@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import { createD3Tooltip } from "@/lib/d3-utils";
+import { createD3Tooltip, positionTooltip } from "@/lib/d3-utils";
 import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
@@ -34,10 +34,8 @@ export function ScatterMatrix() {
     svg.selectAll("*").remove();
 
     const isDark = theme === "dark";
-    const panelFill = isDark ? "rgba(15, 30, 46, 0.4)" : "#FAFBFC";
     const borderColor = isDark ? "#1E2E3E" : "#E8ECF0";
     const labelColor = isDark ? "#CBD5E1" : "#475569";
-    const diagBg = isDark ? "rgba(15, 30, 46, 0.6)" : "#F6F3EC";
 
     const vars: { key: keyof (typeof filteredData)[0]; label: string }[] = [
       { key: "sales_revenue", label: "Revenue" },
@@ -49,11 +47,14 @@ export function ScatterMatrix() {
     ];
 
     const size = 130;
-    const padding = 16;
+    const padding = 12;
     const n = vars.length;
-    const total = size * n + padding * 2;
+    const margin = { top: 20, right: 140, bottom: 40, left: 50 };
+    const totalW = size * n + margin.left + margin.right;
+    const totalH = size * n + margin.top + margin.bottom;
 
-    svg.attr("viewBox", `0 0 ${total} ${total}`);
+    svg.attr("viewBox", `0 0 ${totalW} ${totalH}`);
+    const gMain = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
     const scales = vars.map((v) => {
       const extent = d3.extent(filteredData, (d) => +d[v.key]) as [number, number];
@@ -70,7 +71,7 @@ export function ScatterMatrix() {
 
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
-        const cell = svg
+        const cell = gMain
           .append("g")
           .attr("transform", `translate(${j * size},${i * size})`);
 
@@ -80,9 +81,8 @@ export function ScatterMatrix() {
             .append("rect")
             .attr("width", size)
             .attr("height", size)
-            .attr("rx", 2)
-            .attr("fill", diagBg)
-            .attr("stroke", borderColor);
+            .attr("fill", "none")
+            .attr("stroke", "none");
 
           cell
             .append("text")
@@ -90,8 +90,8 @@ export function ScatterMatrix() {
             .attr("y", size / 2)
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .style("font-size", "11px")
-            .style("font-weight", "700")
+            .style("font-size", "14px")
+            .style("font-weight", "600")
             .style("letter-spacing", "0.02em")
             .attr("fill", labelColor)
             .text(vars[i].label);
@@ -101,9 +101,8 @@ export function ScatterMatrix() {
             .append("rect")
             .attr("width", size)
             .attr("height", size)
-            .attr("rx", 2)
-            .attr("fill", panelFill)
-            .attr("stroke", borderColor);
+            .attr("fill", "none")
+            .attr("stroke", isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.08)");
 
           const xVar = vars[j].key;
           const yVar = vars[i].key;
@@ -120,9 +119,10 @@ export function ScatterMatrix() {
             .append("circle")
             .attr("cx", (d) => xScale(+d[xVar]))
             .attr("cy", (d) => yScale(+d[yVar]))
-            .attr("r", 2)
+            .attr("r", 2.5)
             .attr("fill", (d) => phaseColor(d.covid_phase))
-            .attr("opacity", 0.55)
+            .attr("opacity", 0.7)
+            .style("mix-blend-mode", isDark ? "screen" : "multiply")
             .style("cursor", "pointer")
             .on("mouseenter", function (event, d) {
               d3.select(this)
@@ -139,26 +139,38 @@ export function ScatterMatrix() {
                 );
             })
             .on("mousemove", (event) => {
-              tooltip
-                .style("left", `${event.pageX + 14}px`)
-                .style("top", `${event.pageY - 14}px`);
+              positionTooltip(tooltip, event);
             })
             .on("mouseleave", function () {
               d3.select(this)
                 .transition()
                 .duration(100)
-                .attr("r", 2)
-                .attr("opacity", 0.55);
+                .attr("r", 2.5)
+                .attr("opacity", 0.7);
               tooltip.style("opacity", 0);
             });
+            
+          // Add external axes
+          if (i === n - 1) {
+            const xAxis = d3.axisBottom(xScale).ticks(3).tickSize(4).tickPadding(4);
+            const gx = cell.append("g").attr("transform", `translate(0,${size})`).call(xAxis);
+            gx.selectAll("text").style("font-size", "9px").attr("fill", labelColor).style("opacity", 0.7);
+            gx.selectAll("path, line").attr("stroke", isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)");
+          }
+          if (j === 0) {
+            const yAxis = d3.axisLeft(yScale).ticks(3).tickSize(4).tickPadding(4);
+            const gy = cell.append("g").call(yAxis);
+            gy.selectAll("text").style("font-size", "9px").attr("fill", labelColor).style("opacity", 0.7);
+            gy.selectAll("path, line").attr("stroke", isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)");
+          }
         }
       }
     }
 
     // Legend
-    const legend = svg
+    const legend = gMain
       .append("g")
-      .attr("transform", `translate(${n * size - 130}, 8)`);
+      .attr("transform", `translate(${n * size + 20}, ${size / 2})`);
 
     legend
       .append("rect")
@@ -207,14 +219,21 @@ export function ScatterMatrix() {
           </p>
         </div>
       </div>
-      <p className="mb-3 text-[11px]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-        Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈−0.75).
-        {isSampled && ` Showing a representative sample of ${MAX_POINTS} orders per cell.`}
-      </p>
+      <div className="mb-3 flex items-center justify-between gap-4">
+        <p className="text-[11px]" style={{ color: 'var(--secondary, #5D8FA3)' }}>
+          Reveals ad_spend ↔ revenue (r≈0.66) and delivery_time ↔ rating (r≈−0.75).
+        </p>
+        {isSampled && (
+          <div className="inline-flex items-center gap-1.5 rounded-[2px] border border-[var(--warning)] bg-[rgba(228,179,99,0.1)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--warning)]">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Data Quality: Sampled ({MAX_POINTS}/cell)
+          </div>
+        )}
+      </div>
       {loading || !deferred ? (
         <div className="mx-auto h-[600px] w-full rounded-[2px] skeleton-shimmer" />
       ) : hasData ? (
-        <div className="overflow-x-auto rounded-[2px] border border-[var(--border)] bg-[var(--surface-muted)] p-3">
+        <div className="overflow-x-auto rounded-[2px] bg-[var(--surface-strong)]">
           <svg ref={ref} className="w-full" preserveAspectRatio="xMidYMid meet" />
         </div>
       ) : (

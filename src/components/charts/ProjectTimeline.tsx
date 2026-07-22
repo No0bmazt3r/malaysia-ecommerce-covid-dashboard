@@ -256,10 +256,10 @@ export function ProjectTimeline() {
             className="text-lg font-bold tracking-tight"
             style={{ fontFamily: "var(--font-display)", color: 'var(--foreground)' }}
           >
-            Project Progress Timeline
+            Academic Development Timeline (2026)
           </h3>
           <p className="mt-0.5 text-xs" style={{ color: 'var(--secondary, #5D8FA3)' }}>
-            Project milestones covering the 5-month academic project window.
+            Project milestones covering the 5-month academic project window, mapped to dataset phases.
           </p>
         </div>
       </div>

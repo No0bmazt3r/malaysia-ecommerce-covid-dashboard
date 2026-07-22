@@ -1,10 +1,21 @@
 # Malaysia E-Commerce × COVID Dashboard
 
+![Standard Mode](https://via.placeholder.com/1200x600/0F1E2E/63B7B2?text=Screenshot:+Standard+Analyst+Mode)
+![Elderly Mode](https://via.placeholder.com/1200x600/F6F3EC/0B2A4A?text=Screenshot:+Elderly+High-Contrast+Mode)
+![Child Mode](https://via.placeholder.com/1200x600/FAFBFC/0CA678?text=Screenshot:+Child+Simple+View)
+
 An interactive data-visualization dashboard exploring how Malaysian e-commerce performed across the COVID-19 movement-control phases (Pre-MCO, MCO, CMCO, RMCO) from January 2020 to December 2021. Built with Next.js, React, TypeScript, D3.js, and Tailwind CSS for the **TEB3133 / TFB3133 Data Visualization** course project.
 
 ## Problem Definition & Objectives
 
-The objective of this dashboard is to allow e-commerce stakeholders to identify supply chain vulnerabilities and marketing inefficiencies caused by COVID-19 movement control orders. By analyzing transaction-level data across different pandemic phases, the dashboard uncovers actionable insights into customer behavior, logistical pressure, and revenue drivers.
+The objective of this dashboard is to allow specific e-commerce stakeholders—namely the **Chief Marketing Officer (CMO)**, **Director of Supply Chain Logistics**, and **Customer Retention Manager**—to identify supply chain vulnerabilities and marketing inefficiencies caused by COVID-19 movement control orders. 
+
+### Key Measurable Metrics
+- **Logistics SLA Optimization:** Identify localized fulfillment bottlenecks to reduce average delivery time SLA breaches by **15%**.
+- **Marketing ROI:** Optimize ad spend allocation across the 14 states to improve regional return on ad spend (ROAS) by **20%** during localized lockdown phases.
+- **Customer Churn Prevention:** Correlate delivery delays with negative customer ratings to mitigate churn-risk for high-LTV cohorts.
+
+By analyzing transaction-level data across different pandemic phases, the dashboard uncovers actionable insights into customer behavior, logistical pressure, and revenue drivers.
 
 ## Team — Group 8
 
@@ -19,8 +30,10 @@ The objective of this dashboard is to allow e-commerce stakeholders to identify 
 ## Highlights & Core Architecture
 
 - **Generative BI (Dynamic Insights Engine)**: The Insights page is powered by a custom deterministic mathematical orchestrator. It uses `d3-array` to calculate Z-scores, Pearson correlations, and standard deviations in real-time. When you click a filter (e.g., "Penang"), the engine recalculates all thresholds and dynamically generates prescriptive, causal business recommendations injected into smart text templates instantly (0ms latency, 0 API keys).
-- **15 Coordinated D3 Visualizations**: Line, bar, stacked bar, grouped bar, donut, treemap, mosaic, heat map, scatter matrix, project timeline, and dataset context timeline. All use a shared D3 tooltip boilerplate (`src/lib/d3-utils.ts`) for extreme DRY efficiency.
+- **15 Coordinated D3 Visualizations**: Line, bar, stacked bar, grouped bar, donut, treemap, mosaic, heat map, scatter matrix, project timeline, and dataset context timeline. All use a shared D3 tooltip boilerplate (`src/lib/d3-utils.ts`) with smart collision bounds for extreme DRY efficiency.
 - **Cross-Filtering & URL State**: Every chart reads from `DashboardContext`. Clicking a heat-map cell writes the selection back into the global filters, updating every chart at once. Filter states are serialized to the URL (`?f=...`) so any sliced view can be bookmarked and shared.
+- **Debounced Autocomplete Search**: Implements a highly optimized 300ms debounced search bar with an intelligent autocomplete dropdown, allowing for precise ID filtering without re-render bottlenecks.
+- **SSR Code-Splitting**: Heavy D3.js chart components are wrapped in `next/dynamic` with SSR disabled, dropping the initial HTML payload size and preventing React hydration mismatches on DOM-heavy visualizations.
 - **Three User Modes**: **Standard** for adult analysts, **Large Text** for elderly users, and **Simple View** for early-childhood users.
 - **Accessible by Default**: Keyboard-focusable marks, tooltips on hover/tap/focus, ≥44px touch targets in Large Text mode, visible focus rings, and `prefers-reduced-motion` support.
 

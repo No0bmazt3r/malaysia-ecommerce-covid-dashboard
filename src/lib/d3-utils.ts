@@ -19,3 +19,31 @@ export function createD3Tooltip(theme: string) {
     .style("font-family", "Inter, system-ui, sans-serif")
     .style("z-index", "9999");
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function positionTooltip(tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>, event: MouseEvent) {
+  if (!tooltip.node()) return;
+  const node = tooltip.node();
+  if (!node) return;
+  
+  const tooltipWidth = node.offsetWidth || 150;
+  const tooltipHeight = node.offsetHeight || 50;
+  
+  const margin = 14;
+  let left = event.pageX + margin;
+  let top = event.pageY - margin - tooltipHeight;
+  
+  // Flip left if it hits the right edge
+  if (left + tooltipWidth > window.innerWidth) {
+    left = event.pageX - tooltipWidth - margin;
+  }
+  
+  // Flip down if it hits the top edge
+  if (top < window.scrollY) {
+    top = event.pageY + margin;
+  }
+  
+  tooltip
+    .style("left", `${left}px`)
+    .style("top", `${top}px`);
+}
