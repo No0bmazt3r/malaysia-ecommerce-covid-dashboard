@@ -1,16 +1,25 @@
 "use client";
-import { useState } from "react";
-import { ScatterMatrix } from "@/components/charts/ScatterMatrix";
-import { CategoryTreemap } from "@/components/charts/CategoryTreemap";
-import { CategoryMosaicPlot } from "@/components/charts/CategoryMosaicPlot";
-import { TopProductsBarChart } from "@/components/charts/TopProductsBarChart";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useUserMode } from "@/hooks/useUserMode";
 import { ChildProductsView } from "@/components/child/ChildProductsView";
 import { ElderlyScatterSingle } from "@/components/elderly/ElderlyScatterSingle";
 
+const ScatterMatrix = dynamic(() => import("@/components/charts/ScatterMatrix").then((mod) => mod.ScatterMatrix), { ssr: false });
+const CategoryTreemap = dynamic(() => import("@/components/charts/CategoryTreemap").then((mod) => mod.CategoryTreemap), { ssr: false });
+const CategoryMosaicPlot = dynamic(() => import("@/components/charts/CategoryMosaicPlot").then((mod) => mod.CategoryMosaicPlot), { ssr: false });
+const TopProductsBarChart = dynamic(() => import("@/components/charts/TopProductsBarChart").then((mod) => mod.TopProductsBarChart), { ssr: false });
+
 export default function Product() {
   const [activeTab, setActiveTab] = useState<"performance" | "correlation">("performance");
   const userMode = useUserMode();
+
+  useEffect(() => {
+    if (window.location.search.includes("tab=correlation")) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveTab("correlation");
+    }
+  }, []);
 
   if (userMode === "child") return <ChildProductsView />;
 

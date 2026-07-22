@@ -6,8 +6,8 @@ import { useDashboard } from "@/context/DashboardContext";
 import { useDashboardTheme } from "@/hooks/useDashboardTheme";
 
 // Cap the points drawn per cell: 30 cells × every row would mean 100k+ DOM
-// nodes and a frozen tab. At 2px dots a sample is visually identical.
-const MAX_POINTS = 600;
+// nodes and a frozen tab. At 2.5px dots a sample is visually identical.
+const MAX_POINTS = 250;
 
 export function ScatterMatrix() {
   const { filteredData, loading } = useDashboard();
@@ -112,7 +112,9 @@ export function ScatterMatrix() {
             .domain(scales[i].domain())
             .range([size - padding, padding]);
 
-          cell
+          const dotsGroup = cell.append("g").attr("class", "dots");
+
+          dotsGroup
             .selectAll("circle")
             .data(plotData)
             .enter()
@@ -123,31 +125,38 @@ export function ScatterMatrix() {
             .attr("fill", (d) => phaseColor(d.covid_phase))
             .attr("opacity", 0.7)
             .style("mix-blend-mode", isDark ? "screen" : "multiply")
-            .style("cursor", "pointer")
-            .on("mouseenter", function (event, d) {
-              d3.select(this)
-                .transition()
-                .duration(100)
-                .attr("r", 5)
-                .attr("opacity", 1);
-              tooltip
-                .style("opacity", 1)
-                .html(
-                  `<div style="font-weight:700;margin-bottom:3px;">${d.covid_phase}</div>` +
-                  `<div>${vars[j].label}: <strong>${(+d[xVar]).toLocaleString("en-MY", { maximumFractionDigits: 2 })}</strong></div>` +
-                  `<div>${vars[i].label}: <strong>${(+d[yVar]).toLocaleString("en-MY", { maximumFractionDigits: 2 })}</strong></div>`
-                );
+            .style("cursor", "pointer");
+
+          // Performance Fix: Use Event Delegation (3 listeners per cell instead of 3,000+)
+          dotsGroup
+            .on("mouseover", function (event) {
+              const target = event.target as Element;
+              if (target.tagName === "circle") {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const d = d3.select(target).datum() as any;
+                d3.select(target).attr("r", 5).attr("opacity", 1);
+                tooltip
+                  .style("opacity", 1)
+                  .html(
+                    `<div style="font-weight:700;margin-bottom:3px;">${d.covid_phase}</div>` +
+                    `<div>${vars[j].label}: <strong>${(+d[xVar]).toLocaleString("en-MY", { maximumFractionDigits: 2 })}</strong></div>` +
+                    `<div>${vars[i].label}: <strong>${(+d[yVar]).toLocaleString("en-MY", { maximumFractionDigits: 2 })}</strong></div>`
+                  );
+                positionTooltip(tooltip, event);
+              }
             })
-            .on("mousemove", (event) => {
-              positionTooltip(tooltip, event);
+            .on("mousemove", function (event) {
+              const target = event.target as Element;
+              if (target.tagName === "circle") {
+                positionTooltip(tooltip, event);
+              }
             })
-            .on("mouseleave", function () {
-              d3.select(this)
-                .transition()
-                .duration(100)
-                .attr("r", 2.5)
-                .attr("opacity", 0.7);
-              tooltip.style("opacity", 0);
+            .on("mouseout", function (event) {
+              const target = event.target as Element;
+              if (target.tagName === "circle") {
+                d3.select(target).attr("r", 2.5).attr("opacity", 0.7);
+                tooltip.style("opacity", 0);
+              }
             });
             
           // Add external axes
