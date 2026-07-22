@@ -84,3 +84,11 @@ The dashboard proves that a single dataset can be consumed by entirely different
 - **The "Data-Ink" Ratio:** Adhering strictly to Edward Tufte's principles, all non-data ink (heavy gridlines, borders, decorative backgrounds) was stripped away. 
 - **Typography:** Uses IBM Plex Mono for all numeric values and axes to separate quantitative data from qualitative prose (Inter / Archivo).
 - **Anti-Fluff Aesthetics:** The UI avoids glowing borders, unnecessary 3D effects, and "AI-ish" styling. It mimics the sterile, highly professional layout of a printed statistical report, utilizing a reserved, semantic color palette (Deep Navy, Dusty Blue, Soft Turquoise).
+
+---
+
+## 7. Dataset & Reproducibility
+
+The procedural Python generation pipeline, data dictionary, and raw CSV files are purposefully separated from the core dashboard application to adhere to strict repository boundaries. 
+
+The complete, reproducible dataset pipeline can be found in the dedicated external repository: **[malaysia-ecommerce-covid19-dataset](https://github.com/No0bmazt3r/malaysia-ecommerce-covid19-dataset)**. Local dataset documentation is also available via `docs/dataset.md` and `docs/README_DT.md`.

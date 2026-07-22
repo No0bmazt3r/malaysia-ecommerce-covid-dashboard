@@ -106,6 +106,7 @@ export function ElderlyScatterSingle() {
       .attr("stroke", isDark ? "#080E1A" : "#FAFBFC")
       .attr("stroke-width", 1)
       .attr("tabindex", "0")
+      .attr("aria-label", (d) => `Point: ${d.product_category}, ${xLabel} ${d[xKey]}, ${yLabel} ${d[yKey]}`)
       .style("cursor", "pointer")
       .style("outline", "none") // We handle focus visually with the circle itself
       .on("click", function (event, d) {

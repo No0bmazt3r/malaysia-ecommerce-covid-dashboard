@@ -136,6 +136,10 @@ export function ProjectTimeline() {
           .attr("opacity", 0.6);
 
         function animatePulse() {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            pulseRing.attr("r", 18).attr("opacity", 0);
+            return;
+          }
           pulseRing
             .attr("r", 7)
             .attr("opacity", 0.6)

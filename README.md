@@ -84,6 +84,14 @@ Every visualization was chosen against established guidance: Shneiderman's mantr
 - **Light & Dark Themes**: Dark mode is its own designed token set (surfaces, borders, brightened chart hues)—not an automatic inversion, which would break contrast relationships.
 - **Graceful Empty States**: Every chart renders a skeleton while data loads and a designed "No data" card when filtering empties its input. Users never wonder if the app is broken.
 
+## Dataset & Reproducibility
+
+The transaction dataset, data dictionary, and Python generation scripts (`generate_dataset.py`) for this project are maintained in a dedicated external repository to keep this dashboard application lean.
+
+**Dataset Repository:** [No0bmazt3r/malaysia-ecommerce-covid19-dataset](https://github.com/No0bmazt3r/malaysia-ecommerce-covid19-dataset)
+
+For full documentation on the dataset variables and generation logic, please refer to the `dataset.md` and `README_DT.md` files in the `docs/` folder, or visit the repository linked above.
+
 ## Tech Stack & Project Structure
 
 | Layer | Technology |
