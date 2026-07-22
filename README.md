@@ -24,6 +24,15 @@ The objective of this dashboard is to allow e-commerce stakeholders to identify 
 - **Three User Modes**: **Standard** for adult analysts, **Large Text** for elderly users, and **Simple View** for early-childhood users.
 - **Accessible by Default**: Keyboard-focusable marks, tooltips on hover/tap/focus, ≥44px touch targets in Large Text mode, visible focus rings, and `prefers-reduced-motion` support.
 
+## Client-Side Generative BI (The Insights Engine)
+
+Unlike static dashboards that force users to interpret charts manually, this project features an **Algorithmic Dynamic Insights Engine** (Generative BI) that writes prescriptive strategy reports on the fly.
+
+- **Deterministic Math, Not Hallucination:** A custom React Hook (`useDynamicInsights.ts`) constantly monitors the active `filteredData`. It uses `d3-array` to run sub-5-millisecond mathematical operations (Pearson correlation coefficients, Z-score anomaly detection, and standard deviation calculations). It does not use hallucinatory LLM APIs.
+- **Graceful Degradation:** If the dataset is sliced too thinly via filters (n < 15), the engine gracefully suppresses the insights to prevent generating statistically insignificant data.
+- **Prescriptive Output:** The mathematical results are injected into highly strategic, causal text templates. For example, rather than simply stating "Revenue dropped," the engine calculates the specific delivery bottleneck and prescribes: *"Mandate a localized inventory buffer... to protect customer satisfaction."*
+- **Zero API Dependency:** Because it runs entirely client-side using native math, it requires 0 API keys, costs $0 to run, and has zero latency.
+
 ## The Three User Modes (User-Centered Design)
 
 The same 3,500-row dataset is presented three ways, switchable at runtime from the header. Modes are implemented **additively** to guarantee the primary analytical experience cannot regress.
@@ -53,6 +62,7 @@ Every visualization was chosen against established guidance: Shneiderman's mantr
 | **Customer Age Scatter Plot**<br>*(Customer)* | **Why chosen:** Averages hide outliers. A scatter plot shows the exact distribution and spread of individual order values across age groups. | Highlights a highly lucrative **Loyal-VIP cluster** of older demographics making massive average-order-value purchases during RMCO. |
 | **Sales by State Bar Chart**<br>*(Regional)* | **Why chosen:** Ranking uses length on a common baseline (highly accurate decoding). | The Sabah bar is pre-attentively highlighted in a contrast hue, instantly directing the eye to the primary geographical finding without manual scanning. |
 | **Category Treemap**<br>*(Product)* | **Why chosen:** Area encoding scales infinitely better than a pie chart when dealing with >5 categories. Direct labels eliminate the need for a cognitive-heavy color-lookup legend. | Displays the overwhelming dominance of Electronics and Groceries in a highly scannable, space-efficient bounding box. |
+| **Project Timeline**<br>*(Timeline, Overview)* | **Why chosen:** Temporal milestones require absolute positional plotting on a horizontal time axis. | Tracks the exact academic trajectory of the dashboard, mapping **Initiation, Data Collection, Cleaning, Development, Testing, and Deployment** directly against the dataset's actual MCO phases. |
 
 ## Interaction Design & UX
 

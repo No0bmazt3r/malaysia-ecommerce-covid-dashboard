@@ -60,11 +60,11 @@ export function ProjectTimeline() {
     // stage to the dataset's COVID phases shown in the context bar below.
     const milestones = [
       // Navy is invisible on the dark background; use the dusty-blue variant there.
-      { date: "2026-05-12", label: "Project Initiation", color: isDark ? "#6B9DB1" : "#0B2A4A" },
+      { date: "2026-05-12", label: "Initiation", color: isDark ? "#6B9DB1" : "#0B2A4A" },
       { date: "2026-05-26", label: "Data Collection", phase: "Pre-MCO", color: "#8DB596" },
-      { date: "2026-06-16", label: "Data Cleaning", phase: "MCO", color: "#E4B363" },
-      { date: "2026-07-07", label: "Dashboard Dev", phase: "CMCO", color: "#5D8FA3" },
-      { date: "2026-08-18", label: "Testing & Validation", phase: "RMCO", color: "#63B7B2" },
+      { date: "2026-06-16", label: "Cleaning", phase: "MCO", color: "#E4B363" },
+      { date: "2026-07-07", label: "Development", phase: "CMCO", color: "#5D8FA3" },
+      { date: "2026-08-18", label: "Testing", phase: "RMCO", color: "#63B7B2" },
       { date: "2026-09-29", label: "Deployment", color: "#D96C6C" },
     ];
 
